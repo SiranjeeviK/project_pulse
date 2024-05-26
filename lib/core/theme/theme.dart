@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:project_pulse/core/theme/light_pallete.dart';
 import 'app_pallete.dart';
 
 class AppTheme {
@@ -24,6 +26,25 @@ class AppTheme {
       enabledBorder: _border(),
       focusedBorder: _border(AppPallete.gradient2),
       errorBorder: _border(AppPallete.errorColor),
+    ),
+  );
+
+  static final lightThemeMode = ThemeData.light().copyWith(
+    scaffoldBackgroundColor: LightPallete.primaryBackground,
+    appBarTheme: const AppBarTheme(
+      backgroundColor: LightPallete.primaryBackground,
+    ),
+    textTheme: GoogleFonts.readexProTextTheme(),
+    chipTheme: const ChipThemeData(
+      color: WidgetStatePropertyAll(LightPallete.primaryBackground),
+      side: BorderSide.none,
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      contentPadding: const EdgeInsets.all(27),
+      border: _border(),
+      enabledBorder: _border(),
+      focusedBorder: _border(LightPallete.lineColor),
+      errorBorder: _border(LightPallete.error),
     ),
   );
 }

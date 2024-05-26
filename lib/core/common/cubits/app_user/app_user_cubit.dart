@@ -16,7 +16,7 @@ class AppUserCubit extends Cubit<AppUserState> {
   AppUserCubit()
       : super(
             AppUserInitial()); // Initial state of the cubit is AppUserInitial. eg, newly installed app
-  void updateUser(User user) {
+  void updateUser(User? user) {
     if (user == null) {
       // If user is null, emit AppUserInitial. eg, user logged out
       emit(AppUserInitial());
