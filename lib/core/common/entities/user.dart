@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 /// Represents a user entity. Used in [AuthRepository] to get the current user. Moved from domain to the common folder to be used in multiple features.
 /// The [id], [email], and [name] properties are required.
 /// ***Entities*** are the core of the application. They are the objects that represent the data that the application operates on.

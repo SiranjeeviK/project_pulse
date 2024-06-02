@@ -30,7 +30,7 @@ class SideBarDrawer extends StatelessWidget {
                       "PROJECT  P U L S E",
                       style: GoogleFonts.orbitron(),
                     ),
-                    addVerticalSpace(30),
+                    addVerticalSpace(20),
 
                     // User Profile
                     // UserAvatar(
