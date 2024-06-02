@@ -1,7 +1,15 @@
 import 'dart:convert';
 
 import 'package:project_pulse/core/common/entities/user.dart';
-
+/// Represents a user model that extends the base [User] class.
+/// The [UserModel] class is used to represent a [User] entity in the application. Used in [AuthRepositoryImpl] to get the current user.
+///
+/// ***Liskov Substitution Principle***: Entities should be substitutable with their subtypes.
+/// In this case, [UserModel] should be substitutable with [User].
+///
+/// It is a subclass of the [User] class.
+/// The [UserModel] class is used to store user data and perform operations on user data.
+///
 class UserModel extends User {
   UserModel({
     required super.id,

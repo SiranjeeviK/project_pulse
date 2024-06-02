@@ -31,7 +31,7 @@ abstract interface class AuthRemoteDataSource {
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final SupabaseClient supabaseClient;
-
+  /// Constructs an instance of [AuthRemoteDataSourceImpl] with the given [supabaseClient].
   AuthRemoteDataSourceImpl(this.supabaseClient);
 
   /// Returns the current user session.
@@ -101,7 +101,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final response = await supabaseClient.auth.signUp(
         password: password,
         email: email,
-        data: {'name': name},
+        // TODO: Need to add other data such as role, etc..,
+        data: {'name': name,},
       );
 
       if (response.user == null) {
