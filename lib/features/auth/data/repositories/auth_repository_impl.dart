@@ -29,6 +29,7 @@ class AuthRepositoryImpl implements AuthRepository {
     // we cannot use `_getUser()` for exception handling, since this need to be work in offline as well
     try {
       if (!await connectionChecker.isConnected) {
+        print('[from auth repository impl] Internet not available');
         final session = remoteDataSource.currentUserSession;
         if (session == null) {
           // user not logged in as well
@@ -47,6 +48,8 @@ class AuthRepositoryImpl implements AuthRepository {
       }
 
       // internet available
+      print('[from auth repository impl] Internet available');
+
       final user = await remoteDataSource.getCurrentUserData();
 
       if (user == null) {
@@ -84,11 +87,12 @@ class AuthRepositoryImpl implements AuthRepository {
     required String name,
     required String email,
     required String password,
+    required String role,
   }) async {
     return _getUser(
       // Call the signUpWithEmailPassword method from the remote data source and return the result as an Either<Failure, User>.
       () async => remoteDataSource.signUpWithEmailAndPassword(
-          email: email, password: password, name: name),
+          email: email, password: password, name: name, role: role),
     );
   }
 
@@ -107,6 +111,37 @@ class AuthRepositoryImpl implements AuthRepository {
       final user = await fn();
       // Return the user wrapped in a right() method from fpdart to indicate success.
       return right(user);
+    } on ServerException catch (e) {
+      // If a ServerException is thrown, return a Failure with the exception message.
+      return left(Failure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> signOut() {
+    // Call the signOut method from the remote data source and return the result as an Either<Failure, void>.
+    return _getVoid(
+      () async => await remoteDataSource.signOut(),
+    );
+  }
+
+  /// This function handles exception handling for sign out.
+  /// It takes a function [fn] as a parameter, which is responsible for signing out the user.
+  /// Returns a [Future] that emits an [Either] with a [Failure] if an exception occurs,
+  /// or void if the sign out is successful.
+  ///
+  /// This function is similar to the [_getUser] function, but it is used for sign out operations.
+
+  Future<Either<Failure, void>> _getVoid(Future<void> Function() fn) async {
+    try {
+      //checking internet connection and return an error message wrapped in left() if there is no internet connection
+      if (!await connectionChecker.isConnected) {
+        return left(Failure(Constants.noConnectionErrorMessage));
+      }
+      // Call the provided function to sign out the user.
+      await fn();
+      // Return void wrapped in a right() method from fpdart to indicate success.
+      return right(null);
     } on ServerException catch (e) {
       // If a ServerException is thrown, return a Failure with the exception message.
       return left(Failure(e.toString()));

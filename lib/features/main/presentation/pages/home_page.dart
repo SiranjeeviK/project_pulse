@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:line_icons/line_icons.dart';
+import 'package:project_pulse/core/common/cubits/app_user/app_user_cubit.dart';
+import 'package:project_pulse/core/common/entities/user.dart';
 import 'package:project_pulse/core/constants/constants.dart';
 import 'package:project_pulse/core/theme/light_pallete.dart';
 import 'package:project_pulse/core/utils/add_space.dart';
@@ -11,12 +12,18 @@ import 'package:project_pulse/features/main/presentation/widgets/feature_item.da
 import 'package:project_pulse/features/main/presentation/widgets/side_bar_drawer.dart';
 import 'package:project_pulse/core/common/widgets/user_avatar.dart';
 
+void _printAllUserDetails(User user) {
+  print(
+      'User details: ${user.name}, ${user.email}, ${user.role}, ${user.id}, ${user.profilePhotoUrl}');
+}
+
 class HomePage extends StatelessWidget {
-  static route() => MaterialPageRoute(builder: (context) => const HomePage());
-  const HomePage({super.key});
+  static route() => MaterialPageRoute(builder: (context) => HomePage());
+  HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final user = context.watch<AppUserCubit>().state;
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -34,18 +41,24 @@ class HomePage extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: GestureDetector(
               onTap: () {
+                _printAllUserDetails(
+                    user is AppUserLoggedIn ? user.user : Constants.testUser);
                 Navigator.pushNamed(context, '/profile');
               },
               child: UserAvatar(
-                user: Constants.testUser,
+                // i want to use data from the cubit here
+
+                user: user is AppUserLoggedIn ? user.user : Constants.testUser,
                 radius: 20,
               ),
             ),
           ),
         ],
       ),
-      drawer: const SideBarDrawer(),
-      bottomNavigationBar: const TheBottomNavBar(),
+      drawer: SideBarDrawer(
+        user: (user is AppUserLoggedIn ? user.user : Constants.testUser),
+      ),
+      // bottomNavigationBar: const TheBottomNavBar(),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -59,7 +72,10 @@ class HomePage extends StatelessWidget {
                       fontSize: 14,
                       fontWeight: FontWeight.w300,
                     )),
-                Text(Constants.testUser.name,
+                Text(
+                    user is AppUserLoggedIn
+                        ? user.user.name
+                        : Constants.testUser.name,
                     style: GoogleFonts.readexPro(
                       fontSize: 20,
                     )),
@@ -135,69 +151,89 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class TheBottomNavBar extends StatelessWidget {
-  // TODO: Make the page change with the bottom nav bar
-  const TheBottomNavBar({
-    super.key,
-  });
+// class TheBottomNavBar extends StatefulWidget {
+//   const TheBottomNavBar({
+//     super.key,
+//   });
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      decoration: BoxDecoration(
-        // color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            blurRadius: 20,
-            color: Colors.black.withOpacity(.1),
-          )
-        ],
-      ),
-      child: GNav(
-        onTabChange: (value) => print(value),
-        // rippleColor: Colors.black.withOpacity(.1), // tab button ripple color when pressed
-        hoverColor: Colors.grey[500]!, // tab button hover color
-        // haptic: true, // haptic feedback
-        tabBorderRadius: 15,
-        // tabActiveBorder:
-        //     Border.all(color: Colors.black, width: 1), // tab button border
-        // tabBorder:
-        //     Border.all(color: Colors.grey, width: 1), // tab button border
-        // // tabShadow: [
-        // //   BoxShadow(color: Colors.grey.withOpacity(0.5), blurRadius: 8)
-        // // ], // tab button shadow
-        // curve: Curves.easeOutExpo, // tab animation curves
-        duration: const Duration(milliseconds: 300), // tab animation duration
-        gap: 8, // the tab button gap between icon and text
-        color: Colors.grey[800], // unselected icon color
-        // activeColor: Colors.purple, // selected icon and text color
-        activeColor:
-            LightPallete.backgroundColor, // selected icon and text color
-        iconSize: 24, // tab button icon size
-        tabBackgroundColor: LightPallete.backgroundColor
-            .withOpacity(0.05), // selected tab background color
-        padding: const EdgeInsets.symmetric(
-            horizontal: 12, vertical: 10), // navigation bar padding
-        tabs: const [
-          GButton(
-            icon: LineIcons.home,
-            text: 'Home',
-          ),
-          GButton(
-            icon: LineIcons.calendar,
-            text: 'Schedule',
-          ),
-          GButton(
-            icon: Icons.group_outlined,
-            text: 'Community',
-          ),
-          GButton(
-            icon: Icons.settings,
-            text: 'Settings',
-          )
-        ],
-      ),
-    );
-  }
-}
+//   @override
+//   State<TheBottomNavBar> createState() => _TheBottomNavBarState();
+// }
+
+// class _TheBottomNavBarState extends State<TheBottomNavBar> {
+//   int _selectedIndex = 0;
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+//       decoration: BoxDecoration(
+//         // color: Colors.white,
+//         boxShadow: [
+//           BoxShadow(
+//             blurRadius: 20,
+//             color: Colors.black.withOpacity(.1),
+//           )
+//         ],
+//       ),
+//       child: GNav(
+//         onTabChange: (value) {
+//           print(value);
+
+//           setState(() {
+//             _selectedIndex = value;
+//           });
+//           if (value == 0) {
+//             Navigator.pushNamed(context, '/home');
+//           } else if (value == 1) {
+//             Navigator.pushNamed(context, '/schedule');
+//           } else if (value == 2) {
+//             Navigator.pushNamed(context, '/community');
+//           } else if (value == 3) {
+//             Navigator.pushNamed(context, '/appsettings');
+//           }
+//         },
+//         // rippleColor: Colors.black.withOpacity(.1), // tab button ripple color when pressed
+//         hoverColor: Colors.grey[500]!, // tab button hover color
+//         // haptic: true, // haptic feedback
+//         tabBorderRadius: 15,
+//         // tabActiveBorder:
+//         //     Border.all(color: Colors.black, width: 1), // tab button border
+//         // tabBorder:
+//         //     Border.all(color: Colors.grey, width: 1), // tab button border
+//         // // tabShadow: [
+//         // //   BoxShadow(color: Colors.grey.withOpacity(0.5), blurRadius: 8)
+//         // // ], // tab button shadow
+//         // curve: Curves.easeOutExpo, // tab animation curves
+//         duration: const Duration(milliseconds: 300), // tab animation duration
+//         gap: 8, // the tab button gap between icon and text
+//         color: Colors.grey[800], // unselected icon color
+//         // activeColor: Colors.purple, // selected icon and text color
+//         activeColor:
+//             LightPallete.backgroundColor, // selected icon and text color
+//         iconSize: 24, // tab button icon size
+//         tabBackgroundColor: LightPallete.backgroundColor
+//             .withOpacity(0.05), // selected tab background color
+//         padding: const EdgeInsets.symmetric(
+//             horizontal: 12, vertical: 10), // navigation bar padding
+//         tabs: const [
+//           GButton(
+//             icon: LineIcons.home,
+//             text: 'Home',
+//           ),
+//           GButton(
+//             icon: LineIcons.calendar,
+//             text: 'Schedule',
+//           ),
+//           GButton(
+//             icon: Icons.group_outlined,
+//             text: 'Community',
+//           ),
+//           GButton(
+//             icon: Icons.settings,
+//             text: 'Settings',
+//           )
+//         ],
+//       ),
+//     );
+//   }
+// }

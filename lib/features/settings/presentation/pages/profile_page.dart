@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project_pulse/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:project_pulse/core/common/widgets/user_avatar.dart';
 import 'package:project_pulse/core/constants/constants.dart';
 
@@ -9,6 +11,7 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = context.watch<AppUserCubit>().state;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
@@ -19,12 +22,14 @@ class ProfilePage extends StatelessWidget {
         child: Column(
           children: [
             UserAvatar(
-              user: Constants.testUser,
+              user: user is AppUserLoggedIn ? user.user : Constants.testUser,
               radius: 50,
             ),
             const SizedBox(height: 16),
             Text(
-              Constants.testUser.name,
+              user is AppUserLoggedIn
+                  ? user.user.name
+                  : Constants.testUser.name,
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),

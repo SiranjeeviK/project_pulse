@@ -4,10 +4,11 @@ import 'package:project_pulse/core/theme/light_pallete.dart';
 import 'app_pallete.dart';
 
 class AppTheme {
+  // TODO: Auth pages theme sucks
   static _border([Color color = AppPallete.borderColor]) => OutlineInputBorder(
         borderSide: BorderSide(
           color: color,
-          width: 3,
+          width: 2,
         ),
         borderRadius: BorderRadius.circular(10),
       );

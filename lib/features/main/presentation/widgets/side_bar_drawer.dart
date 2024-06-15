@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:project_pulse/core/common/entities/user.dart';
 import 'package:project_pulse/core/constants/constants.dart';
 import 'package:project_pulse/core/theme/light_pallete.dart';
 import 'package:project_pulse/core/utils/add_space.dart';
+import 'package:project_pulse/features/auth/presentation/widgets/auth_signout_dialog.dart';
 import 'package:project_pulse/features/main/presentation/pages/home_page.dart';
 import 'package:project_pulse/features/notifications/presentation/pages/notifications_page.dart';
 import 'package:project_pulse/features/settings/presentation/pages/profile_page.dart';
 import 'package:project_pulse/features/settings/presentation/pages/app_settings.dart';
 
 class SideBarDrawer extends StatelessWidget {
-  const SideBarDrawer({super.key});
+  User user;
+  SideBarDrawer({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +40,7 @@ class SideBarDrawer extends StatelessWidget {
                     //   user: Constants.testUser,
                     //   radius: 30,
                     // ),
-                    Text(Constants.testUser.name,
-                        style: GoogleFonts.readexPro()),
+                    Text(user.name, style: GoogleFonts.readexPro()),
                     Text(Constants.testUser.role,
                         style: GoogleFonts.readexPro(
                             fontSize: 12, fontWeight: FontWeight.w300)),
@@ -117,7 +119,15 @@ class SideBarDrawer extends StatelessWidget {
                   "Logout",
                 ),
                 onTap: () {
-                  Navigator.pop(context);
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AuthSignoutDialog();
+                    },
+                  );
+                  // Navigator.pop(context);
+                  // Navigator.push(AuthSignoutDialog());
+                  // Navigator.pop(context);
                 },
               ),
             ],

@@ -13,6 +13,7 @@ abstract interface class AuthRemoteDataSource {
     required String email,
     required String password,
     required String name,
+    required String role,
   });
 
   /// Logs in a user with the provided email and password.
@@ -23,6 +24,11 @@ abstract interface class AuthRemoteDataSource {
     required String password,
   });
 
+  /// Signs out the current user.
+  ///
+  /// Throws an exception if the sign-out process fails.
+  Future<void> signOut();
+
   /// Retrieves the current user's data.
   ///
   /// Returns `null` if the user is not logged in.
@@ -31,6 +37,7 @@ abstract interface class AuthRemoteDataSource {
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final SupabaseClient supabaseClient;
+
   /// Constructs an instance of [AuthRemoteDataSourceImpl] with the given [supabaseClient].
   AuthRemoteDataSourceImpl(this.supabaseClient);
 
@@ -51,8 +58,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
               'user_id',
               currentUserSession!.user.id,
             );
-
-        return UserModel.fromMap(userData.first);
+        print('[from auth remote data source] The user data is: $userData');
+        return UserModel.fromMap(userData.first).copyWith(
+          name: userData.first['username'],
+          email: userData.first['email'],
+          role: userData.first['role'],
+          profilePhotoUrl: userData.first['profile_picture'],
+        );
       }
 
       return null;
@@ -72,17 +84,20 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     try {
       final response = await supabaseClient.auth
           .signInWithPassword(password: password, email: email);
+      // print(response.toString());
 
       if (response.user == null) {
         throw const ServerException('User is null!');
       }
       // TODO: check this with and without copyWith
       // I am not sure we are adding email and do we need to need add name as well?
-      return (UserModel.fromJson(
-        response.user.toString(),
+      return (UserModel.fromMap(
+        response.user!.toJson(),
       ).copyWith(
         email: currentUserSession!.user.email,
       ));
+    } on AuthException catch (e) {
+      throw ServerException(e.message);
     } catch (e) {
       throw ServerException(e.toString());
     }
@@ -96,20 +111,36 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String email,
     required String password,
     required String name,
+    required String role,
   }) async {
     try {
       final response = await supabaseClient.auth.signUp(
         password: password,
         email: email,
         // TODO: Need to add other data such as role, etc..,
-        data: {'name': name,},
+        data: {
+          'name': name,
+          'role': role,
+        },
       );
-
+      // print(response.user.toString());
       if (response.user == null) {
         throw const ServerException('User is null!');
       } else {
-        return UserModel.fromJson(response.user!.toString());
+        return UserModel.fromMap(response.user!.toJson());
       }
+    } on AuthException catch (e) {
+      throw ServerException(e.message);
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  /// Signs out the current user.
+  @override
+  Future<void> signOut() async {
+    try {
+      await supabaseClient.auth.signOut();
     } on AuthException catch (e) {
       throw ServerException(e.message);
     } catch (e) {

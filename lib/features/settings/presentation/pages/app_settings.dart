@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_pulse/features/main/presentation/pages/home_page.dart';
 
 class AppSettings extends StatelessWidget {
   static route() =>

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:project_pulse/core/common/entities/user.dart';
+
 /// Represents a user model that extends the base [User] class.
 /// The [UserModel] class is used to represent a [User] entity in the application. Used in [AuthRepositoryImpl] to get the current user.
 ///
@@ -34,7 +35,8 @@ class UserModel extends User {
       role: role ?? this.role,
     );
   }
-  /// returns a `Map<String, dynamic>` map 
+
+  /// returns a `Map<String, dynamic>` map
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
@@ -44,16 +46,18 @@ class UserModel extends User {
       'role': role,
     };
   }
+
   ///this factory constructor takes a 'Map<String, dynamic>' returns an instance of `UserModel`
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      id: map['id'] ?? '',
+      id: map['user_id'] ?? '',
       email: map['email'] ?? '',
-      name: map['name'] ?? '',
-      profilePhotoUrl: map['profilePhotoUrl'] ?? '',
+      name: map['username'] ?? '',
+      profilePhotoUrl: map['profile_picture'] ?? '',
       role: map['role'] ?? '',
     );
   }
+
   /// convert this instance of `UserModel` into map and then convert that map into json
   String toJson() => json.encode(toMap());
 

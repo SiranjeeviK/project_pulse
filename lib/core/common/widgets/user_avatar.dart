@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_pulse/core/common/entities/user.dart';
+import 'package:project_pulse/core/constants/constants.dart';
 
 class UserAvatar extends StatelessWidget {
   final User user;
@@ -10,7 +11,9 @@ class UserAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     return CircleAvatar(
       backgroundImage: NetworkImage(
-        user.profilePhotoUrl,
+        user.profilePhotoUrl == ''
+            ? Constants.defaultProlilePhotoUrl
+            : user.profilePhotoUrl,
       ),
       radius: radius,
     );
