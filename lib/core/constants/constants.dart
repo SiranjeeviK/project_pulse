@@ -8,19 +8,36 @@ class Constants {
   static User testUser = User(
     id: '71402220-5104-0000-0000-000000000000',
     email: 'siranjeevik22it@srishakthi.ac.in',
-    name: 'Siranjeevi K',
+    name: 'Test User',
     profilePhotoUrl:
         'https://dkopowahnjnhqgtcntam.supabase.co/storage/v1/object/public/profile-photos/20220711_135250_edited.jpg',
     role: 'Student',
+    phoneNumber: '1234567890',
+    registerNo: '714022205104',
+    rollNo: '22IT104',
+    department: 'IT',
+    section: 'B',
+    semester: 'Semester 5',
+    graduationYear: 2026,
+    facultyId: '',
+    designation: '',
   );
 
   static User defaultUser = User(
-    id: 'Guest',
-    email: '',
-    name: 'guest',
-    profilePhotoUrl: '',
-    role: 'Guest',
-  );
+      id: 'Guest',
+      email: '',
+      name: 'guest',
+      profilePhotoUrl: '',
+      role: 'Guest',
+      phoneNumber: '1234567890',
+      registerNo: '7140222xxxxx',
+      rollNo: '22xxxxx',
+      department: 'xx',
+      section: 'x',
+      semester: 'Semester x',
+      graduationYear: 2026,
+      facultyId: '',
+      designation: '');
 
   static const defaultProlilePhotoUrl = 'https://via.placeholder.com/150';
 
@@ -60,4 +77,28 @@ class Constants {
     'FOOD',
     "AGRI"
   ];
+
+  // API Url for differnt classes like it, cse, ece, eee, civil, mech, aids, aiml, bme, bt, food, agri
+
+  static const Map<String, String> classTimeTableAPIUrl = {
+    "ITB":
+        "https://script.google.com/macros/s/AKfycbxEudBZG-nQKM9zRp5pPi918RKIF3p6wPA4hFNmqmRxFJcKspoQx-cOCc4XGEtspkQR8Q/exec",
+    // "CSE":   "https://script.google.com/macros/s/AKfycbxEudBZG-nQKM9zRp5pPi918RKIF3p6wPA4hFNmqmRxFJcKspoQx-cOCc4XGEtspkQR8Q/exec",
+    // "ECE":
+    //     "https://script.google.com/macros/s/AKfycbxEudBZG-nQKM9zRp5pPi918RKIF3p6wPA4hFNmqmRxFJcKspoQx-cOCc4XGEtspkQR8Q/exec",
+    // "EEE":
+    //     "https://script.google.com/macros/s/AKfycbxEudBZG-nQKM9zRp5pPi918RKIF3p6wPA4hFNmqmRxFJcKspoQx-cOCc4XGEtspkQR8Q/exec",
+    // "CIVIL":
+    //     "https://script.google.com/macros/s/AKfycbxEudBZG-nQKM9zRp5pPi918RKIF3p6wPA4hFNmqmRxFJcKspoQx-cOCc4XGEtspkQR8Q/exec",
+    // "MECH":
+    //     "https://script.google.com/macros/s/AKfycbxEudBZG-nQKM9zRp5pPi918RKIF3p6wPA4hFNmqmRxFJcKspoQx-cOCc4XGEtspkQR8Q/exec",
+    // "AIDS":
+    //     "https://script.google.com/macros/s/AKfycbxEudBZG-nQKM9zRp5pPi918RKIF3p6wPA4hFNmqmRxFJcKspoQx-cOCc4XGEtspkQR8Q/exec",
+    // "AIML":
+    //     "https://script.google.com/macros/s/AKfycbxEudBZG-nQKM9zRp5pPi918RKIF3p6wPA4hFNmqmRxFJcKspoQx-cOCc4XGEtspkQR8Q/exec",
+  };
+
+  static String getItBTimeTableUrl() {
+    return classTimeTableAPIUrl["ITB"]!;
+  }
 }

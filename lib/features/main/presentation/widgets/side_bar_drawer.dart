@@ -11,8 +11,8 @@ import 'package:project_pulse/features/settings/presentation/pages/profile_page.
 import 'package:project_pulse/features/settings/presentation/pages/app_settings.dart';
 
 class SideBarDrawer extends StatelessWidget {
-  User user;
-  SideBarDrawer({super.key, required this.user});
+  final User user;
+  const SideBarDrawer({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class SideBarDrawer extends StatelessWidget {
                     //   radius: 30,
                     // ),
                     Text(user.name, style: GoogleFonts.readexPro()),
-                    Text(Constants.testUser.role,
+                    Text(user.role,
                         style: GoogleFonts.readexPro(
                             fontSize: 12, fontWeight: FontWeight.w300)),
                     TextButton(

@@ -33,4 +33,20 @@ class AppUserCubit extends Cubit<AppUserState> {
       return Constants.testUser;
     }
   }
+
+  Student getStudent() {
+    if (state is AppUserLoggedIn) {
+      return (state as AppUserLoggedIn).user as Student;
+    } else {
+      return Constants.testUser as Student;
+    }
+  }
+
+  Faculty getFaculty() {
+    if (state is AppUserLoggedIn) {
+      return (state as AppUserLoggedIn).user as Faculty;
+    } else {
+      return Constants.testUser as Faculty;
+    }
+  }
 }

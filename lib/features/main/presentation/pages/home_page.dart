@@ -4,10 +4,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:project_pulse/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:project_pulse/core/common/entities/user.dart';
 import 'package:project_pulse/core/constants/constants.dart';
-import 'package:project_pulse/core/theme/light_pallete.dart';
+// import 'package:project_pulse/core/theme/light_pallete.dart';
 import 'package:project_pulse/core/utils/add_space.dart';
 import 'package:project_pulse/features/main/presentation/widgets/announcement_list_item.dart';
-import 'package:project_pulse/features/main/presentation/widgets/current_class.dart';
+import 'package:project_pulse/features/main/presentation/widgets/current_upcoming_class.dart';
 import 'package:project_pulse/features/main/presentation/widgets/feature_item.dart';
 import 'package:project_pulse/features/main/presentation/widgets/side_bar_drawer.dart';
 import 'package:project_pulse/core/common/widgets/user_avatar.dart';
@@ -81,7 +81,7 @@ class HomePage extends StatelessWidget {
                     )),
                 addVerticalSpace(16),
                 // Report
-                const CurrentClass(),
+                const CurrentUpcomingClass(),
 
                 _buildAnnouncementsSection(),
                 addVerticalSpace(16),

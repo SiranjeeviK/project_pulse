@@ -4,8 +4,8 @@ import 'package:project_pulse/core/theme/app_pallete.dart';
 import 'package:project_pulse/core/theme/light_pallete.dart';
 import 'package:project_pulse/core/utils/add_space.dart';
 
-class CurrentClass extends StatelessWidget {
-  const CurrentClass({super.key});
+class CurrentUpcomingClass extends StatelessWidget {
+  const CurrentUpcomingClass({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -36,14 +36,29 @@ class AuthRepositoryImpl implements AuthRepository {
           return left(Failure('User not logged in!'));
         }
 
+        // user logged in but no internet
+        print(
+            '[from auth repository impl] User logged in but no internet, The Session: $session');
+        print('\nThe User data from session is:\n${session.user.toString()}');
+
         // FIXME: This may set the name, email, role as ''
         return right(
           UserModel(
-              id: session.user.id,
-              email: session.user.email ?? '',
-              name: '',
-              profilePhotoUrl: '',
-              role: ''),
+            id: session.user.id,
+            email: session.user.email ?? '',
+            name: session.user.userMetadata!['name'] ?? '',
+            profilePhotoUrl: '',
+            role: session.user.userMetadata!['role'] ?? '',
+            phoneNumber: '',
+            registerNo: '',
+            rollNo: '',
+            department: '',
+            section: '',
+            semester: '',
+            facultyId: '',
+            designation: '',
+            graduationYear: 0,
+          ),
         );
       }
 
