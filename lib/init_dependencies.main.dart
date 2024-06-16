@@ -6,6 +6,7 @@ final serviceLocator = GetIt.instance;
 Future<void> initDependencies() async {
   // Initialize authentication
   _initAuth();
+  _initCurrentAndUpcomingClasses();
 
   // Initialize Supabase client
   final supabase = await Supabase.initialize(
@@ -76,5 +77,34 @@ void _initAuth() {
         appUserCubit: serviceLocator(),
         userLogout: serviceLocator(),
       ),
+    );
+}
+
+// Initialize all dependencies related to Current and Upcoming Classes
+void _initCurrentAndUpcomingClasses() {
+  // DATASOURCE
+  serviceLocator
+    ..registerFactory<CurrentClassRemoteDataSource>(
+      () => CurrentClassRemoteDataSourceImpl(),
+    )
+
+    // REPOSITORY
+    ..registerFactory<CurrentClassRepository>(
+      () => CurrentClassRepositoryImpl(
+        dataSource: serviceLocator(),
+        connectionChecker: serviceLocator(),
+      ),
+    )
+
+    // USECASES
+    ..registerFactory<FetchCurrentClass>(
+      () => FetchCurrentClass(
+        serviceLocator(),
+      ),
+    )
+
+    // BLOC
+    ..registerFactory<CurrentAndUpcomingClassesCubit>(
+      () => CurrentAndUpcomingClassesCubit(fetchCurrentClass: serviceLocator()),
     );
 }

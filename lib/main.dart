@@ -5,6 +5,7 @@ import 'package:project_pulse/core/theme/theme.dart';
 import 'package:project_pulse/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:project_pulse/features/auth/presentation/pages/login_page.dart';
 import 'package:project_pulse/features/auth/presentation/pages/signup_page.dart';
+import 'package:project_pulse/features/main/presentation/cubits/current_and_upcoming_classes/current_and_upcoming_classes_cubit.dart';
 import 'package:project_pulse/features/main/presentation/pages/courses_page.dart';
 import 'package:project_pulse/features/main/presentation/pages/home_page.dart';
 import 'package:project_pulse/features/main/presentation/pages/schedule_page.dart';
@@ -25,6 +26,10 @@ void main() async {
       // for all user related purposes
       create: (_) => serviceLocator<AppUserCubit>(),
     ),
+    // for current and upcoming classes
+    BlocProvider(
+      create: (_) => serviceLocator<CurrentAndUpcomingClassesCubit>(),
+    )
   ], child: const MyApp()));
 }
 

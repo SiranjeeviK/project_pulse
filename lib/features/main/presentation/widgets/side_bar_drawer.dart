@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project_pulse/core/common/entities/user.dart';
-import 'package:project_pulse/core/constants/constants.dart';
 import 'package:project_pulse/core/theme/light_pallete.dart';
 import 'package:project_pulse/core/utils/add_space.dart';
 import 'package:project_pulse/features/auth/presentation/widgets/auth_signout_dialog.dart';

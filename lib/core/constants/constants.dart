@@ -82,7 +82,7 @@ class Constants {
 
   static const Map<String, String> classTimeTableAPIUrl = {
     "ITB":
-        "https://script.google.com/macros/s/AKfycbxEudBZG-nQKM9zRp5pPi918RKIF3p6wPA4hFNmqmRxFJcKspoQx-cOCc4XGEtspkQR8Q/exec",
+        "https://script.google.com/macros/s/AKfycbzWvba_WKWnJCIubTtzlsaTlu0YfK4FB91-J4MJnneIYZSw-6dcqk1P-Ru-w-1X8IvriA/exec",
     // "CSE":   "https://script.google.com/macros/s/AKfycbxEudBZG-nQKM9zRp5pPi918RKIF3p6wPA4hFNmqmRxFJcKspoQx-cOCc4XGEtspkQR8Q/exec",
     // "ECE":
     //     "https://script.google.com/macros/s/AKfycbxEudBZG-nQKM9zRp5pPi918RKIF3p6wPA4hFNmqmRxFJcKspoQx-cOCc4XGEtspkQR8Q/exec",

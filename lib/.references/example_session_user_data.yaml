@@ -1,0 +1,44 @@
+id: de94f1d9-6364-4191-8108-be58c5ff7ba1
+app_metadata:
+  provider: email
+  providers: [email]
+user_metadata:
+  email: siranjeevik22it@srishakthi.ac.in
+  email_verified: false
+  name: siranjeevik
+  phone_verified: false
+  role: Student
+  sub: de94f1d9-6364-4191-8108-be58c5ff7ba1
+aud: authenticated
+confirmation_sent_at: 2024-06-07T17:02:26.176554Z
+recovery_sent_at: null
+email_change_sent_at: null
+new_email: null
+invited_at: null
+action_link: null
+email: siranjeevik22it@srishakthi.ac.in
+phone: 
+created_at: 2024-06-07T17:02:26.161084Z
+confirmed_at: 2024-06-07T17:03:04.951523Z
+email_confirmed_at: 2024-06-07T17:03:04.951523Z
+phone_confirmed_at: null
+last_sign_in_at: 2024-06-15T11:28:38.261311Z
+role: authenticated
+updated_at: 2024-06-16T04:28:43.734888Z
+identities:
+  - id: de94f1d9-6364-4191-8108-be58c5ff7ba1
+    user_id: de94f1d9-6364-4191-8108-be58c5ff7ba1
+    identity_data:
+      email: siranjeevik22it@srishakthi.ac.in
+      email_verified: false
+      name: siranjeevik
+      phone_verified: false
+      role: Student
+      sub: de94f1d9-6364-4191-8108-be58c5ff7ba1
+    identity_id: a6205376-ae80-4ac3-82e3-bf50d25ced72
+    provider: email
+    created_at: 2024-06-07T17:02:26.171854Z
+    last_sign_in_at: 2024-06-07T17:02:26.171807Z
+    updated_at: 2024-06-07T17:02:26.171854Z
+factors: null
+is_anonymous: false

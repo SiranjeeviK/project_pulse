@@ -14,6 +14,11 @@ import 'package:project_pulse/features/auth/domain/usecases/user_login.dart';
 import 'package:project_pulse/features/auth/domain/usecases/user_logout.dart';
 import 'package:project_pulse/features/auth/domain/usecases/user_sign_up.dart';
 import 'package:project_pulse/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:project_pulse/features/main/data/datasources/current_class_remote_data_source.dart';
+import 'package:project_pulse/features/main/data/repositories/current_class_repository_impl.dart';
+import 'package:project_pulse/features/main/domain/repository/current_class_repository.dart';
+import 'package:project_pulse/features/main/domain/usecases/fetch_current_class.dart';
+import 'package:project_pulse/features/main/presentation/cubits/current_and_upcoming_classes/current_and_upcoming_classes_cubit.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'init_dependencies.main.dart';
