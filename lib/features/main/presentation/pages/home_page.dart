@@ -13,17 +13,17 @@ import 'package:project_pulse/features/main/presentation/widgets/side_bar_drawer
 import 'package:project_pulse/core/common/widgets/user_avatar.dart';
 
 void _printAllUserDetails(User user) {
-  print(
-      'User details: ${user.name}, ${user.email}, ${user.role}, ${user.id}, ${user.profilePhotoUrl}');
+  print('User details: ${user.toString()}');
 }
 
 class HomePage extends StatelessWidget {
-  static route() => MaterialPageRoute(builder: (context) => HomePage());
-  HomePage({super.key});
+  static route() => MaterialPageRoute(builder: (context) => const HomePage());
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final user = context.watch<AppUserCubit>().state;
+    final state = context.watch<AppUserCubit>().state;
+    final user = state is AppUserLoggedIn ? state.user : Constants.testUser;
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -41,14 +41,12 @@ class HomePage extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: GestureDetector(
               onTap: () {
-                _printAllUserDetails(
-                    user is AppUserLoggedIn ? user.user : Constants.testUser);
+                _printAllUserDetails(user);
                 Navigator.pushNamed(context, '/profile');
               },
               child: UserAvatar(
                 // i want to use data from the cubit here
-
-                user: user is AppUserLoggedIn ? user.user : Constants.testUser,
+                user: user,
                 radius: 20,
               ),
             ),
@@ -56,7 +54,7 @@ class HomePage extends StatelessWidget {
         ],
       ),
       drawer: SideBarDrawer(
-        user: (user is AppUserLoggedIn ? user.user : Constants.testUser),
+        user: (user),
       ),
       // bottomNavigationBar: const TheBottomNavBar(),
       body: SafeArea(
@@ -72,10 +70,7 @@ class HomePage extends StatelessWidget {
                       fontSize: 14,
                       fontWeight: FontWeight.w300,
                     )),
-                Text(
-                    user is AppUserLoggedIn
-                        ? user.user.name
-                        : Constants.testUser.name,
+                Text(user.name,
                     style: GoogleFonts.readexPro(
                       fontSize: 20,
                     )),
@@ -96,6 +91,8 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _buildFeatureGrid(BuildContext context) {
+    final state = context.watch<AppUserCubit>().state;
+    final user = state is AppUserLoggedIn ? state.user : Constants.testUser;
     return GridView.count(
       crossAxisCount: 2,
       shrinkWrap: true,
@@ -115,9 +112,11 @@ class HomePage extends StatelessWidget {
         ),
         FeatureItem(
           context: context,
-          icon: Icons.notifications,
-          label: 'Notifications',
-          pageRoute: '/notifications',
+          icon: Icons.person,
+          label: 'Attendance',
+          // It should navigate to the attendance student view page if the user is student otherwise it should navigate to the attendance main page
+          pageRoute:
+              user.isStudent ? '/attendance/student_view' : '/attendance',
         ),
         FeatureItem(
           context: context,

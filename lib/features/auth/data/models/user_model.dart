@@ -21,12 +21,14 @@ class UserModel extends User {
     required super.phoneNumber,
     required super.registerNo,
     required super.rollNo,
-    required super.department,
+    required super.departmentName,
     required super.section,
     required super.semester,
     required super.graduationYear,
     required super.facultyId,
     required super.designation,
+    required super.classCode,
+    required super.departmentCode,
   });
 
   UserModel copyWith({
@@ -38,12 +40,14 @@ class UserModel extends User {
     String? phoneNumber,
     String? registerNo,
     String? rollNo,
-    String? department,
+    String? departmentName,
     String? section,
-    String? semester,
+    int? semester,
     int? graduationYear,
     String? facultyId,
     String? designation,
+    String? classCode,
+    String? departmentCode,
   }) {
     return UserModel(
       id: id ?? this.id,
@@ -54,14 +58,17 @@ class UserModel extends User {
       phoneNumber: phoneNumber ?? this.phoneNumber,
       registerNo: registerNo ?? this.registerNo,
       rollNo: rollNo ?? this.rollNo,
-      department: department ?? this.department,
+      departmentName: departmentName ?? this.departmentName,
       section: section ?? this.section,
       semester: semester ?? this.semester,
       graduationYear: graduationYear ?? this.graduationYear,
       facultyId: facultyId ?? this.facultyId,
       designation: designation ?? this.designation,
+      classCode: classCode ?? this.classCode,
+      departmentCode: departmentCode ?? this.departmentCode,
     );
   }
+
   /// Returns a `Map<String, dynamic>` map representing the user.
   Map<String, dynamic> toMap() {
     final map = <String, dynamic>{};
@@ -73,12 +80,14 @@ class UserModel extends User {
     map['phone_number'] = phoneNumber;
     map['register_no'] = registerNo;
     map['roll_no'] = rollNo;
-    map['department'] = department;
+    map['department_name'] = departmentName;
     map['section'] = section;
     map['semester'] = semester;
     map['graduation_year'] = graduationYear;
     map['faculty_id'] = facultyId;
     map['designation'] = designation;
+    map['class_code'] = classCode;
+    map['department_code'] = departmentCode;
     return map;
   }
 
@@ -93,12 +102,15 @@ class UserModel extends User {
       phoneNumber: map['phone_number'] ?? '',
       registerNo: map['register_no'] ?? '',
       rollNo: map['roll_no'] ?? '',
-      department: map['department'] ?? '',
+      departmentName: map['department_name'] ?? '',
       section: map['section'] ?? '',
-      semester: map['semester'] ?? '',
+      semester: map['semester'] ?? 0,
       graduationYear: map['graduation_year'] ?? 0,
       facultyId: map['faculty_id'] ?? '',
       designation: map['designation'] ?? '',
+      classCode: map['class_code'] ??
+          '', //class code applicable for faculty if they are class advisor
+      departmentCode: map['department_code'] ?? '',
     );
   }
 
@@ -116,7 +128,7 @@ class UserModel extends User {
 //   final String rollNo;
 //   final String department;
 //   final String section;
-//   final String semester;
+//   final int semester;
 //   final int graduationYear;
 
 //   StudentModel({

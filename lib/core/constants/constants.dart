@@ -6,22 +6,23 @@ class Constants {
   // Testing
   // TODO: Remove this hardcoded user
   static User testUser = User(
-    id: '71402220-5104-0000-0000-000000000000',
-    email: 'siranjeevik22it@srishakthi.ac.in',
-    name: 'Test User',
-    profilePhotoUrl:
-        'https://dkopowahnjnhqgtcntam.supabase.co/storage/v1/object/public/profile-photos/20220711_135250_edited.jpg',
-    role: 'Student',
-    phoneNumber: '1234567890',
-    registerNo: '714022205104',
-    rollNo: '22IT104',
-    department: 'IT',
-    section: 'B',
-    semester: 'Semester 5',
-    graduationYear: 2026,
-    facultyId: '',
-    designation: '',
-  );
+      id: '71402220-5104-0000-0000-000000000000',
+      email: 'siranjeevik22it@srishakthi.ac.in',
+      name: 'Test User',
+      profilePhotoUrl:
+          'https://dkopowahnjnhqgtcntam.supabase.co/storage/v1/object/public/profile-photos/20220711_135250_edited.jpg',
+      role: 'Student',
+      phoneNumber: '1234567890',
+      registerNo: '714022205104',
+      rollNo: '22IT104',
+      departmentName: 'IT',
+      section: 'B',
+      semester: 4,
+      graduationYear: 2026,
+      facultyId: '',
+      designation: '',
+      classCode: '',
+      departmentCode: '');
 
   static User defaultUser = User(
       id: 'Guest',
@@ -32,12 +33,14 @@ class Constants {
       phoneNumber: '1234567890',
       registerNo: '7140222xxxxx',
       rollNo: '22xxxxx',
-      department: 'xx',
+      departmentName: 'xx',
       section: 'x',
-      semester: 'Semester x',
+      semester: 4,
       graduationYear: 2026,
       facultyId: '',
-      designation: '');
+      designation: '',
+      classCode: '',
+      departmentCode: '');
 
   static const defaultProlilePhotoUrl = 'https://via.placeholder.com/150';
 
@@ -100,7 +103,6 @@ class Constants {
 
   static const itbsem4TimeTableSheet =
       'https://docs.google.com/spreadsheets/d/e/2PACX-1vSrLRXrLjuBiwxrXVhiys-pag_8d2HtFyJAjN_v2hM0J01YISapsakXAF-IKbbcyXv6TrubG673Ysbx/pubhtml?gid=64714920&single=true';
-
 
   static String getItBTimeTableUrl() {
     return classTimeTableAPIUrl["ITB"]!;

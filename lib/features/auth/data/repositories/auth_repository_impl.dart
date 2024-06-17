@@ -41,7 +41,7 @@ class AuthRepositoryImpl implements AuthRepository {
             '[from auth repository impl] User logged in but no internet, The Session: $session');
         print('\nThe User data from session is:\n${session.user.toString()}');
 
-        // FIXME: This may set the name, email, role as ''
+        // FIXME: This may set the name, email, role as '', check userMetadata for null
         return right(
           UserModel(
             id: session.user.id,
@@ -52,12 +52,14 @@ class AuthRepositoryImpl implements AuthRepository {
             phoneNumber: '',
             registerNo: '',
             rollNo: '',
-            department: '',
+            departmentName: '',
             section: '',
-            semester: '',
+            semester: 0,
             facultyId: '',
             designation: '',
             graduationYear: 0,
+            classCode: '',
+            departmentCode: '',
           ),
         );
       }

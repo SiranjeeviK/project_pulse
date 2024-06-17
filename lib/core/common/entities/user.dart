@@ -1,26 +1,28 @@
-/// Represents a user entity. Used in [AuthRepository] to get the current user. Moved from domain to the common folder to be used in multiple features.
+/// Represents a user entity. Used in [AuthRepository] to get the current user. Moved from the domain to the common folder to be used in multiple features.
 /// The [id], [email], and [name] properties are required.
 /// ***Entities*** are the core of the application. They are the objects that represent the data that the application operates on.
-/// ***Liskov Substitution Principle***: Entities should be substitutable with their subtypes.ie, [UserModel] should be substitutable with [User]
+/// ***Liskov Substitution Principle***: Entities should be substitutable with their subtypes, i.e., [UserModel] should be substitutable with [User].
 class User {
-  final String id;
-  final String email;
-  final String name;
-  final String profilePhotoUrl;
-  final String role;
-  final String phoneNumber;
+  final String id; // The unique identifier of the user.
+  final String email; // The email address of the user.
+  final String name; // The name of the user.
+  final String profilePhotoUrl; // The URL of the user's profile photo.
+  final String role; // The role of the user (e.g., "Student", "Faculty").
+  final String phoneNumber; // The phone number of the user.
 
-  final String registerNo;
-  final String rollNo;
-  final String department;
-  final String section;
-  final String semester;
-  final int graduationYear;
+  final String registerNo; // The registration number of the user (for students).
+  final String rollNo; // The roll number of the user (for students).
+  final String departmentName; // The name of the department the user belongs to.
+  final String section; // The section the user belongs to.
+  final int semester; // The current semester of the user (for students).
+  final String classCode; // The code of the user's class (for students).
+  final int graduationYear; // The year the user is expected to graduate (for students).
 
-  final String facultyId;
-  final String designation;
+  final String facultyId; // The ID of the faculty member (for faculty).
+  final String designation; // The designation of the faculty member (e.g., "HOD").
+  final String departmentCode; // The code of the department the faculty member belongs to.
 
-  /// Constructs a new User instance with the specified [id], [email], and [name].
+  /// Constructs a new User instance with the given values. The [id], [email], [name], [profilePhotoUrl], [role], [phoneNumber], [registerNo], [rollNo], [departmentName], [section], [semester], [classCode], [graduationYear], [facultyId], [designation], and [departmentCode] arguments must not be null.
   User({
     required this.id,
     required this.email,
@@ -30,21 +32,23 @@ class User {
     required this.phoneNumber,
     required this.registerNo,
     required this.rollNo,
-    required this.department,
+    required this.departmentName,
     required this.section,
     required this.semester,
+    required this.classCode,
     required this.graduationYear,
     required this.facultyId,
     required this.designation,
+    required this.departmentCode,
   });
 
-  bool get isStudent => role == 'Student';
-  bool get isFaculty => !isStudent;
+  bool get isStudent => role == 'Student'; // Returns true if the user is a student.
+  bool get isFaculty => !isStudent; // Returns true if the user is a faculty member.
+  bool get isHOD => isFaculty && designation == 'HOD'; // Returns true if the user is a faculty member and has the designation of "HOD".
 
-  // String get registerNo => runtimeType == Student ? (this as Student).registerNo;
   @override
   String toString() {
-    return 'User(id: $id, email: $email, name: $name, profilePhotoUrl: $profilePhotoUrl, role: $role, phoneNumber: $phoneNumber, registerNo: $registerNo, rollNo: $rollNo, department: $department, section: $section, semester: $semester, graduationYear: $graduationYear, facultyId: $facultyId, designation: $designation)';
+    return 'User(id: $id, email: $email, name: $name, profilePhotoUrl: $profilePhotoUrl, role: $role, phoneNumber: $phoneNumber, registerNo: $registerNo, rollNo: $rollNo, departmentName: $departmentName, section: $section, semester: $semester, classCode: $classCode, graduationYear: $graduationYear, facultyId: $facultyId, designation: $designation, departmentCode: $departmentCode)';
   }
 
   @override
@@ -60,12 +64,14 @@ class User {
         other.phoneNumber == phoneNumber &&
         other.registerNo == registerNo &&
         other.rollNo == rollNo &&
-        other.department == department &&
+        other.departmentName == departmentName &&
         other.section == section &&
         other.semester == semester &&
+        other.classCode == classCode &&
         other.graduationYear == graduationYear &&
         other.facultyId == facultyId &&
-        other.designation == designation;
+        other.designation == designation &&
+        other.departmentCode == departmentCode;
   }
 
   @override
@@ -78,16 +84,18 @@ class User {
         phoneNumber.hashCode ^
         registerNo.hashCode ^
         rollNo.hashCode ^
-        department.hashCode ^
+        departmentName.hashCode ^
         section.hashCode ^
         semester.hashCode ^
+        classCode.hashCode ^
         graduationYear.hashCode ^
         facultyId.hashCode ^
-        designation.hashCode;
+        designation.hashCode ^
+        departmentCode.hashCode;
   }
 }
 
-// This is just a holder, UserModel is the one that fetch data from server in form of JSON
+// This is just a holder, UserModel is the one that fetches data from the server in the form of JSON.
 
 class Student extends User {
   Student({
@@ -99,12 +107,14 @@ class Student extends User {
     required super.phoneNumber,
     required super.registerNo,
     required super.rollNo,
-    required super.department,
+    required super.departmentName,
     required super.section,
     required super.semester,
     required super.graduationYear,
     required super.facultyId,
     required super.designation,
+    required super.classCode,
+    required super.departmentCode,
   });
 
   @override
@@ -115,15 +125,14 @@ class Student extends User {
 
   @override
   String toString() {
-    return 'Student(id: $id, email: $email, name: $name, profilePhotoUrl: $profilePhotoUrl, role: $role, phoneNumber: $phoneNumber, registerNo: $registerNo, rollNo: $rollNo, department: $department, section: $section, semester: $semester, graduationYear: $graduationYear)';
+    return 'Student(id: $id, email: $email, name: $name, profilePhotoUrl: $profilePhotoUrl, role: $role, phoneNumber: $phoneNumber, registerNo: $registerNo, rollNo: $rollNo, departmentName: $departmentName, section: $section, semester: $semester, graduationYear: $graduationYear)';
   }
 
-  // current year
+  // Returns the number of years until the student's graduation.
   int get currentYear => graduationYear - DateTime.now().year;
 }
 
 class Faculty extends User {
-
   Faculty({
     required super.id,
     required super.email,
@@ -133,12 +142,14 @@ class Faculty extends User {
     required super.phoneNumber,
     required super.registerNo,
     required super.rollNo,
-    required super.department,
+    required super.departmentName,
     required super.section,
     required super.semester,
     required super.graduationYear,
     required super.facultyId,
     required super.designation,
+    required super.classCode,
+    required super.departmentCode,
   });
 
   @override
@@ -149,6 +160,6 @@ class Faculty extends User {
 
   @override
   String toString() {
-    return 'Faculty(id: $id, email: $email, name: $name, profilePhotoUrl: $profilePhotoUrl, role: $role, phoneNumber: $phoneNumber, facultyId: $facultyId, department: $department, designation: $designation)';
+    return 'Faculty(id: $id, email: $email, name: $name, profilePhotoUrl: $profilePhotoUrl, role: $role, phoneNumber: $phoneNumber, facultyId: $facultyId, departmentName: $departmentName, designation: $designation)';
   }
 }

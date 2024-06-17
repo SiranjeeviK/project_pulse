@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_pulse/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:project_pulse/core/theme/theme.dart';
+import 'package:project_pulse/features/attendance/presentation/pages/attendance_batch_view.dart';
+import 'package:project_pulse/features/attendance/presentation/pages/attendance_class_view.dart';
+import 'package:project_pulse/features/attendance/presentation/pages/attendance_department_view.dart';
+import 'package:project_pulse/features/attendance/presentation/pages/attendance_main.dart';
+import 'package:project_pulse/features/attendance/presentation/pages/attendance_student_view.dart';
+import 'package:project_pulse/features/attendance/presentation/pages/mark_attendance.dart';
+import 'package:project_pulse/features/attendance/presentation/pages/no_records_found.dart';
 import 'package:project_pulse/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:project_pulse/features/auth/presentation/pages/login_page.dart';
 import 'package:project_pulse/features/auth/presentation/pages/signup_page.dart';
@@ -78,6 +85,14 @@ class _MyAppState extends State<MyApp> {
         '/login': (context) => const LogInPage(),
         '/myapp': (context) => const MyApp(),
         '/appsettings': (context) => const AppSettings(),
+        '/attendance': (context) => const AttendanceMain(),
+        '/attendance/department_view': (context) =>
+            const AttendanceDepartmentView(),
+        '/attendance/batch_view': (context) => const AttendanceBatchView(),
+        '/attendance/class_view': (context) => const AttendanceClassView(),
+        '/attendance/mark_attendance': (context) => const MarkAttendance(),
+        '/attendance/student_view': (context) => const AttendanceStudentView(),
+        '/no_records_found': (context) => const NoRecordsFound(),
       },
     );
   }

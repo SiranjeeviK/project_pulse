@@ -12,7 +12,9 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = context.watch<AppUserCubit>().state;
+    final state = context.watch<AppUserCubit>().state;
+    final User user =
+        state is AppUserLoggedIn ? state.user : Constants.testUser;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
@@ -24,50 +26,44 @@ class ProfilePage extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: () {
-                if (user is AppUserLoggedIn) user.user.toString();
+                // user.toString();
 
                 // TODO: add a edit profile picture dialog and update the profile picture
               },
               child: UserAvatar(
-                user: user is AppUserLoggedIn ? user.user : Constants.testUser,
+                user: user,
                 radius: 50,
               ),
             ),
             const SizedBox(height: 16),
             // name and email
             Text(
-              user is AppUserLoggedIn
-                  ? user.user.name
-                  : Constants.testUser.name,
+              user.name,
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Text(
-              user is AppUserLoggedIn
-                  ? user.user.email
-                  : Constants.testUser.name,
+              user.email,
               style: const TextStyle(fontSize: 16, color: Colors.grey),
             ),
             const SizedBox(height: 16),
-            const ListTile(
-              leading: Icon(Icons.school),
-              title: Text('Branch: ' + 'IT'),
+            ListTile(
+              leading: const Icon(Icons.school),
+              title: Text('Branch: ${user.departmentName}'),
             ),
-            if (user is AppUserLoggedIn && user.user.isStudent)
+            if (user.isStudent)
               ListTile(
-                leading: Icon(Icons.school),
-                title: Text('Register No: ${(user.user).name}'),
+                leading: const Icon(Icons.school),
+                title: Text('Register No: ${user.name}'),
               ),
-            if (user is AppUserLoggedIn && user.user.isStudent)
+            if (user.isStudent)
               ListTile(
-                leading: Icon(Icons.calendar_today),
-                title: Text(
-                    'Year: ' + (user.user as Student).currentYear.toString()),
+                leading: const Icon(Icons.calendar_today),
+                title: Text('Year: ${user.graduationYear - 4}'),
               ),
             ListTile(
-              leading: Icon(Icons.phone),
-              title: Text(
-                  'Phone: ${user is AppUserLoggedIn ? user.user.phoneNumber : Constants.testUser.phoneNumber}'),
+              leading: const Icon(Icons.phone),
+              title: Text('Phone: ${user.phoneNumber}'),
             ),
             const SizedBox(height: 16),
             ElevatedButton(
