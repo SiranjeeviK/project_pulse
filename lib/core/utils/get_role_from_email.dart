@@ -10,6 +10,7 @@ String getRoleFromEmail(String email) {
   } else if (srishakthiRegex.hasMatch(email)) {
     return 'Student';
   } else {
-    throw const ServerException('Invalid email domain');
+    throw const ServerException(
+        'Invalid email domain. This Preview is available only for SIET and Sri Shakthi domains right now.');
   }
 }

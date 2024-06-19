@@ -17,15 +17,16 @@
 //   ) tablespace pg_default;
 
 class Class {
-  final String classId;
+  final int classId;
   final String className;
   final String classCode;
-  final String departmentId;
+  final int departmentId;
   final String classAdvisorId;
   final String batch;
   final int graduationYear;
   final String lectureHall;
   final String section;
+  final int totalStudents;
 
   Class({
     required this.classId,
@@ -37,18 +38,20 @@ class Class {
     required this.graduationYear,
     required this.lectureHall,
     required this.section,
+    required this.totalStudents,
   });
 
   Class copyWith({
-    String? classId,
+    int? classId,
     String? className,
     String? classCode,
-    String? departmentId,
+    int? departmentId,
     String? classAdvisorId,
     String? batch,
     int? graduationYear,
     String? lectureHall,
     String? section,
+    int? totalStudents,
   }) {
     return Class(
       classId: classId ?? this.classId,
@@ -60,6 +63,12 @@ class Class {
       graduationYear: graduationYear ?? this.graduationYear,
       lectureHall: lectureHall ?? this.lectureHall,
       section: section ?? this.section,
+      totalStudents: totalStudents ?? this.totalStudents,
     );
+  }
+
+  @override
+  String toString() {
+    return 'Class(classId: $classId, className: $className, classCode: $classCode, departmentId: $departmentId, classAdvisorId: $classAdvisorId, batch: $batch, graduationYear: $graduationYear, lectureHall: $lectureHall, section: $section, totalStudents: $totalStudents)';
   }
 }

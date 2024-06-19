@@ -25,7 +25,11 @@ class MainRemoteDataSourceImpl implements MainRemoteDataSource {
   @override
   Future<List<BatchModel>> getAllBatches() async {
     try {
-      final response = await supabaseClient.from('batches').select();
+      final response = await supabaseClient
+          .from('batches')
+          .select()
+          .order('batch_id', ascending: false)
+          .limit(4);
       List<BatchModel> batchList = [];
       batchList = response.map((e) => BatchModel.fromMap(e)).toList();
       return batchList;
@@ -98,6 +102,7 @@ class MainRemoteDataSourceImpl implements MainRemoteDataSource {
       final response = await supabaseClient.from('classes').select();
       List<ClassModel> classList = [];
       classList = response.map((e) => ClassModel.fromMap(e)).toList();
+      print(classList);
       return classList;
     } on PostgrestException catch (e) {
       throw ServerException(e.message);

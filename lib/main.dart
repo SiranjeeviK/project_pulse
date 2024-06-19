@@ -152,7 +152,8 @@ class _MyAppState extends State<MyApp> {
             return MaterialPageRoute(
                 builder: (context) => const NoRecordsFound());
           default:
-            return MaterialPageRoute(builder: (context) => const HomePage());
+            return MaterialPageRoute(
+                builder: (context) => const NoRecordsFound());
         }
       },
     );

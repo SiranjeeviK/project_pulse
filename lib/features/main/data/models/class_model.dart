@@ -13,18 +13,20 @@ class ClassModel extends Class {
     required super.graduationYear,
     required super.lectureHall,
     required super.section,
+    required super.totalStudents,
   });
 
   ClassModel copyWith({
-    String? classId,
+    int? classId,
     String? className,
     String? classCode,
-    String? departmentId,
+    int? departmentId,
     String? classAdvisorId,
     String? batch,
     int? graduationYear,
     String? lectureHall,
     String? section,
+    int? totalStudents,
   }) {
     return ClassModel(
       classId: classId ?? this.classId,
@@ -36,6 +38,7 @@ class ClassModel extends Class {
       graduationYear: graduationYear ?? this.graduationYear,
       lectureHall: lectureHall ?? this.lectureHall,
       section: section ?? this.section,
+      totalStudents: totalStudents ?? this.totalStudents,
     );
   }
 
@@ -50,20 +53,22 @@ class ClassModel extends Class {
       'graduation_year': graduationYear,
       'lecture_hall': lectureHall,
       'section': section,
+      'total_students_present': totalStudents,
     };
   }
 
   factory ClassModel.fromMap(Map<String, dynamic> json) {
     return ClassModel(
-      classId: json['class_id'],
-      className: json['class_name'],
-      classCode: json['class_code'],
-      departmentId: json['department_id'],
-      classAdvisorId: json['class_advisor_id'],
-      batch: json['batch'],
-      graduationYear: json['graduation_year'],
-      lectureHall: json['lecture_hall'],
-      section: json['section'],
+      classId: json['class_id'] ?? 0,
+      className: json['class_name'] ?? '',
+      classCode: json['class_code'] ?? '',
+      departmentId: json['department_id'] ?? 0,
+      classAdvisorId: json['class_advisor_id'] ?? '',
+      batch: json['batch'] ?? '',
+      graduationYear: json['graduation_year'] ?? 0,
+      lectureHall: json['lecture_hall'] ?? '',
+      section: json['section'] ?? '',
+      totalStudents: json['total_students_present'] ?? 0,
     );
   }
 
