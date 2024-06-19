@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class AttendanceSemesterList extends StatelessWidget {
-  const AttendanceSemesterList({super.key});
-
+class SemesterList extends StatelessWidget {
+  const SemesterList({super.key});
+  // TODO: Implement SemesterList
   @override
   Widget build(BuildContext context) {
     return Scaffold(

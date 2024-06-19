@@ -48,6 +48,5 @@ class DepartmentItem extends StatelessWidget {
         ),
       ),
     );
-    ;
   }
 }

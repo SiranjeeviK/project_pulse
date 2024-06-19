@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:project_pulse/features/attendance/presentation/widgets/department_item.dart';
-import 'package:project_pulse/features/main/domain/entities/department.dart';
+import 'package:project_pulse/features/main/presentation/widgets/items/class_item.dart';
+import 'package:project_pulse/features/main/domain/entities/class.dart';
 import 'package:project_pulse/features/main/presentation/bloc/main_bloc.dart';
 
-class AttendanceDepartmentList extends StatelessWidget {
-  const AttendanceDepartmentList({super.key});
-  // FIXME: English department should not be displayed
+class ClassList extends StatelessWidget {
+  const ClassList({super.key});
+
   @override
   Widget build(BuildContext context) {
-    context.read<MainBloc>().add(FetchAllDepartments());
+    context.read<MainBloc>().add(FetchAllClasses());
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Attendance Department View'),
+        title: const Text('Class list'),
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -24,14 +24,14 @@ class AttendanceDepartmentList extends StatelessWidget {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
-                  } else if (state is MainLoaded<List<Department>>) {
+                  } else if (state is MainLoaded<List<Class>>) {
                     return ListView.builder(
                       shrinkWrap: true,
                       itemCount: state.data.length,
                       itemBuilder: (context, index) {
-                        final department = state.data[index];
-                        return DepartmentItem(
-                          department: department,
+                        final classData = state.data[index];
+                        return ClassItem(
+                          classData: classData,
                         );
                       },
                     );
@@ -48,8 +48,4 @@ class AttendanceDepartmentList extends StatelessWidget {
       ),
     );
   }
-}
-
-Future<List<Department>> getDepartments() async {
-  return [];
 }

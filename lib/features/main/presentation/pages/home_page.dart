@@ -101,9 +101,9 @@ class HomePage extends StatelessWidget {
       children: [
         FeatureItem(
           context: context,
-          icon: Icons.schedule,
-          label: 'Schedule',
-          pageRoute: '/schedule',
+          icon: Icons.storage,
+          label: 'Database',
+          pageRoute: '/college_database',
         ),
         FeatureItem(
           context: context,

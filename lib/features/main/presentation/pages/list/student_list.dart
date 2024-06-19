@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:project_pulse/features/attendance/presentation/widgets/student_item.dart';
+import 'package:project_pulse/features/main/presentation/widgets/items/student_item.dart';
 import 'package:project_pulse/features/main/domain/entities/student.dart';
 import 'package:project_pulse/features/main/presentation/bloc/main_bloc.dart';
 
-class AttendanceStudentList extends StatefulWidget {
-  const AttendanceStudentList({super.key});
+class StudentList extends StatefulWidget {
+  const StudentList({super.key});
 
   @override
-  State<AttendanceStudentList> createState() => _AttendanceStudentListState();
+  State<StudentList> createState() => _StudentListState();
 }
 
-class _AttendanceStudentListState extends State<AttendanceStudentList> {
+class _StudentListState extends State<StudentList> {
   TextEditingController _searchController = TextEditingController();
   List<Student> _students = [];
   List<Student> _filteredStudents = [];

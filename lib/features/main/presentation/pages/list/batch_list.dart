@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:project_pulse/features/attendance/presentation/widgets/class_item.dart';
-import 'package:project_pulse/features/main/domain/entities/class.dart';
+import 'package:project_pulse/features/main/presentation/widgets/items/batch_item.dart';
+import 'package:project_pulse/features/main/domain/entities/batch.dart';
 import 'package:project_pulse/features/main/presentation/bloc/main_bloc.dart';
 
-class AttendanceClassList extends StatelessWidget {
-  const AttendanceClassList({super.key});
+class BatchList extends StatelessWidget {
+  const BatchList({super.key});
 
   @override
   Widget build(BuildContext context) {
-    context.read<MainBloc>().add(FetchAllClasses());
+    context.read<MainBloc>().add(FetchAllBatches());
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Attendance Class View'),
+        title: const Text('All Batches'),
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -24,14 +24,16 @@ class AttendanceClassList extends StatelessWidget {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
-                  } else if (state is MainLoaded<List<Class>>) {
+                  } else if (state is MainLoaded<List<Batch>>) {
                     return ListView.builder(
                       shrinkWrap: true,
                       itemCount: state.data.length,
                       itemBuilder: (context, index) {
-                        final classData = state.data[index];
-                        return ClassItem(
-                          classData: classData,
+                        final batch = state.data[index];
+                        return BatchItem(
+                          context: context,
+                          batchName: batch.batchName,
+                          pageRoute: '/attendance/batch/${batch.batchId}',
                         );
                       },
                     );
