@@ -61,14 +61,14 @@ class CourseModel extends Course {
   /// Creates a user instance from a `Map<String, dynamic>`.
   factory CourseModel.fromMap(Map<String, dynamic> map) {
     return CourseModel(
-      courseId: map['course_id'] as String,
-      courseName: map['course_name'] as String,
-      courseCode: map['course_code'] as String,
-      description: map['description'] as String,
-      teacherId: map['teacher_id'] as String,
-      semester: map['semester'] as int,
-      isLab: map['isLab'] as bool,
-      isAdditional: map['isAdditional'] as bool,
+      courseId: map['course_id'] ?? '',
+      courseName: map['course_name'] ?? '',
+      courseCode: map['course_code'] ?? '',
+      description: map['description'] ?? '',
+      teacherId: map['teacher_id'] ?? '',
+      semester: map['semester'] ?? 0,
+      isLab: map['isLab'] ?? false,
+      isAdditional: map['isAdditional'] ?? false,
     );
   }
 

@@ -26,11 +26,14 @@ class BatchItem extends StatelessWidget {
               pageRoute,
             );
           },
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(batchName, style: const TextStyle(fontSize: 16)),
-            ],
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(batchName, style: const TextStyle(fontSize: 16)),
+              ],
+            ),
           ),
         ),
       ),

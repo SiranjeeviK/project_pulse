@@ -55,4 +55,9 @@ class Course {
       isAdditional: isAdditional ?? this.isAdditional,
     );
   }
+
+  @override
+  String toString() {
+    return 'Course(courseId: $courseId, courseName: $courseName, courseCode: $courseCode, description: $description, teacherId: $teacherId, semester: $semester, isLab: $isLab, isAdditional: $isAdditional)';
+  }
 }

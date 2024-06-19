@@ -3,7 +3,6 @@ import 'package:project_pulse/core/constants/constants.dart';
 import 'package:project_pulse/core/error/exception.dart';
 import 'package:project_pulse/core/error/failure.dart';
 import 'package:project_pulse/core/network/connection_checker.dart';
-import 'package:project_pulse/features/main/data/datasources/main_remote_data_source.dart';
 import 'package:project_pulse/features/main/domain/entities/batch.dart';
 import 'package:project_pulse/features/main/domain/entities/class.dart';
 import 'package:project_pulse/features/main/domain/entities/course.dart';
@@ -11,6 +10,7 @@ import 'package:project_pulse/features/main/domain/entities/department.dart';
 import 'package:project_pulse/features/main/domain/entities/faculty.dart';
 import 'package:project_pulse/features/main/domain/entities/student.dart';
 import 'package:project_pulse/features/main/domain/repository/main_repository.dart';
+import 'package:project_pulse/features/main/data/datasources/main_remote_data_source.dart';
 
 class MainRepositoryImpl implements MainRepository {
   final MainRemoteDataSource mainRemoteDataSource;

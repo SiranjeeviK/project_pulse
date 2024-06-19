@@ -6,6 +6,9 @@ final serviceLocator = GetIt.instance;
 Future<void> initDependencies() async {
   // Initialize authentication
   _initAuth();
+
+  // Initialize main
+  _initMain();
   _initCurrentAndUpcomingClasses();
 
   // Initialize Supabase client
@@ -107,4 +110,69 @@ void _initCurrentAndUpcomingClasses() {
     ..registerFactory<CurrentAndUpcomingClassesCubit>(
       () => CurrentAndUpcomingClassesCubit(fetchCurrentClass: serviceLocator()),
     );
+}
+
+/// Initialize all dependencies related to main
+void _initMain() {
+  // DATA SOURCES
+  serviceLocator
+    ..registerFactory<MainRemoteDataSource>(
+      () => MainRemoteDataSourceImpl(
+        supabaseClient: serviceLocator(),
+      ),
+    )
+
+    // REPOSITORIES
+
+    ..registerFactory<MainRepository>(
+      () => MainRepositoryImpl(
+        connectionChecker: serviceLocator(),
+        mainRemoteDataSource: serviceLocator(),
+      ),
+    )
+
+    // USECASES
+    ..registerFactory<GetAllBatches>(
+      () => GetAllBatches(
+        mainRepository: serviceLocator(),
+      ),
+    )
+    ..registerFactory<GetAllClasses>(
+      () => GetAllClasses(
+        mainRepository: serviceLocator(),
+      ),
+    )
+    ..registerFactory<GetAllCourses>(
+      () => GetAllCourses(
+        mainRepository: serviceLocator(),
+      ),
+    )
+    ..registerFactory<GetAllDepartments>(
+      () => GetAllDepartments(
+        mainRepository: serviceLocator(),
+      ),
+    )
+    ..registerFactory<GetAllFaculties>(
+      () => GetAllFaculties(
+        mainRepository: serviceLocator(),
+      ),
+    )
+    ..registerFactory<GetAllStudents>(
+      () => GetAllStudents(
+        mainRepository: serviceLocator(),
+      ),
+    )
+
+    // BLOC
+    ..registerLazySingleton<MainBloc>(
+      () => MainBloc(
+        getAllBatches: serviceLocator(),
+        getAllClasses: serviceLocator(),
+        getAllCourses: serviceLocator(),
+        getAllDepartments: serviceLocator(),
+        getAllFaculties: serviceLocator(),
+        getAllStudents: serviceLocator(),
+      ),
+    );
+  ;
 }

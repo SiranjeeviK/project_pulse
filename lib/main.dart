@@ -13,6 +13,7 @@ import 'package:project_pulse/features/attendance/presentation/pages/no_records_
 import 'package:project_pulse/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:project_pulse/features/auth/presentation/pages/login_page.dart';
 import 'package:project_pulse/features/auth/presentation/pages/signup_page.dart';
+import 'package:project_pulse/features/main/presentation/bloc/main_bloc.dart';
 import 'package:project_pulse/features/main/presentation/cubits/current_and_upcoming_classes/current_and_upcoming_classes_cubit.dart';
 import 'package:project_pulse/features/main/presentation/pages/courses_page.dart';
 import 'package:project_pulse/features/main/presentation/pages/home_page.dart';
@@ -25,20 +26,29 @@ import 'package:project_pulse/init_dependencies.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initDependencies();
-  runApp(MultiBlocProvider(providers: [
-    BlocProvider(
-      // for authentication
-      create: (_) => serviceLocator<AuthBloc>(),
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          // for authentication
+          create: (_) => serviceLocator<AuthBloc>(),
+        ),
+        BlocProvider(
+          // for all user related purposes
+          create: (_) => serviceLocator<AppUserCubit>(),
+        ),
+        // for current and upcoming classes
+        BlocProvider(
+          create: (_) => serviceLocator<CurrentAndUpcomingClassesCubit>(),
+        ),
+        // for main
+        BlocProvider(
+          create: (_) => serviceLocator<MainBloc>(),
+        ),
+      ],
+      child: const MyApp(),
     ),
-    BlocProvider(
-      // for all user related purposes
-      create: (_) => serviceLocator<AppUserCubit>(),
-    ),
-    // for current and upcoming classes
-    BlocProvider(
-      create: (_) => serviceLocator<CurrentAndUpcomingClassesCubit>(),
-    )
-  ], child: const MyApp()));
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -69,7 +79,7 @@ class _MyAppState extends State<MyApp> {
         builder: (context, isLoggedIn) {
           if (isLoggedIn) {
             print('User Logged in');
-            return HomePage();
+            return const HomePage();
           } else {
             print('User not logged in');
             return const LogInPage();

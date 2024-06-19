@@ -8,7 +8,7 @@ import 'package:project_pulse/features/main/data/models/student_model.dart';
 import 'package:project_pulse/features/main/domain/entities/department.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-abstract interface class AttendanceRemoteDatasource {
+abstract interface class MainRemoteDataSource {
   Future<List<BatchModel>> getAllBatches();
   Future<List<CourseModel>> getAllCourses();
   Future<List<Department>> getAllDepartments();
@@ -17,10 +17,10 @@ abstract interface class AttendanceRemoteDatasource {
   Future<List<ClassModel>> getAllClasses();
 }
 
-class MainRemoteDataSource implements AttendanceRemoteDatasource {
+class MainRemoteDataSourceImpl implements MainRemoteDataSource {
   final SupabaseClient supabaseClient;
 
-  MainRemoteDataSource({required this.supabaseClient});
+  MainRemoteDataSourceImpl({required this.supabaseClient});
 
   @override
   Future<List<BatchModel>> getAllBatches() async {
