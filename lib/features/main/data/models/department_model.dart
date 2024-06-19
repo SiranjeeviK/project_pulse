@@ -15,8 +15,7 @@ import 'dart:convert';
 
 import 'package:project_pulse/features/main/domain/entities/department.dart';
 
-class DepartmentModel extends Department{
-
+class DepartmentModel extends Department {
   DepartmentModel({
     required super.departmentId,
     required super.departmentName,
@@ -57,14 +56,15 @@ class DepartmentModel extends Department{
   factory DepartmentModel.fromMap(Map<String, dynamic> map) {
     return DepartmentModel(
       departmentId: map['department_id'] ?? 0,
-      departmentName: map['department_name'] ??'',
-      departmentCode: map['department_code'] ??'',
-      headOfDepartmentId: map['head_of_department_id'] ??'',
-      classes: map['classes'] ??[],
+      departmentName: map['department_name'] ?? '',
+      departmentCode: map['department_code'] ?? '',
+      headOfDepartmentId: map['head_of_department_id'] ?? '',
+      classes: map['classes'] != null
+          ? (map['classes'] as List<dynamic>).map((e) => e.toString()).toList()
+          : List<String>.empty(),
     );
   }
 
   /// Converts this instance of `DepartmentModel` into a JSON string.
   String toJson() => json.encode(toMap());
-
 }

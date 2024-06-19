@@ -42,6 +42,24 @@ class Constants {
       classCode: '',
       departmentCode: '');
 
+  static User errorUser = User(
+      id: 'Error',
+      email: '',
+      name: 'Error',
+      profilePhotoUrl: '',
+      role: 'Error',
+      phoneNumber: '1234567890',
+      registerNo: '7140222xxxxx',
+      rollNo: '22xxxxx',
+      departmentName: 'xx',
+      section: 'x',
+      semester: 4,
+      graduationYear: 2026,
+      facultyId: '',
+      designation: '',
+      classCode: '',
+      departmentCode: '');
+
   static const defaultProlilePhotoUrl = 'https://via.placeholder.com/150';
 
   static const Map<int, String> semlist = {

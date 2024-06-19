@@ -94,10 +94,11 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       FetchAllStudents event, Emitter<MainState> emit) async {
     emit(MainStudentListLoading());
     final result = await _getAllStudents(NoParams());
-    result.fold(
-      (failure) => emit(MainFailure(message: failure.message)),
-      (students) => emit(MainStudentListLoaded(data: students)),
-    );
+    result.fold((failure) => emit(MainFailure(message: failure.message)),
+        (students) {
+      emit(MainStudentListLoaded(data: students));
+      print(students);
+    });
   }
 
   void _onFetchAllFaculties(

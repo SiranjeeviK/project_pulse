@@ -140,7 +140,7 @@ class AttendanceMain extends StatelessWidget {
                     context: context,
                     icon: Icons.people,
                     label: 'Student Report',
-                    pageRoute: '/attendance/student_view',
+                    pageRoute: '/attendance/student_list',
                   ),
                 ),
               ],

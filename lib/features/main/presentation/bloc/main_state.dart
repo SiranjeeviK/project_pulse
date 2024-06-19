@@ -7,11 +7,17 @@ final class MainInitial extends MainState {}
 
 // Loading States
 final class MainLoading extends MainState {}
+
 final class MainBatchListLoading extends MainLoading {}
+
 final class MainDepartmentListLoading extends MainLoading {}
+
 final class MainClassListLoading extends MainLoading {}
+
 final class MainCourseListLoading extends MainLoading {}
+
 final class MainStudentListLoading extends MainLoading {}
+
 final class MainFacultyListLoading extends MainLoading {}
 
 // Failure States
@@ -57,8 +63,3 @@ final class MainStudentListLoaded extends MainLoaded<List<Student>> {
 final class MainFacultyListLoaded extends MainLoaded<List<Faculty>> {
   MainFacultyListLoaded({required super.data});
 }
-
-
-
-
-

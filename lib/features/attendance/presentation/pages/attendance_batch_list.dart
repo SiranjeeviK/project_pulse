@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_pulse/features/attendance/presentation/widgets/batch_item.dart';
+import 'package:project_pulse/features/main/domain/entities/batch.dart';
 import 'package:project_pulse/features/main/presentation/bloc/main_bloc.dart';
 
 class AttendanceBatchList extends StatelessWidget {
@@ -23,7 +24,7 @@ class AttendanceBatchList extends StatelessWidget {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
-                  } else if (state is MainLoaded) {
+                  } else if (state is MainLoaded<List<Batch>>) {
                     return ListView.builder(
                       shrinkWrap: true,
                       itemCount: state.data.length,

@@ -84,10 +84,64 @@ class MainRemoteDataSourceImpl implements MainRemoteDataSource {
 
   @override
   Future<List<StudentModel>> getAllStudents() async {
+//create table
+//   public.students (
+//     student_id uuid not null,
+//     department_name text null,
+//     graduation_year integer null,
+//     register_number text not null,
+//     roll_number text not null,
+//     section text null,
+//     semester integer null,
+//     class_code text null,
+//     constraint students_pkey primary key (student_id, register_number, roll_number),
+//     constraint students_student_id_key unique (student_id),
+//     constraint students_register_number_key unique (register_number),
+//     constraint students_roll_number_key unique (roll_number),
+//     constraint students_student_id_fkey foreign key (student_id) references users (user_id) on update cascade,
+//     constraint students_class_code_fkey foreign key (class_code) references classes (class_code) on update cascade on delete restrict,
+//     constraint students_graduation_year_fkey foreign key (graduation_year) references batches (batch_id) on update cascade on delete restrict,
+//     constraint students_department_name_fkey foreign key (department_name) references departments (department_name) on update cascade on delete restrict
+//   ) tablespace pg_default;
+
+// create trigger update_total_students_trigger
+// after insert
+// or delete
+// or
+// update on students for each row
+// execute function update_total_students_present ();
+
+// create table
+//   public.users (
+//     user_id uuid not null,
+//     username text null,
+//     email text null,
+//     password_hash text null,
+//     role text null,
+//     profile_picture text null,
+//     bio text null,
+//     phone_number text null,
+//     constraint users_pkey primary key (user_id),
+//     constraint users_email_key unique (email),
+//     constraint users_phone_number_check check ((length(phone_number) < 15))
+//   ) tablespace pg_default;
+
+// create trigger insert_faculty_or_students_trigger
+// after insert on users for each row
+// execute function insert_faculty_or_students ();
+
+// create trigger update_user_name_trigger before insert
+// or
+// update on users for each row
+// execute function update_user_name_from_email ();
     try {
-      final response = await supabaseClient.from('students').select();
+      final response = await supabaseClient.rpc('get_student_user_info');
+      // await supabaseClient.from('students').select();
+
+      // final userData = await supabaseClient.from('users').select();
       List<StudentModel> studentList = [];
-      studentList = response.map((e) => StudentModel.fromMap(e)).toList();
+      studentList =
+          response.map<StudentModel>((e) => StudentModel.fromMap(e)).toList();
       return studentList;
     } on PostgrestException catch (e) {
       throw ServerException(e.message);

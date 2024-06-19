@@ -63,14 +63,14 @@ class StudentModel extends Student {
   /// Returns a `Map<String, dynamic>` map representing the student.
   Map<String, dynamic> toMap() {
     final map = <String, dynamic>{};
-    map['user_id'] = id;
+    map['student_id'] = id;
     map['email'] = email;
     map['username'] = name;
     map['profile_picture'] = profilePhotoUrl;
     map['role'] = role;
     map['phone_number'] = phoneNumber;
-    map['register_no'] = registerNo;
-    map['roll_no'] = rollNo;
+    map['register_number'] = registerNo;
+    map['roll_number'] = rollNo;
     map['department_name'] = departmentName;
     map['section'] = section;
     map['semester'] = semester;
@@ -85,22 +85,21 @@ class StudentModel extends Student {
   /// Creates a faculty instance from a `Map<String, dynamic>`.
   factory StudentModel.fromMap(Map<String, dynamic> map) {
     return StudentModel(
-      id: map['user_id'] ?? '',
+      id: map['student_id'] ?? '',
       email: map['email'] ?? '',
       name: map['username'] ?? '',
       profilePhotoUrl: map['profile_picture'] ?? '',
       role: map['role'] ?? '',
       phoneNumber: map['phone_number'] ?? '',
-      registerNo: map['register_no'] ?? '',
-      rollNo: map['roll_no'] ?? '',
+      registerNo: map['register_number'] ?? '',
+      rollNo: map['roll_number'] ?? '',
       departmentName: map['department_name'] ?? '',
       section: map['section'] ?? '',
       semester: map['semester'] ?? 0,
       graduationYear: map['graduation_year'] ?? 0,
       facultyId: map['faculty_id'] ?? '',
       designation: map['designation'] ?? '',
-      classCode: map['class_code'] ??
-          '', 
+      classCode: map['class_code'] ?? '',
       departmentCode: map['department_code'] ?? '',
     );
   }

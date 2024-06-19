@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:project_pulse/features/main/domain/entities/department.dart';
+import 'package:project_pulse/core/common/widgets/user_avatar.dart';
+import 'package:project_pulse/features/main/domain/entities/student.dart';
 
-class DepartmentItem extends StatelessWidget {
-  final Department department;
-  const DepartmentItem({
+class StudentItem extends StatelessWidget {
+  final Student student;
+  const StudentItem({
     super.key,
-    required this.department,
+    required this.student,
   });
 
   @override
@@ -24,10 +25,22 @@ class DepartmentItem extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(department.departmentName,
+                      Text(student.name,
                           style: Theme.of(context).textTheme.titleMedium),
                       Text(
-                        department.departmentCode,
+                        student.rollNo,
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      Text(
+                        student.classCode,
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      Text(
+                        student.registerNo,
+                        style: Theme.of(context).textTheme.labelSmall,
+                      ),
+                      Text(
+                        student.email,
                         style: Theme.of(context).textTheme.labelSmall,
                       ),
 
@@ -35,19 +48,12 @@ class DepartmentItem extends StatelessWidget {
                     ],
                   ),
                 ),
+                UserAvatar(user: student),
               ],
-            ),
-            const SizedBox(height: 8.0),
-            const Divider(),
-            Text(
-              // TODO: Fetch teacher name from teacherId
-              "HOD: " + department.headOfDepartmentId,
-              style: Theme.of(context).textTheme.labelSmall,
             ),
           ],
         ),
       ),
     );
-    ;
   }
 }
