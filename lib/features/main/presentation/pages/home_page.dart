@@ -23,7 +23,8 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<AppUserCubit>().state;
-    final user = state is AppUserLoggedIn ? state.user : Constants.testUser;
+    late final user =
+        state is AppUserLoggedIn ? state.user : Constants.testUser;
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -78,7 +79,7 @@ class HomePage extends StatelessWidget {
                 // Report
                 const CurrentUpcomingClass(),
 
-                _buildAnnouncementsSection(),
+                _buildAnnouncementsSection(context),
                 addVerticalSpace(16),
                 _buildFeatureGrid(context),
                 addVerticalSpace(16),
@@ -128,7 +129,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildAnnouncementsSection() {
+  Widget _buildAnnouncementsSection(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -141,7 +142,8 @@ class HomePage extends StatelessWidget {
           title: 'Exam schedule released',
           subtitle: 'Check out the new exam schedule for this semester.',
           onTap: () {
-            // Navigate to the detailed announcement page
+            //TODO Navigate to the detailed announcement page
+            Navigator.pushNamed(context, '/no_records_found');
           },
         )
         // Add more announcements here

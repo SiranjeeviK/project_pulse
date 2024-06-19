@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:project_pulse/core/error/exception.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:project_pulse/features/auth/data/models/user_model.dart';
@@ -195,7 +196,12 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       }
 
       return null;
-    } catch (e) {
+    } catch (e, stackTrace) {
+      debugPrintStack(
+        label: e.toString(),
+        stackTrace: stackTrace,
+      );
+      
       throw ServerException(e.toString());
     }
   }
