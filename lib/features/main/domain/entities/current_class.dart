@@ -11,7 +11,9 @@ class CurrentClass {
 
   factory CurrentClass.fromList(List<dynamic> list) {
     return CurrentClass(
-        currentClass: list[0], currentNo: list[1], upcomingClass: list[2]);
+        currentClass: list[0] ?? '-',
+        currentNo: list[1] ?? 0,
+        upcomingClass: list[2] ?? '-');
   }
 
   @override

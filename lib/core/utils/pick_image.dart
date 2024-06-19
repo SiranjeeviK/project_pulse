@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 /// [pickImage] is a function that allows the user to pick an image from the gallery.
@@ -14,7 +15,11 @@ Future<File?> pickImage() async {
     }
 
     return null;
-  } catch (e) {
+  } catch (e, stackTrace) {
+    debugPrintStack(
+      label: e.toString(),
+      stackTrace: stackTrace,
+    );
     return null;
   }
 }

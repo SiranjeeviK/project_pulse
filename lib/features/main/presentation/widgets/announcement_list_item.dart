@@ -18,9 +18,7 @@ class AnnouncementListItem extends StatelessWidget {
         title: Text(title),
         subtitle: Text(subtitle),
         trailing: const Icon(Icons.arrow_forward),
-        onTap: () {
-          // Navigate to the detailed announcement page
-        },
+        onTap: onTap,
       ),
     );
   }

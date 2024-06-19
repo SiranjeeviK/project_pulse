@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
-class MarkAttendance extends StatelessWidget {
-  const MarkAttendance({super.key});
+class AttendanceClassList extends StatelessWidget {
+  const AttendanceClassList({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Mark Attendance'),
+        title: const Text('Attendance Class View'),
       ),
       body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Mark Attendance Page',
+              'Attendance Class View Page',
             ),
           ],
         ),

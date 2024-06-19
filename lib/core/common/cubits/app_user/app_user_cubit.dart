@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_pulse/core/common/entities/user.dart';
 import 'package:project_pulse/core/constants/constants.dart';
+import 'package:project_pulse/features/main/domain/entities/faculty.dart';
+import 'package:project_pulse/features/main/domain/entities/student.dart';
 
 part 'app_user_state.dart';
 

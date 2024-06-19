@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:project_pulse/core/error/exception.dart';
 import 'package:project_pulse/core/error/failure.dart';
@@ -22,7 +23,12 @@ class CurrentClassRepositoryImpl implements CurrentClassRepository {
 
       final currentClass = await dataSource.getCurrentClasses();
       return Right(currentClass);
-    } on ServerException catch (e) {
+    } on ServerException catch (e, stackTrace) {
+      debugPrintStack(
+        label: e.toString(),
+        stackTrace: stackTrace,
+      );
+
       return Left(Failure(e.message));
     }
   }

@@ -111,6 +111,7 @@ class UserModel extends User {
       classCode: map['class_code'] ??
           '', //class code applicable for faculty if they are class advisor
       departmentCode: map['department_code'] ?? '',
+      
     );
   }
 
