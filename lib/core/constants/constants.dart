@@ -62,6 +62,22 @@ class Constants {
 
   static const defaultProlilePhotoUrl = 'https://via.placeholder.com/150';
 
+  static Map<String, String> itbSem4SubjectToCourseCode = {
+    'AJP': '21CS423',
+    'AJP-LAB': '21AJPL',
+    'ADB': '21CS421',
+    'ADB-LAB': '21ADBL',
+    'DAA': '21CS401',
+    'DAA-LAB': '21DAAL',
+    'OS': '21CS202',
+    'OS-LAB': '21OSL',
+    'EE-LAB': '21EEL',
+    'MATHS': '21MA405',
+    'ES': '21PIT01',
+    'BM': '21AG403',
+    'ENGLISH': '21CEPIV',
+  };
+
   static const Map<int, String> semlist = {
     1: "Semester 1",
     2: "Semester 2",

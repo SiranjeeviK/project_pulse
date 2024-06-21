@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_pulse/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:project_pulse/core/common/widgets/page_not_found.dart';
 import 'package:project_pulse/core/theme/theme.dart';
+import 'package:project_pulse/features/attendance/presentation/pages/attendance_class_list.dart';
+import 'package:project_pulse/features/main/domain/entities/class.dart';
+import 'package:project_pulse/features/main/domain/entities/student.dart';
 import 'package:project_pulse/features/main/presentation/pages/college_database.dart';
 import 'package:project_pulse/features/main/presentation/pages/list/batch_list.dart';
 import 'package:project_pulse/features/main/presentation/pages/list/class_list.dart';
@@ -10,7 +13,7 @@ import 'package:project_pulse/features/main/presentation/pages/list/department_l
 import 'package:project_pulse/features/attendance/presentation/pages/attendance_main.dart';
 import 'package:project_pulse/features/main/presentation/pages/list/student_list.dart';
 import 'package:project_pulse/features/attendance/presentation/pages/attendance_student_view.dart';
-import 'package:project_pulse/features/attendance/presentation/pages/mark_attendance.dart';
+import 'package:project_pulse/features/attendance/presentation/pages/mark_attendance_page.dart';
 import 'package:project_pulse/features/main/presentation/pages/no_records_found.dart';
 import 'package:project_pulse/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:project_pulse/features/auth/presentation/pages/login_page.dart';
@@ -20,6 +23,7 @@ import 'package:project_pulse/features/main/presentation/cubits/current_and_upco
 import 'package:project_pulse/features/main/presentation/pages/list/courses_page.dart';
 import 'package:project_pulse/features/main/presentation/pages/home_page.dart';
 import 'package:project_pulse/features/main/presentation/pages/schedule_page.dart';
+import 'package:project_pulse/features/main/presentation/pages/student_detail_page.dart';
 import 'package:project_pulse/features/notifications/presentation/pages/notifications_page.dart';
 import 'package:project_pulse/features/settings/presentation/pages/app_settings.dart';
 import 'package:project_pulse/features/settings/presentation/pages/profile_page.dart';
@@ -145,12 +149,22 @@ class _MyAppState extends State<MyApp> {
             return MaterialPageRoute(builder: (context) => const BatchList());
           case '/class_list':
             return MaterialPageRoute(builder: (context) => const ClassList());
+          case '/attendance/class_list':
+            return MaterialPageRoute(
+                builder: (context) => const AttendanceClassList());
           case '/attendance/mark_attendance':
             return MaterialPageRoute(
-                builder: (context) => const MarkAttendance());
+              builder: (context) => MarkAttendancePage(
+                classData: (settings.arguments as Class),
+              ),
+            );
           case '/student_list':
             return MaterialPageRoute(builder: (context) => const StudentList());
-
+          case '/student_details':
+            return MaterialPageRoute(
+                builder: (context) => StudentDetailPage(
+                      student: (settings.arguments as Student),
+                    ));
           case '/attendance/student_view':
             return MaterialPageRoute(
                 builder: (context) => const AttendanceStudentView());

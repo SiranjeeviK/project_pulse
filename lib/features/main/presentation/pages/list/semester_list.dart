@@ -7,14 +7,14 @@ class SemesterList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Attendance Semester View'),
+        title: const Text('Semester'),
       ),
       body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Attendance Semester View Page',
+              'Semester List Page',
             ),
           ],
         ),

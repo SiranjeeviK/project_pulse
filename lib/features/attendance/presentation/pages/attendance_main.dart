@@ -62,7 +62,7 @@ class AttendanceMain extends StatelessWidget {
                 TextButton(
                   onPressed: () {
                     // Navigate to the mark attendance page
-                    Navigator.pushNamed(context, '/attendance/mark_attendance');
+                    Navigator.pushNamed(context, '/attendance/class_list');
                   },
                   style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.all(
@@ -108,7 +108,7 @@ class AttendanceMain extends StatelessWidget {
                   height: 120,
                   child: FeatureItem(
                     context: context,
-                    icon: Icons.local_fire_department,
+                    icon: Icons.school_rounded,
                     label: 'Department Report',
                     pageRoute: '/attendance/department_list',
                   ),

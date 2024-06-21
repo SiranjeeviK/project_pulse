@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_pulse/features/main/domain/entities/class.dart';
+import 'package:project_pulse/features/main/presentation/pages/tile/user_tile.dart';
 
 class ClassItem extends StatelessWidget {
   final Class classData;
@@ -50,13 +51,20 @@ class ClassItem extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 8.0),
-            const Divider(),
-            Text(
-              // TODO: Fetch teacher name from teacherId
-              "Class Advisor: " + classData.classAdvisorId,
-              style: Theme.of(context).textTheme.labelSmall,
-            ),
+            if (classData.classAdvisorId != '')
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 8.0),
+                  const Divider(),
+                  Text(
+                    // TODO: Fetch teacher name from teacherId
+                    "   Class Advisor: ",
+                    style: Theme.of(context).textTheme.labelSmall,
+                  ),
+                  UserTile(userId: classData.classAdvisorId),
+                ],
+              )
           ],
         ),
       ),

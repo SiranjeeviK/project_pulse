@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project_pulse/features/main/domain/entities/course.dart';
 import 'package:project_pulse/features/main/presentation/bloc/main_bloc.dart';
 import 'package:project_pulse/features/main/presentation/widgets/course_detail.dart';
 
@@ -29,7 +30,7 @@ class CoursesPage extends StatelessWidget {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
-              } else if (state is MainLoaded) {
+              } else if (state is MainLoaded<List<Course>>) {
                 return ListView.builder(
                   shrinkWrap: true,
                   itemCount: state.data.length,

@@ -12,7 +12,7 @@ class StudentList extends StatefulWidget {
 }
 
 class _StudentListState extends State<StudentList> {
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   List<Student> _students = [];
   List<Student> _filteredStudents = [];
 
@@ -57,6 +57,7 @@ class _StudentListState extends State<StudentList> {
     final state = BlocProvider.of<MainBloc>(context).state;
     if (state is MainLoaded<List<Student>>) {
       _students = state.data;
+
       _filteredStudents = _students;
     }
   }
@@ -81,41 +82,48 @@ class _StudentListState extends State<StudentList> {
           ),
         ),
       ),
-      body: SizedBox(
-        child: SingleChildScrollView(
-          child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: BlocBuilder<MainBloc, MainState>(
-                builder: (context, state) {
-                  if (state is MainLoading) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (state is MainLoaded<List<Student>>) {
-                    if (_filteredStudents.isEmpty) {
-                      return const Center(
-                        child: Text('No Students Found'),
-                      );
-                    }
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: _filteredStudents.length,
-                      itemBuilder: (context, index) {
-                        final student = _filteredStudents[index];
-                        return StudentItem(
-                          student: student,
-                        );
+      body: Expanded(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: BlocBuilder<MainBloc, MainState>(
+            builder: (context, state) {
+              if (state is MainLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (state is MainLoaded<List<Student>>) {
+                if (_filteredStudents.isEmpty || _students.isEmpty) {
+                  return const Center(
+                    child: Text('No Students Found'),
+                  );
+                }
+                // sort
+                _filteredStudents.sort((a, b) => a.rollNo.compareTo(b.rollNo));
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: _filteredStudents.length,
+                  itemBuilder: (context, index) {
+                    final student = _filteredStudents[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/student_details',
+                            arguments: student);
                       },
+                      child: StudentItem(
+                        student: student,
+                      ),
                     );
-                  } else if (state is MainFailure) {
-                    return Center(
-                      child: Text(state.message),
-                    );
-                  } else {
-                    return Container();
-                  }
-                },
-              )),
+                  },
+                );
+              } else if (state is MainFailure) {
+                return Center(
+                  child: Text(state.message),
+                );
+              } else {
+                return Container();
+              }
+            },
+          ),
         ),
       ),
     );

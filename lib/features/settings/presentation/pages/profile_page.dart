@@ -51,6 +51,11 @@ class ProfilePage extends StatelessWidget {
               leading: const Icon(Icons.school),
               title: Text('Branch: ${user.departmentName}'),
             ),
+            if (user.isFaculty)
+              ListTile(
+                leading: const Icon(Icons.school_outlined),
+                title: Text('Designation: ${user.designation}'),
+              ),
             if (user.isStudent)
               ListTile(
                 leading: const Icon(Icons.school),

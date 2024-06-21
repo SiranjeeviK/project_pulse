@@ -1,7 +1,13 @@
+import 'package:fpdart/fpdart.dart';
+import 'package:project_pulse/core/error/failure.dart';
+import 'package:project_pulse/features/attendance/domain/entities/attendance.dart';
+import 'package:project_pulse/features/attendance/domain/usecases/mark_attendance.dart';
+
 abstract interface class AttendanceRepository {
   // attendance crud operations
   // Future<Either<Failure, List<Attendance>>> getAttendanceList();
-  // Future<Either<Failure, void>> markAttendance();
+  Future<Either<Failure, List<Attendance>>> markAttendance(
+      AttendanceParams attendanceParams);
   // Future<Either<Failure, void>> deleteAttendance();
   // Future<Either<Failure, void>> updateAttendance();
 
@@ -19,7 +25,6 @@ abstract interface class AttendanceRepository {
   // Future<Either<Failure, Student>> getStudentDetails(
   //     {required String? studentId, required String? registrationNo});
 
-  
   // Future<Either<Failure, List<Student>>> getStudentList(
   //     {required String? classCode});
 

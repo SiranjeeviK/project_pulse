@@ -30,14 +30,14 @@ class _CurrentUpcomingClassState extends State<CurrentUpcomingClass> {
   @override
   void dispose() {
     // webViewController.clearCache();
-    context.read<CurrentAndUpcomingClassesCubit>().close();
+    // context.read<CurrentAndUpcomingClassesCubit>().close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(8),
+      margin: const EdgeInsets.all(6),
       width: double.infinity,
       height: 120,
       decoration: const BoxDecoration(
@@ -64,7 +64,7 @@ class _CurrentUpcomingClassState extends State<CurrentUpcomingClass> {
           return MaterialButton(
             onPressed: _onTapTimeTableBottomSheet,
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(14.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [

@@ -14,38 +14,32 @@ class DepartmentList extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Department List'),
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: BlocBuilder<MainBloc, MainState>(
-                builder: (context, state) {
-                  if (state is MainLoading) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (state is MainLoaded<List<Department>>) {
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: state.data.length,
-                      itemBuilder: (context, index) {
-                        final department = state.data[index];
-                        return DepartmentItem(
-                          department: department,
-                        );
-                      },
-                    );
-                  } else if (state is MainFailure) {
-                    return Center(
-                      child: Text(state.message),
-                    );
-                  } else {
-                    return Container();
-                  }
-                },
-              )),
-        ),
-      ),
+      body: Expanded(child: BlocBuilder<MainBloc, MainState>(
+        builder: (context, state) {
+          if (state is MainLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is MainLoaded<List<Department>>) {
+            return ListView.builder(
+              shrinkWrap: true,
+              itemCount: state.data.length,
+              itemBuilder: (context, index) {
+                final department = state.data[index];
+                return DepartmentItem(
+                  department: department,
+                );
+              },
+            );
+          } else if (state is MainFailure) {
+            return Center(
+              child: Text(state.message),
+            );
+          } else {
+            return Container();
+          }
+        },
+      )),
     );
   }
 }
