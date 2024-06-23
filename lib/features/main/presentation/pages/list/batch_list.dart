@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_pulse/features/main/presentation/bloc/batch_bloc/batch_bloc.dart';
 import 'package:project_pulse/features/main/presentation/widgets/items/batch_item.dart';
-import 'package:project_pulse/features/main/domain/entities/batch.dart';
 
 class BatchList extends StatelessWidget {
   const BatchList({super.key});

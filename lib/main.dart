@@ -24,7 +24,6 @@ import 'package:project_pulse/features/main/presentation/pages/no_records_found.
 import 'package:project_pulse/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:project_pulse/features/auth/presentation/pages/login_page.dart';
 import 'package:project_pulse/features/auth/presentation/pages/signup_page.dart';
-import 'package:project_pulse/features/main/presentation/bloc/main_bloc/main_bloc.dart';
 import 'package:project_pulse/features/main/presentation/cubits/current_and_upcoming_classes/current_and_upcoming_classes_cubit.dart';
 import 'package:project_pulse/features/main/presentation/pages/list/courses_page.dart';
 import 'package:project_pulse/features/main/presentation/pages/home_page.dart';
@@ -53,10 +52,10 @@ void main() async {
         BlocProvider(
           create: (_) => serviceLocator<CurrentAndUpcomingClassesCubit>(),
         ),
-        // for main
-        BlocProvider(
-          create: (_) => serviceLocator<MainBloc>(),
-        ),
+        // // for main
+        // BlocProvider(
+        //   create: (_) => serviceLocator<MainBloc>(),
+        // ),
         BlocProvider(create: (_) => serviceLocator<StudentBloc>()),
         BlocProvider(create: (_) => serviceLocator<FacultyBloc>()),
         BlocProvider(create: (_) => serviceLocator<ClassBloc>()),

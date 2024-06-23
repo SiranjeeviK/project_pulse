@@ -31,7 +31,7 @@ import 'package:project_pulse/features/main/presentation/bloc/batch_bloc/batch_b
 import 'package:project_pulse/features/main/presentation/bloc/class_bloc/class_bloc.dart';
 import 'package:project_pulse/features/main/presentation/bloc/department_bloc/department_bloc.dart';
 import 'package:project_pulse/features/main/presentation/bloc/faculty_bloc/faculty_bloc.dart';
-import 'package:project_pulse/features/main/presentation/bloc/main_bloc/main_bloc.dart';
+import 'package:project_pulse/features/main/presentation/bloc/.main_bloc/main_bloc.dart';
 import 'package:project_pulse/features/main/presentation/bloc/student_bloc/student_bloc.dart';
 import 'package:project_pulse/features/main/presentation/cubits/current_and_upcoming_classes/current_and_upcoming_classes_cubit.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

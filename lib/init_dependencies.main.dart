@@ -166,19 +166,19 @@ void _initMain() {
       () => GetAllStudents(
         mainRepository: serviceLocator(),
       ),
-    )
-
-    // BLOC
-    ..registerLazySingleton<MainBloc>(
-      () => MainBloc(
-        getAllBatches: serviceLocator(),
-        getAllClasses: serviceLocator(),
-        getAllCourses: serviceLocator(),
-        getAllDepartments: serviceLocator(),
-        getAllFaculties: serviceLocator(),
-        getAllStudents: serviceLocator(),
-      ),
     );
+
+  // // BLOC
+  // ..registerLazySingleton<MainBloc>(
+  //   () => MainBloc(
+  //     getAllBatches: serviceLocator(),
+  //     getAllClasses: serviceLocator(),
+  //     getAllCourses: serviceLocator(),
+  //     getAllDepartments: serviceLocator(),
+  //     getAllFaculties: serviceLocator(),
+  //     getAllStudents: serviceLocator(),
+  //   ),
+  // );
 }
 
 /// Initialize all dependencies related to class
