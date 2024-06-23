@@ -26,12 +26,12 @@ import 'package:project_pulse/features/main/domain/usecases/get_all_classes.dart
 import 'package:project_pulse/features/main/domain/usecases/get_all_courses.dart';
 import 'package:project_pulse/features/main/domain/usecases/get_all_departments.dart';
 import 'package:project_pulse/features/main/domain/usecases/get_all_faculties.dart';
-import 'package:project_pulse/features/main/domain/usecases/get_all_students.dart';
+import 'package:project_pulse/features/main/domain/usecases/students/get_all_students.dart';
+import 'package:project_pulse/features/main/domain/usecases/students/get_all_students_by_class_code.dart';
 import 'package:project_pulse/features/main/presentation/bloc/batch_bloc/batch_bloc.dart';
 import 'package:project_pulse/features/main/presentation/bloc/class_bloc/class_bloc.dart';
 import 'package:project_pulse/features/main/presentation/bloc/department_bloc/department_bloc.dart';
 import 'package:project_pulse/features/main/presentation/bloc/faculty_bloc/faculty_bloc.dart';
-import 'package:project_pulse/features/main/presentation/bloc/.main_bloc/main_bloc.dart';
 import 'package:project_pulse/features/main/presentation/bloc/student_bloc/student_bloc.dart';
 import 'package:project_pulse/features/main/presentation/cubits/current_and_upcoming_classes/current_and_upcoming_classes_cubit.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

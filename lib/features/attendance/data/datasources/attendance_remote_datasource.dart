@@ -53,7 +53,7 @@ class AttendanceRemoteDatasourceImpl implements AttendanceRemoteDatasource {
           .select()
           .eq('course_code', attendanceParams.courseCode);
       if (courses.isEmpty) {
-        throw ServerException('Course not found');
+        throw const ServerException('Course not found');
       }
 
       final course = CourseModel.fromMap(courses.first);
@@ -82,7 +82,7 @@ class AttendanceRemoteDatasourceImpl implements AttendanceRemoteDatasource {
           .eq('class_code', attendanceParams.classCode)
           .eq('course_code', course.courseCode);
       if (attendences.isEmpty) {
-        throw ServerException('Attendance not marked');
+        throw const ServerException('Attendance not marked');
       }
 
       return attendences.map((e) => AttendanceModel.fromMap(e)).toList();

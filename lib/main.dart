@@ -146,19 +146,28 @@ class _MyAppState extends State<MyApp> {
             return MaterialPageRoute(builder: (context) => const MyApp());
           case '/appsettings':
             return MaterialPageRoute(builder: (context) => const AppSettings());
+
+          // College Database
+          // FIXME: User should be able to view the college database only if he is an admin, otherwise limited access should be provided
           case '/college_database':
             return MaterialPageRoute(
                 builder: (context) => const CollegeDatabase());
-          case '/attendance':
-            return MaterialPageRoute(
-                builder: (context) => const AttendanceMain());
+          case '/batch_list':
+            return MaterialPageRoute(builder: (context) => const BatchList());
           case '/department_list':
             return MaterialPageRoute(
                 builder: (context) => const DepartmentList());
-          case '/batch_list':
-            return MaterialPageRoute(builder: (context) => const BatchList());
           case '/class_list':
             return MaterialPageRoute(builder: (context) => const ClassList());
+          case '/student_list':
+            return MaterialPageRoute(builder: (context) => const StudentList());
+          case '/faculty_list':
+            return MaterialPageRoute(builder: (context) => const FacultyList());
+
+          // Attendance
+          case '/attendance':
+            return MaterialPageRoute(
+                builder: (context) => const AttendanceMain());
           case '/attendance/class_list':
             return MaterialPageRoute(
                 builder: (context) => const AttendanceClassList());
@@ -168,10 +177,6 @@ class _MyAppState extends State<MyApp> {
                 classData: (settings.arguments as Class),
               ),
             );
-          case '/faculty_list':
-            return MaterialPageRoute(builder: (context) => const FacultyList());
-          case '/student_list':
-            return MaterialPageRoute(builder: (context) => const StudentList());
           case '/student_details':
             return MaterialPageRoute(
                 builder: (context) => StudentDetailPage(

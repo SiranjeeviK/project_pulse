@@ -14,6 +14,7 @@ abstract interface class MainRemoteDataSource {
   Future<List<Department>> getAllDepartments();
   Future<List<FacultyModel>> getAllFaculties();
   Future<List<StudentModel>> getAllStudents();
+  Future<List<StudentModel>> getAllStudentsByClassCode(String classCode);
   Future<List<ClassModel>> getAllClasses();
 }
 
@@ -162,6 +163,24 @@ class MainRemoteDataSourceImpl implements MainRemoteDataSource {
       classList = response.map((e) => ClassModel.fromMap(e)).toList();
       print(classList);
       return classList;
+    } on PostgrestException catch (e) {
+      throw ServerException(e.message);
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<List<StudentModel>> getAllStudentsByClassCode(String classCode) async {
+    // get_students_with_user_info_by_class_code
+    try {
+      final response = await supabaseClient.rpc(
+          'get_students_with_user_info_by_class_code',
+          params: {'class_code_param': classCode});
+      List<StudentModel> studentList = [];
+      studentList =
+          response.map<StudentModel>((e) => StudentModel.fromMap(e)).toList();
+      return studentList;
     } on PostgrestException catch (e) {
       throw ServerException(e.message);
     } catch (e) {

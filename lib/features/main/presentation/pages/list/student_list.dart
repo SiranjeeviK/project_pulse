@@ -69,7 +69,7 @@ class _StudentListState extends State<StudentList> {
 
   //   final state = BlocProvider.of<StudentBloc>(context).state;
 
-  //   if (state is! StudentLoaded) {
+  //   if (state is! StudentListLoaded) {
   //     context.read<StudentBloc>().add(FetchAllStudents());
   //   } else {
   //     _students = state.data;
@@ -111,7 +111,7 @@ class _StudentListState extends State<StudentList> {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
-                } else if (state is StudentLoaded) {
+                } else if (state is StudentListLoaded) {
                   _students = state.data;
                   _filteredStudents = _searchController.text.isEmpty
                       ? _students

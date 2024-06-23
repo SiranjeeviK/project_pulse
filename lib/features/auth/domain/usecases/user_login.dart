@@ -1,4 +1,4 @@
-import 'package:fpdart/src/either.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:project_pulse/core/common/entities/user.dart';
 import 'package:project_pulse/core/error/failure.dart';
 import 'package:project_pulse/core/usecase/usecase.dart';

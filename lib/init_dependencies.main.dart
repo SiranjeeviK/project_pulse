@@ -166,6 +166,11 @@ void _initMain() {
       () => GetAllStudents(
         mainRepository: serviceLocator(),
       ),
+    )
+    ..registerFactory<GetAllStudentsByClassCode>(
+      () => GetAllStudentsByClassCode(
+        mainRepository: serviceLocator(),
+      ),
     );
 
   // // BLOC
@@ -201,6 +206,7 @@ void _initStudent() {
       .registerLazySingleton<StudentBloc>(
     () => StudentBloc(
       getAllStudents: serviceLocator(),
+      getAllStudentsByClassCode: serviceLocator(),
     ),
   );
 }

@@ -18,8 +18,20 @@ final class StudentFailure extends StudentState {
 }
 
 // Loaded States
-final class StudentLoaded extends StudentState {
+final class StudentListLoaded extends StudentState {
   final List<Student> data;
 
+  StudentListLoaded({required this.data});
+}
+
+final class StudentLoaded extends StudentState {
+  final Student data;
+
   StudentLoaded({required this.data});
+}
+
+final class ClassStudentListLoaded extends StudentState {
+  final List<Student> data;
+
+  ClassStudentListLoaded({required this.data});
 }

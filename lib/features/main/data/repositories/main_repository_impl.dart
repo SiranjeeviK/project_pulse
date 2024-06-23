@@ -17,8 +17,7 @@ class MainRepositoryImpl implements MainRepository {
   final ConnectionChecker connectionChecker;
 
   MainRepositoryImpl(
-      {required this.mainRemoteDataSource,
-      required this.connectionChecker});
+      {required this.mainRemoteDataSource, required this.connectionChecker});
 
   @override
   Future<Either<Failure, List<Batch>>> getAllBatches() async {
@@ -35,8 +34,7 @@ class MainRepositoryImpl implements MainRepository {
   }
 
   @override
-  Future<Either<Failure, List<Course>>> getAllCourses(
-      ) async {
+  Future<Either<Failure, List<Course>>> getAllCourses() async {
     if (await connectionChecker.isConnected) {
       try {
         final courseList = await mainRemoteDataSource.getAllCourses();
@@ -53,8 +51,7 @@ class MainRepositoryImpl implements MainRepository {
   Future<Either<Failure, List<Department>>> getAllDepartments() async {
     if (await connectionChecker.isConnected) {
       try {
-        final departmentList =
-            await mainRemoteDataSource.getAllDepartments();
+        final departmentList = await mainRemoteDataSource.getAllDepartments();
         return Right(departmentList);
       } on ServerException catch (e) {
         return Left(Failure(e.message));
@@ -79,8 +76,7 @@ class MainRepositoryImpl implements MainRepository {
   }
 
   @override
-  Future<Either<Failure, List<Student>>> getAllStudents(
-      ) async {
+  Future<Either<Failure, List<Student>>> getAllStudents() async {
     if (await connectionChecker.isConnected) {
       try {
         final studentList = await mainRemoteDataSource.getAllStudents();
@@ -94,12 +90,27 @@ class MainRepositoryImpl implements MainRepository {
   }
 
   @override
-  Future<Either<Failure, List<Class>>> getAllClasses(
-      ) async {
+  Future<Either<Failure, List<Class>>> getAllClasses() async {
     if (await connectionChecker.isConnected) {
       try {
         final classList = await mainRemoteDataSource.getAllClasses();
         return Right(classList);
+      } on ServerException catch (e) {
+        return Left(Failure(e.message));
+      }
+    } else {
+      return Left(Failure(Constants.noConnectionErrorMessage));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Student>>> getAllStudentsByClassCode(
+      String classCode) async {
+    if (await connectionChecker.isConnected) {
+      try {
+        final studentList =
+            await mainRemoteDataSource.getAllStudentsByClassCode(classCode);
+        return Right(studentList);
       } on ServerException catch (e) {
         return Left(Failure(e.message));
       }
