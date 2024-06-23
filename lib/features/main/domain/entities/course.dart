@@ -4,14 +4,13 @@
 //     course_name text not null,
 //     course_code text not null,
 //     description text null,
-//     teacher_id uuid null,
-//     semester integer null,
 //     "isLab" boolean null default false,
 //     "isAdditional" boolean null default false,
 //     constraint courses_pkey primary key (course_id),
 //     constraint courses_course_code_key unique (course_code),
-//     constraint courses_teacher_id_fkey foreign key (teacher_id) references faculty (faculty_id)
 //   ) tablespace pg_default;
+
+// XXX: fetch teacher_id and semester from `course_class_faculty_mapping` table
 
 class Course {
   final String courseId;

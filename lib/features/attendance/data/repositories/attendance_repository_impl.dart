@@ -1,4 +1,4 @@
-import 'package:fpdart/src/either.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:project_pulse/core/error/failure.dart';
 import 'package:project_pulse/features/attendance/data/datasources/attendance_remote_datasource.dart';
 import 'package:project_pulse/features/attendance/data/models/attendance_model.dart';

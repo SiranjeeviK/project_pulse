@@ -2,6 +2,9 @@ import 'package:project_pulse/core/common/entities/user.dart';
 
 class Constants {
   static const noConnectionErrorMessage = 'Not Connected to the Internet';
+  
+  // FIXME: Remove the hardcoded constants with corresponding supabase postgres table data
+
 
   // Testing
   // TODO: Remove this hardcoded user
@@ -62,6 +65,8 @@ class Constants {
 
   static const defaultProlilePhotoUrl = 'https://via.placeholder.com/150';
 
+  // FIXME: In future, give a HOD control panel to access the database and `course_class_faculty_mapping` table
+  // HACK: hardcoded mappping of subjects to course code
   static Map<String, String> itbSem4SubjectToCourseCode = {
     'AJP': '21CS423',
     'AJP-LAB': '21AJPL',
@@ -116,7 +121,7 @@ class Constants {
   ];
 
   // API Url for differnt classes like it, cse, ece, eee, civil, mech, aids, aiml, bme, bt, food, agri
-
+  // FIXME: In future create a table like semester, that map each class_code and semester with the corresponding API URL
   static const Map<String, String> classTimeTableAPIUrl = {
     "ITB":
         "https://script.google.com/macros/s/AKfycbzWvba_WKWnJCIubTtzlsaTlu0YfK4FB91-J4MJnneIYZSw-6dcqk1P-Ru-w-1X8IvriA/exec",

@@ -10,7 +10,9 @@ import 'package:project_pulse/features/main/domain/entities/student.dart';
 
 abstract interface class MainRepository {
   Future<Either<Failure, List<Student>>> getAllStudents();
+  Future<Either<Failure, List<Student>>> getAllStudentsByClassCode(String classCode);
   Future<Either<Failure, List<Course>>> getAllCourses();
+  Future<Either<Failure, List<Course>>> getAllCoursesByClassCode(String classCode);
   Future<Either<Failure, List<Faculty>>> getAllFaculties();
   Future<Either<Failure, List<Batch>>> getAllBatches();
   Future<Either<Failure, List<Department>>> getAllDepartments();

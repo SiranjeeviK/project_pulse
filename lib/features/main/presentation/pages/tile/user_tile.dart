@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:project_pulse/core/common/entities/user.dart';
 import 'package:project_pulse/features/auth/data/models/user_model.dart';
 import 'package:project_pulse/init_dependencies.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

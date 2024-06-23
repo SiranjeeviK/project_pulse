@@ -6,11 +6,19 @@ import 'package:project_pulse/core/theme/theme.dart';
 import 'package:project_pulse/features/attendance/presentation/pages/attendance_class_list.dart';
 import 'package:project_pulse/features/main/domain/entities/class.dart';
 import 'package:project_pulse/features/main/domain/entities/student.dart';
+import 'package:project_pulse/features/main/presentation/bloc/batch_bloc/batch_bloc.dart';
+import 'package:project_pulse/features/main/presentation/bloc/class_bloc/class_bloc.dart';
+import 'package:project_pulse/features/main/presentation/bloc/course_bloc/course_bloc.dart';
+import 'package:project_pulse/features/main/presentation/bloc/department_bloc/department_bloc.dart';
+import 'package:project_pulse/features/main/presentation/bloc/faculty_bloc/faculty_bloc.dart';
+import 'package:project_pulse/features/main/presentation/bloc/student_bloc/student_bloc.dart';
 import 'package:project_pulse/features/main/presentation/pages/college_database.dart';
 import 'package:project_pulse/features/main/presentation/pages/list/batch_list.dart';
 import 'package:project_pulse/features/main/presentation/pages/list/class_list.dart';
+import 'package:project_pulse/features/main/presentation/pages/list/courses_list.dart';
 import 'package:project_pulse/features/main/presentation/pages/list/department_list.dart';
 import 'package:project_pulse/features/attendance/presentation/pages/attendance_main.dart';
+import 'package:project_pulse/features/main/presentation/pages/list/faculty_list.dart';
 import 'package:project_pulse/features/main/presentation/pages/list/student_list.dart';
 import 'package:project_pulse/features/attendance/presentation/pages/attendance_student_view.dart';
 import 'package:project_pulse/features/attendance/presentation/pages/mark_attendance_page.dart';
@@ -18,9 +26,8 @@ import 'package:project_pulse/features/main/presentation/pages/no_records_found.
 import 'package:project_pulse/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:project_pulse/features/auth/presentation/pages/login_page.dart';
 import 'package:project_pulse/features/auth/presentation/pages/signup_page.dart';
-import 'package:project_pulse/features/main/presentation/bloc/main_bloc.dart';
 import 'package:project_pulse/features/main/presentation/cubits/current_and_upcoming_classes/current_and_upcoming_classes_cubit.dart';
-import 'package:project_pulse/features/main/presentation/pages/list/courses_page.dart';
+import 'package:project_pulse/features/main/presentation/pages/courses_page.dart';
 import 'package:project_pulse/features/main/presentation/pages/home_page.dart';
 import 'package:project_pulse/features/main/presentation/pages/schedule_page.dart';
 import 'package:project_pulse/features/main/presentation/pages/student_detail_page.dart';
@@ -47,10 +54,16 @@ void main() async {
         BlocProvider(
           create: (_) => serviceLocator<CurrentAndUpcomingClassesCubit>(),
         ),
-        // for main
-        BlocProvider(
-          create: (_) => serviceLocator<MainBloc>(),
-        ),
+        // // for main
+        // BlocProvider(
+        //   create: (_) => serviceLocator<MainBloc>(),
+        // ),
+        BlocProvider(create: (_) => serviceLocator<StudentBloc>()),
+        BlocProvider(create: (_) => serviceLocator<FacultyBloc>()),
+        BlocProvider(create: (_) => serviceLocator<ClassBloc>()),
+        BlocProvider(create: (_) => serviceLocator<DepartmentBloc>()),
+        BlocProvider(create: (_) => serviceLocator<BatchBloc>()),
+        BlocProvider(create: (_) => serviceLocator<CourseBloc>()),
       ],
       child: const MyApp(),
     ),
@@ -136,19 +149,30 @@ class _MyAppState extends State<MyApp> {
             return MaterialPageRoute(builder: (context) => const MyApp());
           case '/appsettings':
             return MaterialPageRoute(builder: (context) => const AppSettings());
+
+          // College Database
+          // FIXME: User should be able to view the college database only if he is an admin, otherwise limited access should be provided
           case '/college_database':
             return MaterialPageRoute(
                 builder: (context) => const CollegeDatabase());
-          case '/attendance':
-            return MaterialPageRoute(
-                builder: (context) => const AttendanceMain());
+          case '/batch_list':
+            return MaterialPageRoute(builder: (context) => const BatchList());
           case '/department_list':
             return MaterialPageRoute(
                 builder: (context) => const DepartmentList());
-          case '/batch_list':
-            return MaterialPageRoute(builder: (context) => const BatchList());
           case '/class_list':
             return MaterialPageRoute(builder: (context) => const ClassList());
+          case '/student_list':
+            return MaterialPageRoute(builder: (context) => const StudentList());
+          case '/faculty_list':
+            return MaterialPageRoute(builder: (context) => const FacultyList());
+          case '/course_list':
+            return MaterialPageRoute(builder: (context) => const CoursesList());
+
+          // Attendance
+          case '/attendance':
+            return MaterialPageRoute(
+                builder: (context) => const AttendanceMain());
           case '/attendance/class_list':
             return MaterialPageRoute(
                 builder: (context) => const AttendanceClassList());
@@ -158,8 +182,6 @@ class _MyAppState extends State<MyApp> {
                 classData: (settings.arguments as Class),
               ),
             );
-          case '/student_list':
-            return MaterialPageRoute(builder: (context) => const StudentList());
           case '/student_details':
             return MaterialPageRoute(
                 builder: (context) => StudentDetailPage(

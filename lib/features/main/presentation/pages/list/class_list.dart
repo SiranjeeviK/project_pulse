@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project_pulse/features/main/presentation/bloc/class_bloc/class_bloc.dart';
 import 'package:project_pulse/features/main/presentation/widgets/items/class_item.dart';
-import 'package:project_pulse/features/main/domain/entities/class.dart';
-import 'package:project_pulse/features/main/presentation/bloc/main_bloc.dart';
 
 class ClassList extends StatelessWidget {
   const ClassList({super.key});
 
   @override
   Widget build(BuildContext context) {
-    context.read<MainBloc>().add(FetchAllClasses());
+    context.read<ClassBloc>().add(FetchAllClasses());
     return Scaffold(
       appBar: AppBar(
         title: const Text('Class list'),
@@ -17,13 +16,13 @@ class ClassList extends StatelessWidget {
       body: Center(
         child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: BlocBuilder<MainBloc, MainState>(
+            child: BlocBuilder<ClassBloc, ClassState>(
               builder: (context, state) {
-                if (state is MainLoading) {
+                if (state is ClassLoading) {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
-                } else if (state is MainLoaded<List<Class>>) {
+                } else if (state is ClassLoaded) {
                   return ListView.builder(
                     shrinkWrap: true,
                     itemCount: state.data.length,
@@ -34,7 +33,7 @@ class ClassList extends StatelessWidget {
                       );
                     },
                   );
-                } else if (state is MainFailure) {
+                } else if (state is ClassFailure) {
                   return Center(
                     child: Text(state.message),
                   );

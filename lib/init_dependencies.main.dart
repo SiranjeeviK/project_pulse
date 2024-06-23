@@ -10,6 +10,12 @@ Future<void> initDependencies() async {
   // Initialize main
   _initMain();
   _initCurrentAndUpcomingClasses();
+  _initClass();
+  _initStudent();
+  _initFaculty();
+  _initDepartment();
+  _initBatch();
+  _initCourse();
 
   // Initialize Supabase client
   final supabase = await Supabase.initialize(
@@ -88,7 +94,9 @@ void _initCurrentAndUpcomingClasses() {
   // DATASOURCE
   serviceLocator
     ..registerFactory<CurrentClassRemoteDataSource>(
-      () => CurrentClassRemoteDataSourceImpl(),
+      () => CurrentClassRemoteDataSourceImpl(
+          supabaseClient: serviceLocator(),
+          authRemoteDataSource: serviceLocator()),
     )
 
     // REPOSITORY
@@ -147,6 +155,11 @@ void _initMain() {
         mainRepository: serviceLocator(),
       ),
     )
+    ..registerFactory<GetAllCoursesByClassCode>(
+      () => GetAllCoursesByClassCode(
+        mainRepository: serviceLocator(),
+      ),
+    )
     ..registerFactory<GetAllDepartments>(
       () => GetAllDepartments(
         mainRepository: serviceLocator(),
@@ -162,17 +175,95 @@ void _initMain() {
         mainRepository: serviceLocator(),
       ),
     )
-
-    // BLOC
-    ..registerLazySingleton<MainBloc>(
-      () => MainBloc(
-        getAllBatches: serviceLocator(),
-        getAllClasses: serviceLocator(),
-        getAllCourses: serviceLocator(),
-        getAllDepartments: serviceLocator(),
-        getAllFaculties: serviceLocator(),
-        getAllStudents: serviceLocator(),
+    ..registerFactory<GetAllStudentsByClassCode>(
+      () => GetAllStudentsByClassCode(
+        mainRepository: serviceLocator(),
       ),
     );
-  ;
+
+  // // BLOC
+  // ..registerLazySingleton<MainBloc>(
+  //   () => MainBloc(
+  //     getAllBatches: serviceLocator(),
+  //     getAllClasses: serviceLocator(),
+  //     getAllCourses: serviceLocator(),
+  //     getAllDepartments: serviceLocator(),
+  //     getAllFaculties: serviceLocator(),
+  //     getAllStudents: serviceLocator(),
+  //   ),
+  // );
+}
+
+/// Initialize all dependencies related to class
+void _initClass() {
+  serviceLocator
+
+      // BLOC
+      .registerLazySingleton<ClassBloc>(
+    () => ClassBloc(
+      getAllClasses: serviceLocator(),
+    ),
+  );
+}
+
+/// Initialize all dependencies related to student
+void _initStudent() {
+  serviceLocator
+
+      // BLOC
+      .registerLazySingleton<StudentBloc>(
+    () => StudentBloc(
+      getAllStudents: serviceLocator(),
+      getAllStudentsByClassCode: serviceLocator(),
+    ),
+  );
+}
+
+/// Initialize all dependencies related to faculty
+void _initFaculty() {
+  serviceLocator
+
+      // BLOC
+      .registerLazySingleton<FacultyBloc>(
+    () => FacultyBloc(
+      getAllFaculties: serviceLocator(),
+    ),
+  );
+}
+
+/// Initialize all dependencies related to department
+void _initDepartment() {
+  serviceLocator
+
+      // BLOC
+      .registerLazySingleton<DepartmentBloc>(
+    () => DepartmentBloc(
+      getAllDepartments: serviceLocator(),
+    ),
+  );
+}
+
+/// Initialize all dependencies related to batch
+void _initBatch() {
+  serviceLocator
+
+      // BLOC
+      .registerLazySingleton<BatchBloc>(
+    () => BatchBloc(
+      getAllBatches: serviceLocator(),
+    ),
+  );
+}
+
+/// Initialize all dependencies related to course
+void _initCourse() {
+  serviceLocator
+
+      // BLOC
+      .registerLazySingleton<CourseBloc>(
+    () => CourseBloc(
+      getAllCourses: serviceLocator(),
+      getAllCoursesByClassCode: serviceLocator(),
+    ),
+  );
 }

@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project_pulse/features/main/presentation/bloc/department_bloc/department_bloc.dart';
 import 'package:project_pulse/features/main/presentation/widgets/items/department_item.dart';
-import 'package:project_pulse/features/main/domain/entities/department.dart';
-import 'package:project_pulse/features/main/presentation/bloc/main_bloc.dart';
 
 class DepartmentList extends StatelessWidget {
   const DepartmentList({super.key});
   // FIXME: English department should not be displayed
   @override
   Widget build(BuildContext context) {
-    context.read<MainBloc>().add(FetchAllDepartments());
+    context.read<DepartmentBloc>().add(FetchAllDepartments());
     return Scaffold(
       appBar: AppBar(
         title: const Text('Department List'),
       ),
-      body: Expanded(child: BlocBuilder<MainBloc, MainState>(
+      body: Expanded(child: BlocBuilder<DepartmentBloc, DepartmentState>(
         builder: (context, state) {
-          if (state is MainLoading) {
+          if (state is DepartmentLoading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (state is MainLoaded<List<Department>>) {
+          } else if (state is DepartmentLoaded) {
             return ListView.builder(
               shrinkWrap: true,
               itemCount: state.data.length,
@@ -31,7 +30,7 @@ class DepartmentList extends StatelessWidget {
                 );
               },
             );
-          } else if (state is MainFailure) {
+          } else if (state is DepartmentFailure) {
             return Center(
               child: Text(state.message),
             );
@@ -42,8 +41,4 @@ class DepartmentList extends StatelessWidget {
       )),
     );
   }
-}
-
-Future<List<Department>> getDepartments() async {
-  return [];
 }

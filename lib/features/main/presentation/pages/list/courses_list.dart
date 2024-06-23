@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:project_pulse/features/main/domain/entities/course.dart';
-import 'package:project_pulse/features/main/presentation/bloc/main_bloc.dart';
+import 'package:project_pulse/features/main/presentation/bloc/course_bloc/course_bloc.dart';
 import 'package:project_pulse/features/main/presentation/widgets/course_detail.dart';
 
-class CoursesPage extends StatelessWidget {
+class CoursesList extends StatelessWidget {
   static route() =>
-      MaterialPageRoute(builder: (context) => const CoursesPage());
-  const CoursesPage({super.key});
+      MaterialPageRoute(builder: (context) => const CoursesList());
+  const CoursesList({super.key});
 
   Future<void> _refreshCourses(BuildContext context) async {
-    context.read<MainBloc>().add(FetchAllCourses());
+    context.read<CourseBloc>().add(FetchAllCourses());
   }
 
   @override
   Widget build(BuildContext context) {
-    context.read<MainBloc>().add(FetchAllCourses());
+    context.read<CourseBloc>().add(FetchAllCourses());
     return Scaffold(
       appBar: AppBar(
         title: const Text('Courses'),
@@ -24,13 +23,13 @@ class CoursesPage extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: RefreshIndicator(
           onRefresh: () => _refreshCourses(context),
-          child: BlocBuilder<MainBloc, MainState>(
+          child: BlocBuilder<CourseBloc, CourseState>(
             builder: (context, state) {
-              if (state is MainLoading) {
+              if (state is CourseLoading) {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
-              } else if (state is MainLoaded<List<Course>>) {
+              } else if (state is CourseLoaded) {
                 return ListView.builder(
                   shrinkWrap: true,
                   itemCount: state.data.length,
@@ -39,7 +38,7 @@ class CoursesPage extends StatelessWidget {
                     return CourseDetail(course: course);
                   },
                 );
-              } else if (state is MainFailure) {
+              } else if (state is CourseFailure) {
                 return Center(
                   child: Text(state.message),
                 );

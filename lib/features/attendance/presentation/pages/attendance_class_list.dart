@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:project_pulse/core/utils/show_snackbar.dart';
+import 'package:project_pulse/features/main/presentation/bloc/class_bloc/class_bloc.dart';
 import 'package:project_pulse/features/main/presentation/widgets/items/class_item.dart';
-import 'package:project_pulse/features/main/domain/entities/class.dart';
-import 'package:project_pulse/features/main/presentation/bloc/main_bloc.dart';
 
 class AttendanceClassList extends StatelessWidget {
   const AttendanceClassList({super.key});
@@ -11,7 +9,7 @@ class AttendanceClassList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<MainBloc>().add(FetchAllClasses());
+      context.read<ClassBloc>().add(FetchAllClasses());
     });
     return Scaffold(
       appBar: AppBar(
@@ -21,13 +19,13 @@ class AttendanceClassList extends StatelessWidget {
         child: SingleChildScrollView(
           child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: BlocBuilder<MainBloc, MainState>(
+              child: BlocBuilder<ClassBloc, ClassState>(
                 builder: (context, state) {
-                  if (state is MainLoading) {
+                  if (state is ClassLoading) {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
-                  } else if (state is MainLoaded<List<Class>>) {
+                  } else if (state is ClassLoaded) {
                     return ListView.builder(
                       shrinkWrap: true,
                       itemCount: state.data.length,
@@ -37,8 +35,8 @@ class AttendanceClassList extends StatelessWidget {
                           onTap: () {
                             Navigator.pushNamed(
                                 context, '/attendance/mark_attendance',
+                                // FIXME: classData is not enough for attendance, we need map data 
                                 arguments: classData);
-                            print(classData);
                           },
                           child: ClassItem(
                             classData: classData,
@@ -46,7 +44,7 @@ class AttendanceClassList extends StatelessWidget {
                         );
                       },
                     );
-                  } else if (state is MainFailure) {
+                  } else if (state is ClassFailure) {
                     return Center(
                       child: Text(state.message),
                     );
