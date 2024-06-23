@@ -2,20 +2,25 @@ import 'package:project_pulse/features/main/domain/entities/current_class.dart';
 
 class CurrentClassModel extends CurrentClass {
   const CurrentClassModel({
+    // fetched from the google sheet
     required super.currentClass,
     required super.upcomingClass,
     required super.currentNo,
+    
+    // fetched from the database and [constant(for now)]
+    required super.currentClassCourseCode,
+    required super.currentClassMappingId,
   });
   // TODO: Add more fields as needed such as start and end time
 
-  factory CurrentClassModel.fromList(List<dynamic> list) {
-    return CurrentClassModel(
-        currentClass: list[0], currentNo: list[1], upcomingClass: list[2]);
-  }
 
-  @override
-  String toString() {
-    return "The Current ($currentNo) Period is $currentClass and the next class is $upcomingClass";
+    factory CurrentClassModel.fromList(List<dynamic> list) {
+    return CurrentClassModel(
+        currentClass: list[0] ?? '-',
+        currentClassCourseCode: list[3] ?? '',
+        currentClassMappingId: list[4] ?? 0,
+        currentNo: list[1] ?? 0,
+        upcomingClass: list[2] ?? '-');
   }
 }
 

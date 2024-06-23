@@ -4,14 +4,13 @@
 //     course_name text not null,
 //     course_code text not null,
 //     description text null,
-//     teacher_id uuid null,
-//     semester integer null,
 //     "isLab" boolean null default false,
 //     "isAdditional" boolean null default false,
 //     constraint courses_pkey primary key (course_id),
 //     constraint courses_course_code_key unique (course_code),
-//     constraint courses_teacher_id_fkey foreign key (teacher_id) references faculty (faculty_id)
 //   ) tablespace pg_default;
+
+//
 
 import 'dart:convert';
 
@@ -54,6 +53,14 @@ class CourseModel extends Course {
   /// Returns a `Map<String, dynamic>` map representing the user.
   Map<String, dynamic> toMap() {
     final map = <String, dynamic>{};
+    map['course_id'] = courseId;
+    map['course_name'] = courseName;
+    map['course_code'] = courseCode;
+    map['description'] = description;
+    map['teacher_id'] = teacherId;
+    map['semester'] = semester;
+    map['is_lab'] = isLab;
+    map['is_additional'] = isAdditional;
 
     return map;
   }
@@ -67,8 +74,8 @@ class CourseModel extends Course {
       description: map['description'] ?? '',
       teacherId: map['teacher_id'] ?? '',
       semester: map['semester'] ?? 0,
-      isLab: map['isLab'] ?? false,
-      isAdditional: map['isAdditional'] ?? false,
+      isLab: map['is_lab'] ?? false,
+      isAdditional: map['is_additional'] ?? false,
     );
   }
 

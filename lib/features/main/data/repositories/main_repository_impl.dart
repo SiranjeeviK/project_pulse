@@ -118,4 +118,20 @@ class MainRepositoryImpl implements MainRepository {
       return Left(Failure(Constants.noConnectionErrorMessage));
     }
   }
+
+  @override
+  Future<Either<Failure, List<Course>>> getAllCoursesByClassCode(
+      String classCode) async {
+    if (await connectionChecker.isConnected) {
+      try {
+        final courseList =
+            await mainRemoteDataSource.getAllCoursesByClassCode(classCode);
+        return Right(courseList);
+      } on ServerException catch (e) {
+        return Left(Failure(e.message));
+      }
+    } else {
+      return Left(Failure(Constants.noConnectionErrorMessage));
+    }
+  }
 }

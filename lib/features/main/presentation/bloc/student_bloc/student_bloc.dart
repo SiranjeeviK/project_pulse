@@ -40,7 +40,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
       FetchStudentsByClassCode event, Emitter<StudentState> emit) async {
     emit(StudentListLoading());
     final result = await _getAllStudentsByClassCode(
-        ClassCodeParams(classCode: event.classCode));
+        StudentSearchParams(classCode: event.classCode));
     result.fold(
       (failure) => emit(StudentFailure(message: failure.message)),
       (classes) => emit(ClassStudentListLoaded(data: classes)),

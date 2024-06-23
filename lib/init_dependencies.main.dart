@@ -15,6 +15,7 @@ Future<void> initDependencies() async {
   _initFaculty();
   _initDepartment();
   _initBatch();
+  _initCourse();
 
   // Initialize Supabase client
   final supabase = await Supabase.initialize(
@@ -93,7 +94,9 @@ void _initCurrentAndUpcomingClasses() {
   // DATASOURCE
   serviceLocator
     ..registerFactory<CurrentClassRemoteDataSource>(
-      () => CurrentClassRemoteDataSourceImpl(),
+      () => CurrentClassRemoteDataSourceImpl(
+          supabaseClient: serviceLocator(),
+          authRemoteDataSource: serviceLocator()),
     )
 
     // REPOSITORY
@@ -149,6 +152,11 @@ void _initMain() {
     )
     ..registerFactory<GetAllCourses>(
       () => GetAllCourses(
+        mainRepository: serviceLocator(),
+      ),
+    )
+    ..registerFactory<GetAllCoursesByClassCode>(
+      () => GetAllCoursesByClassCode(
         mainRepository: serviceLocator(),
       ),
     )
@@ -243,6 +251,19 @@ void _initBatch() {
       .registerLazySingleton<BatchBloc>(
     () => BatchBloc(
       getAllBatches: serviceLocator(),
+    ),
+  );
+}
+
+/// Initialize all dependencies related to course
+void _initCourse() {
+  serviceLocator
+
+      // BLOC
+      .registerLazySingleton<CourseBloc>(
+    () => CourseBloc(
+      getAllCourses: serviceLocator(),
+      getAllCoursesByClassCode: serviceLocator(),
     ),
   );
 }

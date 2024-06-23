@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_pulse/features/main/presentation/bloc/course_bloc/course_bloc.dart';
 import 'package:project_pulse/features/main/presentation/widgets/course_detail.dart';
 
-class CoursesPage extends StatelessWidget {
+class CoursesList extends StatelessWidget {
   static route() =>
-      MaterialPageRoute(builder: (context) => const CoursesPage());
-  const CoursesPage({super.key});
+      MaterialPageRoute(builder: (context) => const CoursesList());
+  const CoursesList({super.key});
 
   Future<void> _refreshCourses(BuildContext context) async {
     context.read<CourseBloc>().add(FetchAllCourses());

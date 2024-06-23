@@ -36,6 +36,7 @@ abstract interface class AuthRemoteDataSource {
   Future<UserModel?> getCurrentUserData();
 }
 
+// FIXME: Do we need to change to supabase rpc functions?
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final SupabaseClient supabaseClient;
 
@@ -79,6 +80,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         // after insert on users for each row
         // execute function insert_faculty_or_students ();
 
+        // create trigger update_user_name_trigger before insert
+        // or
+        // update on users for each row
+        // execute function update_user_name_from_email ();
+
         final userModel = UserModel.fromMap(userData.first).copyWith(
           name: userData.first['username'],
           email: userData.first['email'],
@@ -100,7 +106,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           //     faculty_id uuid not null,
           //     department_name text null,
           //     designation text null default '''Not Set'''::text,
-          //     handling_class text null,
+          //     handling_class text null, //FIXME: do we need to remove this?
           //     department_code text null,
           //     constraint faculty_pkey primary key (faculty_id),
           //     constraint faculty_department_code_fkey foreign key (department_code) references departments (department_code) on update cascade on delete restrict,
@@ -149,6 +155,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           //     constraint students_graduation_year_fkey foreign key (graduation_year) references batches (batch_id) on update cascade on delete restrict,
           //     constraint students_department_name_fkey foreign key (department_name) references departments (department_name) on update cascade on delete restrict
           //   ) tablespace pg_default;
+
+          // create trigger update_total_students_trigger
+          // after insert
+          // or delete
+          // or
+          // update on students for each row
+          // execute function update_total_students_present ();
 
           final departmentData =
               await supabaseClient.from('departments').select().eq(

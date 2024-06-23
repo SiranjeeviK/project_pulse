@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_pulse/features/main/domain/entities/class.dart';
-import 'package:project_pulse/features/main/domain/entities/student.dart';
-import 'package:project_pulse/features/main/presentation/bloc/main_bloc.dart';
+import 'package:project_pulse/features/main/presentation/bloc/student_bloc/student_bloc.dart';
 import 'package:project_pulse/features/main/presentation/widgets/items/student_item.dart';
+import 'package:project_pulse/features/main/domain/entities/student.dart';
 
 class MarkAttendancePage extends StatefulWidget {
   final Class classData;
@@ -21,8 +21,15 @@ class _MarkAttendancePageState extends State<MarkAttendancePage> {
   @override
   void initState() {
     super.initState();
-    context.read<MainBloc>().add(FetchAllStudents());
     _searchController.addListener(_searchStudents);
+    // _filteredStudents = _students;
+    _fetchInitialData();
+  }
+
+  void _fetchInitialData() {
+    context
+        .read<StudentBloc>()
+        .add(FetchStudentsByClassCode(widget.classData.classCode));
   }
 
   @override
@@ -53,20 +60,17 @@ class _MarkAttendancePageState extends State<MarkAttendancePage> {
     }
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final state = BlocProvider.of<MainBloc>(context).state;
-    if (state is MainLoaded<List<Student>>) {
-      _students = state.data;
-      _filteredStudents = _students;
-    }
+  Future<void> _refreshStudents(BuildContext context) async {
+    context
+        .read<StudentBloc>()
+        .add(FetchStudentsByClassCode(widget.classData.classCode));
+    setState(() {
+      _searchController.clear();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final Class classData = widget.classData;
-    context.read<MainBloc>().add(FetchAllStudents());
     return Scaffold(
       appBar: AppBar(
         title: Theme(
@@ -84,52 +88,63 @@ class _MarkAttendancePageState extends State<MarkAttendancePage> {
           ),
         ),
       ),
-      body: SizedBox(
-        child: SingleChildScrollView(
-          child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: BlocBuilder<MainBloc, MainState>(
-                builder: (context, state) {
-                  if (state is MainLoading) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (state is MainLoaded<List<Student>>) {
-                    // if (_filteredStudents.isEmpty || _students.isEmpty) {
-                    //   return const Center(
-                    //     child: Text('No Students Found'),
-                    //   );
-                    // }
-                    // sort
-                    _filteredStudents
-                        .sort((a, b) => a.rollNo.compareTo(b.rollNo));
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: _filteredStudents.length,
-                      itemBuilder: (context, index) {
-                        final student = _filteredStudents[index];
-                        if (true) {
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(context, '/student_details',
-                                  arguments: student);
-                            },
-                            child: StudentItem(
-                              student: student,
-                            ),
-                          );
-                        }
-                      },
-                    );
-                  } else if (state is MainFailure) {
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: RefreshIndicator(
+            onRefresh: () => _refreshStudents(context),
+            child: BlocBuilder<StudentBloc, StudentState>(
+              builder: (context, state) {
+                if (state is StudentLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (state is ClassStudentListLoaded) {
+                  _students = state.data;
+                  _filteredStudents = _searchController.text.isEmpty
+                      ? _students
+                      : _filteredStudents;
+                  // WidgetsBinding.instance.addPostFrameCallback((_) {
+                  //   setState(() {});
+                  // });
+                  if (_filteredStudents.isEmpty || _students.isEmpty) {
                     return Center(
-                      child: Text(state.message),
+                      child: GestureDetector(
+                          onTap: () => _refreshStudents(context),
+                          child: const Text(
+                              'No Students Found\nPull or Tap to Refresh')),
                     );
-                  } else {
-                    return Container();
                   }
-                },
-              )),
+
+                  // sort
+                  _filteredStudents
+                      .sort((a, b) => a.rollNo.compareTo(b.rollNo));
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: _filteredStudents.length,
+                    itemBuilder: (context, index) {
+                      final student = _filteredStudents[index];
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, '/student_details',
+                              arguments: student);
+                        },
+                        child: StudentItem(
+                          student: student,
+                        ),
+                      );
+                    },
+                  );
+                } else if (state is StudentFailure) {
+                  return Center(
+                    child: Text(state.message),
+                  );
+                } else {
+                  return Container();
+                }
+              },
+            ),
+          ),
         ),
       ),
     );

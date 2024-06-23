@@ -46,6 +46,12 @@ class CollegeDatabase extends StatelessWidget {
                   Navigator.pushNamed(context, '/faculty_list');
                 },
               ),
+              ListTile(
+                title: const Text('Courses'),
+                onTap: () {
+                  Navigator.pushNamed(context, '/course_list');
+                },
+              ),
             ],
           ),
         ),
