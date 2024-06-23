@@ -71,9 +71,13 @@ class MainRemoteDataSourceImpl implements MainRemoteDataSource {
   @override
   Future<List<FacultyModel>> getAllFaculties() async {
     try {
-      final response = await supabaseClient.from('faculties').select();
+      final response = await supabaseClient.rpc('get_faculty_user_info');
+      // final response = await supabaseClient.from('faculties').select(
+      //     'faculty_id, department_name, designation, handling_class, department_code, users!inner(user_id, username, email, profile_picture, role, phone_number)');
+
       List<FacultyModel> facultyList = [];
-      facultyList = response.map((e) => FacultyModel.fromMap(e)).toList();
+      facultyList =
+          response.map<FacultyModel>((e) => FacultyModel.fromMap(e)).toList();
       return facultyList;
     } on PostgrestException catch (e) {
       throw ServerException(e.message);

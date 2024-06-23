@@ -201,7 +201,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         label: e.toString(),
         stackTrace: stackTrace,
       );
-      
+
       throw ServerException(e.toString());
     }
   }
