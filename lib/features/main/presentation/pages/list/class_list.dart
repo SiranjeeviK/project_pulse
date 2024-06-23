@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_pulse/features/main/presentation/widgets/items/class_item.dart';
 import 'package:project_pulse/features/main/domain/entities/class.dart';
-import 'package:project_pulse/features/main/presentation/bloc/main_bloc.dart';
+import 'package:project_pulse/features/main/presentation/bloc/main_bloc/main_bloc.dart';
 
 class ClassList extends StatelessWidget {
   const ClassList({super.key});

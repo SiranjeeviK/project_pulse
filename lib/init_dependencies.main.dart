@@ -10,6 +10,11 @@ Future<void> initDependencies() async {
   // Initialize main
   _initMain();
   _initCurrentAndUpcomingClasses();
+  _initClass();
+  _initStudent();
+  _initFaculty();
+  _initDepartment();
+  _initBatch();
 
   // Initialize Supabase client
   final supabase = await Supabase.initialize(
@@ -174,5 +179,64 @@ void _initMain() {
         getAllStudents: serviceLocator(),
       ),
     );
-  ;
+}
+
+/// Initialize all dependencies related to class
+void _initClass() {
+  serviceLocator
+
+      // BLOC
+      .registerLazySingleton<ClassBloc>(
+    () => ClassBloc(
+      getAllClasses: serviceLocator(),
+    ),
+  );
+}
+
+/// Initialize all dependencies related to student
+void _initStudent() {
+  serviceLocator
+
+      // BLOC
+      .registerLazySingleton<StudentBloc>(
+    () => StudentBloc(
+      getAllStudents: serviceLocator(),
+    ),
+  );
+}
+
+/// Initialize all dependencies related to faculty
+void _initFaculty() {
+  serviceLocator
+
+      // BLOC
+      .registerLazySingleton<FacultyBloc>(
+    () => FacultyBloc(
+      getAllFaculties: serviceLocator(),
+    ),
+  );
+}
+
+/// Initialize all dependencies related to department
+void _initDepartment() {
+  serviceLocator
+
+      // BLOC
+      .registerLazySingleton<DepartmentBloc>(
+    () => DepartmentBloc(
+      getAllDepartments: serviceLocator(),
+    ),
+  );
+}
+
+/// Initialize all dependencies related to batch
+void _initBatch() {
+  serviceLocator
+
+      // BLOC
+      .registerLazySingleton<BatchBloc>(
+    () => BatchBloc(
+      getAllBatches: serviceLocator(),
+    ),
+  );
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_pulse/features/main/domain/entities/course.dart';
-import 'package:project_pulse/features/main/presentation/bloc/main_bloc.dart';
+import 'package:project_pulse/features/main/presentation/bloc/main_bloc/main_bloc.dart';
 import 'package:project_pulse/features/main/presentation/widgets/course_detail.dart';
 
 class CoursesPage extends StatelessWidget {

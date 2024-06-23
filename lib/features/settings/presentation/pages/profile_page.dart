@@ -57,14 +57,21 @@ class ProfilePage extends StatelessWidget {
                 title: Text('Designation: ${user.designation}'),
               ),
             if (user.isStudent)
-              ListTile(
-                leading: const Icon(Icons.school),
-                title: Text('Register No: ${user.name}'),
-              ),
-            if (user.isStudent)
-              ListTile(
-                leading: const Icon(Icons.calendar_today),
-                title: Text('Year: ${user.graduationYear - 4}'),
+              Column(
+                children: [
+                  ListTile(
+                    leading: const Icon(Icons.school),
+                    title: Text('Register No: ${user.registerNo}'),
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.school),
+                    title: Text('Branch: ${user.rollNo}'),
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.calendar_today),
+                    title: Text('Year: ${user.graduationYear - 4}'),
+                  ),
+                ],
               ),
             ListTile(
               leading: const Icon(Icons.phone),

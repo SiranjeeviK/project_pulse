@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:project_pulse/features/main/presentation/bloc/student_bloc/student_bloc.dart';
-import 'package:project_pulse/features/main/presentation/widgets/items/student_item.dart';
-import 'package:project_pulse/features/main/domain/entities/student.dart';
+import 'package:project_pulse/features/main/domain/entities/faculty.dart';
+import 'package:project_pulse/features/main/presentation/bloc/faculty_bloc/faculty_bloc.dart';
+import 'package:project_pulse/features/main/presentation/widgets/items/faculty_item.dart';
 
-class StudentList extends StatefulWidget {
-  const StudentList({super.key});
+class FacultyList extends StatefulWidget {
+  const FacultyList({super.key});
 
   @override
-  State<StudentList> createState() => _StudentListState();
+  State<FacultyList> createState() => _FacultyListState();
 }
 
-class _StudentListState extends State<StudentList> {
+class _FacultyListState extends State<FacultyList> {
   final TextEditingController _searchController = TextEditingController();
-  List<Student> _students = [];
-  List<Student> _filteredStudents = [];
+  List<Faculty> _faculties = [];
+  List<Faculty> _filteredFaculties = [];
 
   @override
   void initState() {
     super.initState();
-    _searchController.addListener(_searchStudents);
-    // _filteredStudents = _students;
+    _searchController.addListener(_searchFaculties);
+    // _filteredFaculties = _faculties;
     _fetchInitialData();
   }
 
   void _fetchInitialData() {
-    context.read<StudentBloc>().add(FetchAllStudents());
+    context.read<FacultyBloc>().add(FetchAllFaculties());
   }
 
   @override
@@ -34,16 +34,16 @@ class _StudentListState extends State<StudentList> {
     super.dispose();
   }
 
-  void _searchStudents() {
+  void _searchFaculties() {
     final query = _searchController.text;
     if (query.isNotEmpty) {
       setState(() {
-        _filteredStudents = _students.where((student) {
+        _filteredFaculties = _faculties.where((faculty) {
           final searchIn = [
-            student.name.toLowerCase(),
-            student.classCode.toLowerCase(),
-            student.registerNo.toLowerCase(),
-            student.rollNo.toLowerCase(),
+            faculty.name.toLowerCase(),
+            faculty.classCode.toLowerCase(),
+            // faculty.registerNo.toLowerCase(),
+            // faculty.rollNo.toLowerCase(),
           ];
           return searchIn
               .any((element) => element.contains(query.toLowerCase()));
@@ -51,13 +51,13 @@ class _StudentListState extends State<StudentList> {
       });
     } else {
       setState(() {
-        _filteredStudents = _students;
+        _filteredFaculties = _faculties;
       });
     }
   }
 
-  Future<void> _refreshStudents(BuildContext context) async {
-    context.read<StudentBloc>().add(FetchAllStudents());
+  Future<void> _refreshFaculties(BuildContext context) async {
+    context.read<FacultyBloc>().add(FetchAllFaculties());
     setState(() {
       _searchController.clear();
     });
@@ -67,22 +67,22 @@ class _StudentListState extends State<StudentList> {
   // void didChangeDependencies() {
   //   super.didChangeDependencies();
 
-  //   final state = BlocProvider.of<StudentBloc>(context).state;
+  //   final state = BlocProvider.of<FacultyBloc>(context).state;
 
-  //   if (state is! StudentLoaded) {
-  //     context.read<StudentBloc>().add(FetchAllStudents());
+  //   if (state is! FacultyLoaded) {
+  //     context.read<FacultyBloc>().add(FetchAllFaculties());
   //   } else {
-  //     _students = state.data;
+  //     _faculties = state.data;
   //     print(state.data.length);
 
-  //     _filteredStudents = _students;
+  //     _filteredFaculties = _faculties;
   //     setState(() {});
   //   }
   // }
 
   @override
   Widget build(BuildContext context) {
-    //context.watch<StudentBloc>().add(FetchAllStudents());
+    //context.watch<FacultyBloc>().add(FetchAllFaculties());
     return Scaffold(
       appBar: AppBar(
         title: Theme(
@@ -95,7 +95,7 @@ class _StudentListState extends State<StudentList> {
           child: TextField(
             controller: _searchController,
             decoration: const InputDecoration(
-              hintText: 'Search Students',
+              hintText: 'Search Faculties',
             ),
           ),
         ),
@@ -104,50 +104,50 @@ class _StudentListState extends State<StudentList> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: RefreshIndicator(
-            onRefresh: () => _refreshStudents(context),
-            child: BlocBuilder<StudentBloc, StudentState>(
+            onRefresh: () => _refreshFaculties(context),
+            child: BlocBuilder<FacultyBloc, FacultyState>(
               builder: (context, state) {
-                if (state is StudentLoading) {
+                if (state is FacultyLoading) {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
-                } else if (state is StudentLoaded) {
-                  _students = state.data;
-                  _filteredStudents = _searchController.text.isEmpty
-                      ? _students
-                      : _filteredStudents;
+                } else if (state is FacultyLoaded) {
+                  _faculties = state.data;
+                  _filteredFaculties = _searchController.text.isEmpty
+                      ? _faculties
+                      : _filteredFaculties;
                   // WidgetsBinding.instance.addPostFrameCallback((_) {
                   //   setState(() {});
                   // });
-                  if (_filteredStudents.isEmpty || _students.isEmpty) {
+                  if (_filteredFaculties.isEmpty || _faculties.isEmpty) {
                     return Center(
                       child: GestureDetector(
-                          onTap: () => _refreshStudents(context),
+                          onTap: () => _refreshFaculties(context),
                           child: const Text(
-                              'No Students Found\nPull or Tap to Refresh')),
+                              'No Faculties Found\nPull or Tap to Refresh')),
                     );
                   }
 
                   // sort
-                  _filteredStudents
+                  _filteredFaculties
                       .sort((a, b) => a.rollNo.compareTo(b.rollNo));
                   return ListView.builder(
                     shrinkWrap: true,
-                    itemCount: _filteredStudents.length,
+                    itemCount: _filteredFaculties.length,
                     itemBuilder: (context, index) {
-                      final student = _filteredStudents[index];
+                      final faculty = _filteredFaculties[index];
                       return GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, '/student_details',
-                              arguments: student);
+                          Navigator.pushNamed(context, '/faculty_details',
+                              arguments: faculty);
                         },
-                        child: StudentItem(
-                          student: student,
+                        child: FacultyItem(
+                          faculty: faculty,
                         ),
                       );
                     },
                   );
-                } else if (state is StudentFailure) {
+                } else if (state is FacultyFailure) {
                   return Center(
                     child: Text(state.message),
                   );

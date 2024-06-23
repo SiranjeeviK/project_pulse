@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_pulse/core/utils/show_snackbar.dart';
-import 'package:project_pulse/features/main/presentation/bloc/main_bloc.dart';
+import 'package:project_pulse/features/main/presentation/bloc/main_bloc/main_bloc.dart';
 
 class CollegeDatabase extends StatelessWidget {
   const CollegeDatabase({super.key});
@@ -39,12 +39,8 @@ class CollegeDatabase extends StatelessWidget {
               ListTile(
                 title: const Text('Students'),
                 onTap: () {
-                  context.read<MainBloc>().add(FetchAllStudents());
                   showSnackbar(context, 'Fetching Students...');
-                  Future.delayed(const Duration(milliseconds: 2000), () {
-                    Navigator.pushNamed(context, '/student_list');
-                  });
-                  // Navigator.pushNamed(context, '/student_list');
+                  Navigator.pushNamed(context, '/student_list');
                 },
               ),
               ListTile(
