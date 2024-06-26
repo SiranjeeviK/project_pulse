@@ -9,6 +9,8 @@ class CourseClassFacultyMappingModel extends CourseClassFacultyMapping {
     required super.classCode,
     required super.facultyId,
     required super.semester,
+    super.courseName,
+    super.className,
   });
 
   CourseClassFacultyMappingModel copyWith({
@@ -17,6 +19,8 @@ class CourseClassFacultyMappingModel extends CourseClassFacultyMapping {
     String? classCode,
     String? facultyId,
     int? semester,
+    String? courseName,
+    String? className,
   }) {
     return CourseClassFacultyMappingModel(
       courseCode: courseCode ?? this.courseCode,
@@ -24,11 +28,13 @@ class CourseClassFacultyMappingModel extends CourseClassFacultyMapping {
       facultyId: facultyId ?? this.facultyId,
       mappingId: mappingId ?? this.mappingId,
       semester: semester ?? this.semester,
+      courseName: courseName ?? this.courseName,
+      className: className ?? this.className,
     );
   }
 
   /// Returns a `Map<String, dynamic>` map representing the user.
-  
+
   Map<String, dynamic> toMap() {
     final map = <String, dynamic>{};
     map['mapping_id'] = mappingId;
@@ -36,11 +42,13 @@ class CourseClassFacultyMappingModel extends CourseClassFacultyMapping {
     map['class_code'] = classCode;
     map['faculty_id'] = facultyId;
     map['semester'] = semester;
+    map['course_name'] = courseName;
+    map['class_name'] = className;
     return map;
   }
 
   /// Creates a user instance from a `Map<String, dynamic>`.
-  /// 
+  ///
   factory CourseClassFacultyMappingModel.fromMap(Map<String, dynamic> map) {
     return CourseClassFacultyMappingModel(
       mappingId: map['mapping_id'] ?? 0,
@@ -48,9 +56,12 @@ class CourseClassFacultyMappingModel extends CourseClassFacultyMapping {
       classCode: map['class_code'] ?? '',
       facultyId: map['faculty_id'] ?? '',
       semester: map['semester'] ?? 0,
+      courseName: map['course_name'] ?? '',
+      className: map['class_name'] ?? '',
     );
   }
 
   /// Creates a user instance from a JSON string.
-  factory CourseClassFacultyMappingModel.fromJson(String source) => CourseClassFacultyMappingModel.fromMap(json.decode(source));
+  factory CourseClassFacultyMappingModel.fromJson(String source) =>
+      CourseClassFacultyMappingModel.fromMap(json.decode(source));
 }

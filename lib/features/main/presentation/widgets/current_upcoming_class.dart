@@ -3,16 +3,19 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:project_pulse/core/common/cubits/app_user/app_user_cubit.dart';
 
-import 'package:project_pulse/core/constants/constants.dart';
 import 'package:project_pulse/core/theme/app_pallete.dart';
 import 'package:project_pulse/core/theme/light_pallete.dart';
 import 'package:project_pulse/core/utils/show_snackbar.dart';
+import 'package:project_pulse/features/main/data/models/class_schedule_model.dart';
+import 'package:project_pulse/features/main/domain/entities/class_schedule.dart';
 import 'package:project_pulse/features/main/presentation/cubits/current_and_upcoming_classes/current_and_upcoming_classes_cubit.dart';
 import 'package:project_pulse/features/main/presentation/widgets/time_table_bottom_sheet.dart';
 
 class CurrentUpcomingClass extends StatefulWidget {
-  const CurrentUpcomingClass({super.key});
+  final String classCode;
+  const CurrentUpcomingClass({super.key, required this.classCode});
 
   @override
   State<CurrentUpcomingClass> createState() => _CurrentUpcomingClassState();
@@ -24,7 +27,7 @@ class _CurrentUpcomingClassState extends State<CurrentUpcomingClass> {
     super.initState();
     context
         .read<CurrentAndUpcomingClassesCubit>()
-        .getCurrentAndUpcomingClasses();
+        .getCurrentAndUpcomingClasses(widget.classCode);
   }
 
   @override
@@ -62,7 +65,7 @@ class _CurrentUpcomingClassState extends State<CurrentUpcomingClass> {
             );
           }
           return MaterialButton(
-            onPressed: _onTapTimeTableBottomSheet,
+            onPressed: () => _onTapTimeTableBottomSheet(state),
             child: Padding(
               padding: const EdgeInsets.all(14.0),
               child: Row(
@@ -80,7 +83,9 @@ class _CurrentUpcomingClassState extends State<CurrentUpcomingClass> {
                       const SizedBox(height: 10),
                       Text(
                         state is CurrentAndUpcomingClassesLoaded
-                            ? state.currentClass.currentClass
+                            ? _mySchedule(state.currentClass, widget.classCode)
+                                    ?.currentClass ??
+                                '-'
                             : '-',
                         style: GoogleFonts.readexPro(
                             fontSize: 24, color: LightPallete.primaryText),
@@ -88,7 +93,7 @@ class _CurrentUpcomingClassState extends State<CurrentUpcomingClass> {
                     ],
                   ),
 
-                  // upco0ming class
+                  // upcoming class
                   Column(
                     children: [
                       Text(
@@ -98,7 +103,9 @@ class _CurrentUpcomingClassState extends State<CurrentUpcomingClass> {
                       const SizedBox(height: 10),
                       Text(
                         state is CurrentAndUpcomingClassesLoaded
-                            ? state.currentClass.upcomingClass
+                            ? _mySchedule(state.currentClass, widget.classCode)
+                                    ?.upcomingClass ??
+                                '-'
                             : '-',
                         style: GoogleFonts.readexPro(
                             fontSize: 24, color: LightPallete.primaryText),
@@ -114,7 +121,10 @@ class _CurrentUpcomingClassState extends State<CurrentUpcomingClass> {
     );
   }
 
-  void _onTapTimeTableBottomSheet() async {
+  void _onTapTimeTableBottomSheet(final state) async {
+    if (state is CurrentAndUpcomingClassesLoaded) {
+      print(state.currentClass);
+    }
     print('Tap');
     await showModalBottomSheet(
       isScrollControlled: true,
@@ -123,14 +133,17 @@ class _CurrentUpcomingClassState extends State<CurrentUpcomingClass> {
       context: context,
       builder: (context) {
         return (Platform.isAndroid || Platform.isIOS)
-            ? const TimeTableBottomSheet(url: Constants.itbsem4TimeTableSheet)
+            ? TimeTableBottomSheet(
+                url: state is CurrentAndUpcomingClassesLoaded
+                    ? _findUrl(context, state.currentClass) //BUG
+                    : 'about:blank') //TODO: Add the correct URL
             : const Text('Only supported on Android and iOS devices.');
       },
     ).then(
       (value) {
-        context
-            .read<CurrentAndUpcomingClassesCubit>()
-            .getCurrentAndUpcomingClasses();
+        // context
+        //     .read<CurrentAndUpcomingClassesCubit>()
+        //     .getCurrentAndUpcomingClasses(widget.classCode);
         if (mounted) setState(() {});
       },
     ).then((value) {
@@ -142,4 +155,37 @@ class _CurrentUpcomingClassState extends State<CurrentUpcomingClass> {
       showSnackbar(context, 'Refreshed');
     });
   }
+}
+
+String _findUrl(BuildContext context, List<ClassSchedule> list) {
+  String str = "";
+  final state = context.read<AppUserCubit>().state;
+  if (state is AppUserLoggedIn) {
+    for (var c in list) {
+      if (c == state.user.classCode) {
+        str = c.timeTableUrl;
+      }
+    }
+  }
+  return str;
+}
+
+ClassSchedule? _mySchedule(List<ClassSchedule> currentClass, String classCode) {
+  final schedule = currentClass.firstWhere(
+    (element) => element.classCode == classCode,
+    orElse: () => ClassScheduleModel(
+      classCode: '',
+      currentClass: '-',
+      currentClassStartTime: DateTime.now(),
+      currentClassEndTime: DateTime.now(),
+      currentNo: 0,
+      upcomingClass: '-',
+      timeTableUrl: '',
+      currentClassCourseCode: '',
+      currentClassMappingId: 0,
+      currentClassFacultyId: '',
+    ),
+  );
+  print(schedule.classCode + ' ' + schedule.currentClass);
+  return schedule;
 }

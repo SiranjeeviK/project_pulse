@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_pulse/features/main/presentation/bloc/class_bloc/class_bloc.dart';
 import 'package:project_pulse/features/main/presentation/widgets/items/class_item.dart';
 
-class AttendanceClassList extends StatelessWidget {
-  const AttendanceClassList({super.key});
+class AttendanceClassReport extends StatelessWidget {
+  const AttendanceClassReport({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,7 @@ class AttendanceClassList extends StatelessWidget {
     });
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Attendance Class list'),
+        title: const Text('Attendance Class Report'),
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -35,10 +35,11 @@ class AttendanceClassList extends StatelessWidget {
                           onTap: () {
                             Navigator.pushNamed(
                                 context, '/attendance/mark_attendance',
-                                // FIXME: classData is not enough for attendance, we need map data 
+                                // FIXME: classData is not enough for attendance, we need map data
                                 arguments: classData);
                           },
                           child: ClassItem(
+                            // TODO: Create new ClassItem widget
                             classData: classData,
                           ),
                         );

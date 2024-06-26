@@ -21,7 +21,8 @@ import 'package:project_pulse/features/main/data/repositories/main_repository_im
 import 'package:project_pulse/features/main/domain/repository/current_class_repository.dart';
 import 'package:project_pulse/features/main/domain/repository/main_repository.dart';
 import 'package:project_pulse/features/main/domain/usecases/courses/get_all_courses_by_class_code.dart';
-import 'package:project_pulse/features/main/domain/usecases/fetch_current_class.dart';
+import 'package:project_pulse/features/main/domain/usecases/fetch_all_current_class_schedules.dart';
+import 'package:project_pulse/features/main/domain/usecases/fetch_current_class_schedules.dart';
 import 'package:project_pulse/features/main/domain/usecases/get_all_batches.dart';
 import 'package:project_pulse/features/main/domain/usecases/get_all_classes.dart';
 import 'package:project_pulse/features/main/domain/usecases/courses/get_all_courses.dart';

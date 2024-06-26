@@ -11,7 +11,7 @@ final class CurrentAndUpcomingClassesLoading
 
 final class CurrentAndUpcomingClassesLoaded
     extends CurrentAndUpcomingClassesState {
-  final CurrentClass currentClass;
+  final List<ClassSchedule> currentClass;
   CurrentAndUpcomingClassesLoaded(this.currentClass);
 }
 

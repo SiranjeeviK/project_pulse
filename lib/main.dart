@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_pulse/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:project_pulse/core/common/widgets/page_not_found.dart';
 import 'package:project_pulse/core/theme/theme.dart';
-import 'package:project_pulse/features/attendance/presentation/pages/attendance_class_list.dart';
+import 'package:project_pulse/features/attendance/presentation/pages/attendance_class_report.dart';
+import 'package:project_pulse/features/attendance/presentation/pages/mark_attendance/mark_attendance_class_list.dart';
 import 'package:project_pulse/features/main/domain/entities/class.dart';
 import 'package:project_pulse/features/main/domain/entities/student.dart';
 import 'package:project_pulse/features/main/presentation/bloc/batch_bloc/batch_bloc.dart';
@@ -21,7 +22,7 @@ import 'package:project_pulse/features/attendance/presentation/pages/attendance_
 import 'package:project_pulse/features/main/presentation/pages/list/faculty_list.dart';
 import 'package:project_pulse/features/main/presentation/pages/list/student_list.dart';
 import 'package:project_pulse/features/attendance/presentation/pages/attendance_student_view.dart';
-import 'package:project_pulse/features/attendance/presentation/pages/mark_attendance_page.dart';
+import 'package:project_pulse/features/attendance/presentation/pages/mark_attendance/mark_attendance_page.dart';
 import 'package:project_pulse/features/main/presentation/pages/no_records_found.dart';
 import 'package:project_pulse/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:project_pulse/features/auth/presentation/pages/login_page.dart';
@@ -173,15 +174,18 @@ class _MyAppState extends State<MyApp> {
           case '/attendance':
             return MaterialPageRoute(
                 builder: (context) => const AttendanceMain());
-          case '/attendance/class_list':
+          case '/attendance/class_report':
             return MaterialPageRoute(
-                builder: (context) => const AttendanceClassList());
+                builder: (context) => const AttendanceClassReport());
           case '/attendance/mark_attendance':
             return MaterialPageRoute(
               builder: (context) => MarkAttendancePage(
                 classData: (settings.arguments as Class),
               ),
             );
+          case '/attendance/mark_attendance_class_list':
+            return MaterialPageRoute(
+                builder: (context) => const MarkAttendanceClassList());
           case '/student_details':
             return MaterialPageRoute(
                 builder: (context) => StudentDetailPage(

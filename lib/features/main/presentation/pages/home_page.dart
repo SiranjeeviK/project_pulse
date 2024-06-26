@@ -77,7 +77,9 @@ class HomePage extends StatelessWidget {
                     )),
                 addVerticalSpace(16),
                 // Report
-                const CurrentUpcomingClass(),
+                CurrentUpcomingClass(
+                  classCode: user.classCode != '' ? user.classCode : '22ITA',
+                ),
 
                 _buildAnnouncementsSection(context),
                 addVerticalSpace(16),

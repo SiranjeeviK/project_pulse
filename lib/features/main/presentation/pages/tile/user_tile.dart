@@ -3,6 +3,8 @@ import 'package:project_pulse/features/auth/data/models/user_model.dart';
 import 'package:project_pulse/init_dependencies.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+// BUG:This is illegal
+// FIXME: This doesn't follow the SOLID principles
 class UserTile extends StatelessWidget {
   final String userId;
   const UserTile({super.key, required this.userId});

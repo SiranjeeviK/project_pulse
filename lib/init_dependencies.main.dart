@@ -108,15 +108,17 @@ void _initCurrentAndUpcomingClasses() {
     )
 
     // USECASES
-    ..registerFactory<FetchCurrentClass>(
-      () => FetchCurrentClass(
-        serviceLocator(),
-      ),
-    )
+    ..registerFactory<FetchCurrentClass>(() => FetchCurrentClass(
+          serviceLocator(),
+        ))
+    ..registerFactory<FetchAllCurrentClassSchedules>(
+        () => FetchAllCurrentClassSchedules(
+              serviceLocator(),
+            ))
 
     // BLOC
     ..registerFactory<CurrentAndUpcomingClassesCubit>(
-      () => CurrentAndUpcomingClassesCubit(fetchCurrentClass: serviceLocator()),
+      () => CurrentAndUpcomingClassesCubit(fetchCurrentClass: serviceLocator(), fetchAllCurrentClassSchedules: serviceLocator()),
     );
 }
 

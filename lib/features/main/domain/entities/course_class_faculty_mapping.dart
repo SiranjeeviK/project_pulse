@@ -17,6 +17,9 @@ class CourseClassFacultyMapping {
   final String classCode;
   final String facultyId;
   final int semester;
+  // additonal fields
+  String? courseName;
+  String? className;
 
   CourseClassFacultyMapping({
     required this.mappingId,
@@ -24,6 +27,8 @@ class CourseClassFacultyMapping {
     required this.classCode,
     required this.facultyId,
     required this.semester,
+    this.courseName,
+    this.className,
   });
 
   CourseClassFacultyMapping copyWith({
@@ -32,6 +37,8 @@ class CourseClassFacultyMapping {
     String? classCode,
     String? facultyId,
     int? semester,
+    String? courseName,
+    String? className,
   }) {
     return CourseClassFacultyMapping(
       courseCode: courseCode ?? this.courseCode,
@@ -39,11 +46,13 @@ class CourseClassFacultyMapping {
       facultyId: facultyId ?? this.facultyId,
       mappingId: mappingId ?? this.mappingId,
       semester: semester ?? this.semester,
+      courseName: courseName ?? this.courseName,
+      className: className ?? this.className,
     );
   }
 
   @override
   String toString() {
-    return 'CourseClassFacultyMapping( mappingId: $mappingId, courseCode: $courseCode, classCode: $classCode, facultyId: $facultyId, mappingId: $mappingId, semester: $semester)';
+    return 'CourseClassFacultyMapping( mappingId: $mappingId, courseCode: $courseCode, classCode: $classCode, facultyId: $facultyId, mappingId: $mappingId, semester: $semester,\n courseName: $courseName, className: $className\n)';
   }
 }

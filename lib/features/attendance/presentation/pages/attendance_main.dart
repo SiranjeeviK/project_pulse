@@ -27,6 +27,8 @@
 // 4.5. [ All Semesters Report ] It will display the attendance report of the student for all the semesters
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project_pulse/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:project_pulse/features/attendance/presentation/widgets/attendance_current_class.dart';
 import 'package:project_pulse/features/main/presentation/widgets/feature_item.dart';
 
@@ -35,9 +37,10 @@ class AttendanceMain extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final state = context.read<AppUserCubit>().state;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Attendance'),
+        title: const Text('Main Attendance'),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -49,7 +52,7 @@ class AttendanceMain extends StatelessWidget {
               children: [
                 // Since this page will be only accessed by faculty, we can display the current class here
                 const Text(
-                    'Current\'s Class'), //Applicable only for that period teaching faculty
+                    'Todays Class'), //Applicable only for that period teaching faculty
                 const SizedBox(height: 10),
 
                 // 1. Current class
@@ -57,12 +60,18 @@ class AttendanceMain extends StatelessWidget {
                 // 1.1.a [ Mark Attendance ] The Respective faculty can mark the attendance of the students for that period
                 // 1.1.b [ Attendance Report ] The Respective faculty can view the attendance of the students for that period
                 // 1.2. [ No Class Schdeuled ] If the class is not ongoing, it display there is no class going on
-                const AttendanceCurrentClass(),
+                if (state is AppUserLoggedIn)
+                  AttendanceCurrentClass(
+                    classCode: state.user.classCode,
+                  ),
+
                 const SizedBox(height: 10),
                 TextButton(
                   onPressed: () {
                     // Navigate to the mark attendance page
-                    Navigator.pushNamed(context, '/attendance/class_list');
+                    Navigator.pushNamed(
+                        context, '/attendance/mark_attendance_class_list');
+                    // '/attendance/manual_select_course_class_mapping');
                   },
                   style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.all(
@@ -125,7 +134,7 @@ class AttendanceMain extends StatelessWidget {
                     context: context,
                     icon: Icons.class_,
                     label: 'Class Report',
-                    pageRoute: '/attendance/class_list',
+                    pageRoute: '/attendance/class_report',
                   ),
                 ),
 

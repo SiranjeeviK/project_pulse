@@ -1,18 +1,152 @@
-import 'package:flutter/material.dart';
-import 'package:project_pulse/core/theme/app_pallete.dart';
+import 'dart:io';
 
-class AttendanceCurrentClass extends StatelessWidget {
-  const AttendanceCurrentClass({super.key});
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:project_pulse/core/common/cubits/app_user/app_user_cubit.dart';
+
+import 'package:project_pulse/core/theme/app_pallete.dart';
+import 'package:project_pulse/core/theme/light_pallete.dart';
+import 'package:project_pulse/core/utils/show_snackbar.dart';
+import 'package:project_pulse/features/main/data/models/class_schedule_model.dart';
+import 'package:project_pulse/features/main/domain/entities/class_schedule.dart';
+import 'package:project_pulse/features/main/presentation/cubits/current_and_upcoming_classes/current_and_upcoming_classes_cubit.dart';
+import 'package:project_pulse/features/main/presentation/widgets/time_table_bottom_sheet.dart';
+
+class AttendanceCurrentClass extends StatefulWidget {
+  final String classCode;
+  const AttendanceCurrentClass({super.key, required this.classCode});
+
+  @override
+  State<AttendanceCurrentClass> createState() => _AttendanceCurrentClassState();
+}
+
+class _AttendanceCurrentClassState extends State<AttendanceCurrentClass> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // webViewController.clearCache();
+    // context.read<CurrentAndUpcomingClassesCubit>().close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(8),
+      margin: const EdgeInsets.all(6),
       width: double.infinity,
       height: 120,
       decoration: const BoxDecoration(
           color: AppPallete.whiteColor,
           borderRadius: BorderRadius.all(Radius.circular(10))),
+      child: BlocConsumer<CurrentAndUpcomingClassesCubit,
+          CurrentAndUpcomingClassesState>(
+        listener: (context, state) {
+          if (state is CurrentAndUpcomingClassesError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+              ),
+            );
+            print(state.message);
+          }
+        },
+        builder: (context, state) {
+          if (state is CurrentAndUpcomingClassesLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return SizedBox(
+            child: Padding(
+              padding: const EdgeInsets.all(14.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  // current class
+                  Column(
+                    children: [
+                      Text(
+                        'Now',
+                        style: GoogleFonts.readexPro(
+                          fontSize: 26,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        state is CurrentAndUpcomingClassesLoaded
+                            ? _mySchedule(state.currentClass, widget.classCode)
+                                    ?.currentClass ??
+                                '-'
+                            : '-',
+                        style: GoogleFonts.readexPro(
+                            fontSize: 24, color: LightPallete.primaryText),
+                      )
+                    ],
+                  ),
+
+                  IconButton(
+                      onPressed: () => _onTapTimeTableBottomSheet(state),
+                      icon: const Icon(Icons.table_view))
+                ],
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
+
+  void _onTapTimeTableBottomSheet(final state) async {
+    print('Tap');
+    await showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      useSafeArea: true,
+      context: context,
+      builder: (context) {
+        return (Platform.isAndroid || Platform.isIOS)
+            ? TimeTableBottomSheet(
+                url: state is CurrentAndUpcomingClassesLoaded
+                    ? state.currentClass[0].upcomingClass //BUG
+                    : 'about:blank',
+              ) //TODO: Add the correct URL
+            : const Text('Only supported on Android and iOS devices.');
+      },
+    ).then(
+      (value) {
+        // context
+        // .read<CurrentAndUpcomingClassesCubit>()
+        // .getCurrentAndUpcomingClasses(widget.classCode);
+        if (mounted) setState(() {});
+      },
+    );
+  }
+}
+
+ClassSchedule? _mySchedule(List<ClassSchedule> currentClass, String classCode) {
+  // print("%%%%% " + currentClass.toString());
+  for (ClassSchedule schedule in currentClass) {
+    print(classCode + "     " + schedule.classCode);
+    if (schedule.classCode == classCode) {
+      return schedule;
+    }
+  }
+
+  return ClassScheduleModel(
+    classCode: '',
+    currentClass: '--',
+    currentClassStartTime: DateTime.now(),
+    currentClassEndTime: DateTime.now(),
+    currentNo: 0,
+    upcomingClass: '-',
+    timeTableUrl: '',
+    currentClassCourseCode: '',
+    currentClassMappingId: 0,
+    currentClassFacultyId: '',
+  );
 }

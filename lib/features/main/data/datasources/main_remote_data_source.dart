@@ -326,9 +326,23 @@ class MainRemoteDataSourceImpl implements MainRemoteDataSource {
 
   @override
   Future<List<CourseClassFacultyMappingModel>>
-      getCourseClassFacultyMappingByFacultyId(String facultyId) {
-    // TODO: implement getCourseClassFacultyMappingByFacultyId
-    throw UnimplementedError();
+      getCourseClassFacultyMappingByFacultyId(String facultyId) async {
+    try {
+      final response = await supabaseClient
+          .from('course_class_faculty_mapping')
+          .select()
+          .eq('faculty_id', facultyId);
+      List<CourseClassFacultyMappingModel> courseClassFacultyMappingList = [];
+      courseClassFacultyMappingList = response
+          .map<CourseClassFacultyMappingModel>(
+              (e) => CourseClassFacultyMappingModel.fromMap(e))
+          .toList();
+      return courseClassFacultyMappingList;
+    } on PostgrestException catch (e) {
+      throw ServerException(e.message);
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
   }
 
   @override
