@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project_pulse/features/attendance/presentation/widgets/attendance_current_class.dart';
 import 'package:project_pulse/features/main/domain/entities/class.dart';
 import 'package:project_pulse/features/main/presentation/bloc/student_bloc/student_bloc.dart';
 import 'package:project_pulse/features/main/presentation/widgets/items/student_item.dart';
 import 'package:project_pulse/features/main/domain/entities/student.dart';
 
 /// Currently used in Manual Attendance
-/// 
+///
 /// This page is used to mark attendance for a particular class.
 /// It displays the class details and the list of students in that class.
 class MarkAttendancePage extends StatefulWidget {
@@ -79,76 +80,81 @@ class _MarkAttendancePageState extends State<MarkAttendancePage> {
       appBar: AppBar(
         title: const Text('Mark Attendance'),
       ),
-      body: Column(
-        children: [
-          // Class Details
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Card(
-              elevation: 2,
-              margin: const EdgeInsets.all(4.0),
-              child: Padding(
+      body: RefreshIndicator(
+        onRefresh: () => _refreshStudents(context),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              // Class Details
+              Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Row(
+                child: Card(
+                  elevation: 2,
+                  margin: const EdgeInsets.all(4.0),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
                       children: [
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(widget.classData.className,
-                                  style:
-                                      Theme.of(context).textTheme.titleMedium),
-                              Text(
-                                widget.classData.classCode,
-                                style: Theme.of(context).textTheme.labelSmall,
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(widget.classData.className,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium),
+                                  Text(
+                                    widget.classData.classCode,
+                                    style:
+                                        Theme.of(context).textTheme.labelSmall,
+                                  ),
+                                  Text(
+                                    "Department ID: ${widget.classData.departmentId.toString()}", //TODO: Fetch department name from departmentId
+                                  )
+                                ],
                               ),
-                              Text(
-                                "Department ID: ${widget.classData.departmentId.toString()}", //TODO: Fetch department name from departmentId
-                              )
-                            ],
-                          ),
+                            ),
+                            // TOTAL COUNT
+                            Flexible(
+                              child: Text(
+                                "Total Students: ${widget.classData.totalStudents.toString()}",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelSmall
+                                    ?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                              ),
+                            ),
+                          ],
                         ),
-                        // TOTAL COUNT
-                        Flexible(
-                          child: Text(
-                            "Total Students: ${widget.classData.totalStudents.toString()}",
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelSmall
-                                ?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                          ),
-                        ),
+                        AttendanceCurrentClass(
+                            classCode: widget.classData.classCode),
                       ],
                     ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ),
 
-          // Search
-          Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: _searchController,
-                decoration: const InputDecoration(
-                    labelText: 'Search Students',
-                    prefixIcon: Icon(Icons.search),
-                    border: OutlineInputBorder(),
-                    hintText: 'Enter student name, roll no, etc...,'),
-              )),
-          // Students List
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: RefreshIndicator(
-                onRefresh: () => _refreshStudents(context),
+              // Search
+              Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    controller: _searchController,
+                    decoration: InputDecoration(
+                        labelText:
+                            'Search ${widget.classData.classCode} Students',
+                        prefixIcon: Icon(Icons.search),
+                        border: OutlineInputBorder(),
+                        hintText: 'Enter student name, roll no, etc...,'),
+                  )),
+              // Students List
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: BlocBuilder<StudentBloc, StudentState>(
                   builder: (context, state) {
                     if (state is StudentLoading) {
@@ -202,9 +208,9 @@ class _MarkAttendancePageState extends State<MarkAttendancePage> {
                   },
                 ),
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
