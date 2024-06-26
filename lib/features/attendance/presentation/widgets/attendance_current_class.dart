@@ -3,16 +3,15 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:project_pulse/core/common/cubits/app_user/app_user_cubit.dart';
 
 import 'package:project_pulse/core/theme/app_pallete.dart';
 import 'package:project_pulse/core/theme/light_pallete.dart';
-import 'package:project_pulse/core/utils/show_snackbar.dart';
-import 'package:project_pulse/features/main/data/models/class_schedule_model.dart';
-import 'package:project_pulse/features/main/domain/entities/class_schedule.dart';
 import 'package:project_pulse/features/main/presentation/cubits/current_and_upcoming_classes/current_and_upcoming_classes_cubit.dart';
 import 'package:project_pulse/features/main/presentation/widgets/time_table_bottom_sheet.dart';
 
+import '../../../../core/utils/my_schedule.dart';
+
+/// This widget is used to display the current class details and the time table with a button to view the time table.
 class AttendanceCurrentClass extends StatefulWidget {
   final String classCode;
   const AttendanceCurrentClass({super.key, required this.classCode});
@@ -52,7 +51,6 @@ class _AttendanceCurrentClassState extends State<AttendanceCurrentClass> {
                 content: Text(state.message),
               ),
             );
-            print(state.message);
           }
         },
         builder: (context, state) {
@@ -75,13 +73,13 @@ class _AttendanceCurrentClassState extends State<AttendanceCurrentClass> {
                         style: GoogleFonts.readexPro(
                           fontSize: 26,
                         ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 10),
                       Text(
                         state is CurrentAndUpcomingClassesLoaded
-                            ? _mySchedule(state.currentClass, widget.classCode)
-                                    ?.currentClass ??
-                                '-'
+                            ? mySchedule(state.currentClass, widget.classCode)
+                                .currentClass
                             : '-',
                         style: GoogleFonts.readexPro(
                             fontSize: 24, color: LightPallete.primaryText),
@@ -89,9 +87,12 @@ class _AttendanceCurrentClassState extends State<AttendanceCurrentClass> {
                     ],
                   ),
 
-                  IconButton(
-                      onPressed: () => _onTapTimeTableBottomSheet(state),
-                      icon: const Icon(Icons.table_view))
+                  Tooltip(
+                    message: 'View Time Table',
+                    child: IconButton(
+                        onPressed: () => _onTapTimeTableBottomSheet(state),
+                        icon: const Icon(Icons.table_view)),
+                  )
                 ],
               ),
             ),
@@ -126,27 +127,4 @@ class _AttendanceCurrentClassState extends State<AttendanceCurrentClass> {
       },
     );
   }
-}
-
-ClassSchedule? _mySchedule(List<ClassSchedule> currentClass, String classCode) {
-  // print("%%%%% " + currentClass.toString());
-  for (ClassSchedule schedule in currentClass) {
-    print(classCode + "     " + schedule.classCode);
-    if (schedule.classCode == classCode) {
-      return schedule;
-    }
-  }
-
-  return ClassScheduleModel(
-    classCode: '',
-    currentClass: '--',
-    currentClassStartTime: DateTime.now(),
-    currentClassEndTime: DateTime.now(),
-    currentNo: 0,
-    upcomingClass: '-',
-    timeTableUrl: '',
-    currentClassCourseCode: '',
-    currentClassMappingId: 0,
-    currentClassFacultyId: '',
-  );
 }

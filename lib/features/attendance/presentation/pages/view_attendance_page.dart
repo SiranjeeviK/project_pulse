@@ -5,19 +5,19 @@ import 'package:project_pulse/features/main/presentation/bloc/student_bloc/stude
 import 'package:project_pulse/features/main/presentation/widgets/items/student_item.dart';
 import 'package:project_pulse/features/main/domain/entities/student.dart';
 
-/// Currently used in Manual Attendance
-/// 
-/// This page is used to mark attendance for a particular class.
+/// Currently used in Attendance Class Report
+///
+/// This page is used to view attendance for a particular class.
 /// It displays the class details and the list of students in that class.
-class MarkAttendancePage extends StatefulWidget {
+class ViewAttendancePage extends StatefulWidget {
   final Class classData;
-  const MarkAttendancePage({super.key, required this.classData});
+  const ViewAttendancePage({super.key, required this.classData});
 
   @override
-  State<MarkAttendancePage> createState() => _MarkAttendancePageState();
+  State<ViewAttendancePage> createState() => _ViewAttendancePageState();
 }
 
-class _MarkAttendancePageState extends State<MarkAttendancePage> {
+class _ViewAttendancePageState extends State<ViewAttendancePage> {
   final TextEditingController _searchController = TextEditingController();
   List<Student> _students = [];
   List<Student> _filteredStudents = [];
@@ -77,7 +77,7 @@ class _MarkAttendancePageState extends State<MarkAttendancePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Mark Attendance'),
+        title: const Text('View Attendance'),
       ),
       body: Column(
         children: [
@@ -185,8 +185,8 @@ class _MarkAttendancePageState extends State<MarkAttendancePage> {
                               Navigator.pushNamed(context, '/student_details',
                                   arguments: student);
                             },
+                            // Student Item navigate to a page with student details
                             child: StudentItem(
-                              //TODO: Create new StudentItem widget
                               student: student,
                             ),
                           );

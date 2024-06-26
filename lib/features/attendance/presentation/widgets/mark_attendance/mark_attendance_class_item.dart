@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:project_pulse/features/attendance/presentation/widgets/attendance_current_class.dart';
 import 'package:project_pulse/features/main/domain/entities/class.dart';
 import 'package:project_pulse/features/main/presentation/pages/tile/user_tile.dart';
-import 'package:project_pulse/features/main/presentation/widgets/current_upcoming_class.dart';
 
+/// This widget is used to display the class details and the current class
 class MarkAttendanceClassItem extends StatelessWidget {
   final Class classData;
   const MarkAttendanceClassItem({super.key, required this.classData});
@@ -54,6 +54,7 @@ class MarkAttendanceClassItem extends StatelessWidget {
               ],
             ),
             const Divider(),
+            // Current class
             AttendanceCurrentClass(
               classCode: classData.classCode,
             ),

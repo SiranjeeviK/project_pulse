@@ -34,7 +34,7 @@ class AttendanceClassReport extends StatelessWidget {
                         return GestureDetector(
                           onTap: () {
                             Navigator.pushNamed(
-                                context, '/attendance/mark_attendance',
+                                context, '/attendance/view_attendance',
                                 // FIXME: classData is not enough for attendance, we need map data
                                 arguments: classData);
                           },

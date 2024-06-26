@@ -88,8 +88,11 @@ class _CurrentUpcomingClassState extends State<CurrentUpcomingClass> {
                                 '-'
                             : '-',
                         style: GoogleFonts.readexPro(
-                            fontSize: 24, color: LightPallete.primaryText),
-                      )
+                          fontSize: 24,
+                          color: LightPallete.primaryText,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ],
                   ),
 
@@ -109,6 +112,7 @@ class _CurrentUpcomingClassState extends State<CurrentUpcomingClass> {
                             : '-',
                         style: GoogleFonts.readexPro(
                             fontSize: 24, color: LightPallete.primaryText),
+                        overflow: TextOverflow.ellipsis,
                       )
                     ],
                   ),

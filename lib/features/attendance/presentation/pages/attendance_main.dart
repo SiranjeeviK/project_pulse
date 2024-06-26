@@ -66,22 +66,23 @@ class AttendanceMain extends StatelessWidget {
                   ),
 
                 const SizedBox(height: 10),
-                TextButton(
-                  onPressed: () {
-                    // Navigate to the mark attendance page
-                    Navigator.pushNamed(
-                        context, '/attendance/mark_attendance_class_list');
-                    // '/attendance/manual_select_course_class_mapping');
-                  },
-                  style: ButtonStyle(
-                    backgroundColor: WidgetStateProperty.all(
-                        Theme.of(context).colorScheme.secondary),
-                    foregroundColor: WidgetStateProperty.all(Colors.white),
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(8),
-                    child:
-                        Text('Manually Mark Attendance for Substitute Faculty'),
+                Center(
+                  child: TextButton(
+                    onPressed: () {
+                      // Navigate to the mark attendance page
+                      Navigator.pushNamed(context,
+                          '/attendance/manual_mark_attendance_class_list');
+                      // '/attendance/manual_select_course_class_mapping');
+                    },
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStateProperty.all(
+                          Theme.of(context).colorScheme.secondary),
+                      foregroundColor: WidgetStateProperty.all(Colors.white),
+                    ),
+                    child: const Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Text('Manually Mark Attendance'),
+                    ),
                   ),
                 ), //Substitute faculty can mark the attendance of the students for that period
 

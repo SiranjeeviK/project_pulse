@@ -3,8 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_pulse/features/attendance/presentation/widgets/mark_attendance/mark_attendance_class_item.dart';
 import 'package:project_pulse/features/main/presentation/bloc/class_bloc/class_bloc.dart';
 
-class MarkAttendanceClassList extends StatelessWidget {
-  const MarkAttendanceClassList({super.key});
+
+/// This page is used to show the list of classes that can be used to mark attendance.
+class ManualMarkAttendanceClassList extends StatelessWidget {
+  const ManualMarkAttendanceClassList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +40,6 @@ class MarkAttendanceClassList extends StatelessWidget {
                               arguments: classData);
                         },
                         child: MarkAttendanceClassItem(
-                          // TODO: Create new ClassItem widget
                           classData: classData,
                         ),
                       );
