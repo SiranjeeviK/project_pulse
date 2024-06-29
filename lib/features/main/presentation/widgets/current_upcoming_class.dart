@@ -145,9 +145,9 @@ class _CurrentUpcomingClassState extends State<CurrentUpcomingClass> {
       },
     ).then(
       (value) {
-        // context
-        //     .read<CurrentAndUpcomingClassesCubit>()
-        //     .getCurrentAndUpcomingClasses(widget.classCode);
+        context
+            .read<CurrentAndUpcomingClassesCubit>()
+            .getCurrentAndUpcomingClasses(widget.classCode);
         if (mounted) setState(() {});
       },
     ).then((value) {

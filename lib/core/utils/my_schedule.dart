@@ -13,7 +13,7 @@ ClassSchedule mySchedule(List<ClassSchedule> currentClass, String classCode) {
 
   return ClassScheduleModel(
     classCode: '',
-    currentClass: '--',
+    currentClass: 'NOT FOUND', //BUG: Not found
     currentClassStartTime: DateTime.now(),
     currentClassEndTime: DateTime.now(),
     currentNo: 0,

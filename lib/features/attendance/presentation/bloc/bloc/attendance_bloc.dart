@@ -8,14 +8,15 @@ part 'attendance_state.dart';
 
 class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   final MarkAttendance _markAttendance;
-  AttendanceBloc(MarkAttendance markAttendance)
-      : _markAttendance = markAttendance,
+  AttendanceBloc({
+    required MarkAttendance markAttendance,
+  })  : _markAttendance = markAttendance,
         super(AttendanceInitial()) {
     on<AttendanceEvent>((_, emit) {
       emit(AttendanceLoading());
     });
     on<MarkTheAttendance>((event, emit) async {
-      final result = await _markAttendance(event.attendanceParams);
+      final result = await _markAttendance(event.markAttendanceParams);
       result.fold(
         (failure) => emit(AttendanceError(message: failure.message)),
         (attendanceList) =>

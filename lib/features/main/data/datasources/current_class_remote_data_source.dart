@@ -1,3 +1,5 @@
+// ignore_for_file: curly_braces_in_flow_control_structures
+
 import 'package:project_pulse/core/constants/constants.dart';
 import 'package:project_pulse/core/error/exception.dart';
 import 'package:project_pulse/features/auth/data/datasources/auth_remote_data_source.dart';
@@ -5,7 +7,6 @@ import 'package:project_pulse/features/main/data/models/class_schedule_model.dar
 import 'package:project_pulse/features/main/data/models/course_class_faculty_mapping_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:project_pulse/core/constants/constants.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract interface class CurrentClassRemoteDataSource {
@@ -63,11 +64,17 @@ class CurrentClassRemoteDataSourceImpl implements CurrentClassRemoteDataSource {
           DateTime startTime = DateTime(now.year, now.month, now.day);
           DateTime endTime = DateTime(now.year, now.month, now.day);
           if (classData[1] is String) {
+            if (!classData[1].contains(":")) {
+              classData[1] = "00:00";
+            }
             List<String> startTimeParts = classData[1].split(':');
             startTime = DateTime(now.year, now.month, now.day,
                 int.parse(startTimeParts[0]), int.parse(startTimeParts[1]));
           }
           if (classData[2] is String) {
+            if (!classData[2].contains(":")) {
+              classData[2] = "00:00";
+            }
             List<String> endTimeParts = classData[2].split(':');
             endTime = DateTime(now.year, now.month, now.day,
                 int.parse(endTimeParts[0]), int.parse(endTimeParts[1]));
@@ -142,7 +149,7 @@ class CurrentClassRemoteDataSourceImpl implements CurrentClassRemoteDataSource {
     final response =
         await query.eq('class_code', classCode).eq('course_code', courseCode);
     print(
-        "The mapping response for class $classCode got in [CurrentClassRemoteDataSource]:  " +
+        "The mapping response for class $classCode and course $courseCode got in [CurrentClassRemoteDataSource]:  " +
             response.toString());
     if (response.isEmpty) return Constants.freeClassFacultyMapping;
     final mappedData = CourseClassFacultyMappingModel.fromMap(response.first);

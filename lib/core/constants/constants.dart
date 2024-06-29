@@ -1,7 +1,6 @@
 import 'package:project_pulse/core/common/entities/user.dart';
 import 'package:project_pulse/features/main/data/models/class_schedule_model.dart';
 import 'package:project_pulse/features/main/data/models/course_class_faculty_mapping_model.dart';
-import 'package:project_pulse/features/main/domain/entities/course_class_faculty_mapping.dart';
 
 class Constants {
   static const noConnectionErrorMessage = 'Not Connected to the Internet';

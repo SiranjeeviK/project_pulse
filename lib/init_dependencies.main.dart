@@ -16,6 +16,7 @@ Future<void> initDependencies() async {
   _initDepartment();
   _initBatch();
   _initCourse();
+  _initAttendance();
 
   // Initialize Supabase client
   final supabase = await Supabase.initialize(
@@ -35,6 +36,39 @@ Future<void> initDependencies() async {
 
   serviceLocator.registerFactory<ConnectionChecker>(
       () => ConnectionCheckerImpl(serviceLocator()));
+}
+
+void _initAttendance() {
+  // DATASOURCE
+  serviceLocator
+    ..registerFactory<AttendanceRemoteDataSource>(
+      () => AttendanceRemoteDataSourceImpl(
+        supabaseClient: serviceLocator(),
+      ),
+    )
+
+    // REPOSITORY
+    ..registerFactory<AttendanceRepository>(
+      () => AttendanceRepositoryImpl(
+        connectionChecker: serviceLocator(),
+        attendanceRemoteDataSource: serviceLocator(),
+      ),
+    )
+
+    // USECASES
+    ..registerFactory<MarkAttendance>(
+      () => MarkAttendance(
+        serviceLocator(),
+      ),
+    )
+
+    /// FIXME: i don't know which one of registerFactory or registerLazySingleton is correct
+    // BLOC
+    ..registerLazySingleton<AttendanceBloc>(
+      () => AttendanceBloc(
+        markAttendance: serviceLocator(),
+      ),
+    );
 }
 
 /// Initialize all dependencies related to authentication

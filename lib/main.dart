@@ -3,8 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_pulse/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:project_pulse/core/common/widgets/page_not_found.dart';
 import 'package:project_pulse/core/theme/theme.dart';
+import 'package:project_pulse/features/attendance/presentation/bloc/bloc/attendance_bloc.dart';
 import 'package:project_pulse/features/attendance/presentation/pages/attendance_class_report.dart';
-import 'package:project_pulse/features/attendance/presentation/pages/mark_attendance/manual_mark_attendance_class_list.dart';
+import 'package:project_pulse/features/attendance/presentation/pages/mark_attendance/manual_mark_attendance_all_classes_list.dart';
 import 'package:project_pulse/features/attendance/presentation/pages/view_attendance_page.dart';
 import 'package:project_pulse/features/main/domain/entities/class.dart';
 import 'package:project_pulse/features/main/domain/entities/student.dart';
@@ -66,6 +67,7 @@ void main() async {
         BlocProvider(create: (_) => serviceLocator<DepartmentBloc>()),
         BlocProvider(create: (_) => serviceLocator<BatchBloc>()),
         BlocProvider(create: (_) => serviceLocator<CourseBloc>()),
+        BlocProvider(create: (_) => serviceLocator<AttendanceBloc>()),
       ],
       child: const MyApp(),
     ),
@@ -192,7 +194,8 @@ class _MyAppState extends State<MyApp> {
             );
           case '/attendance/manual_mark_attendance_class_list':
             return MaterialPageRoute(
-                builder: (context) => const ManualMarkAttendanceClassList());
+                builder: (context) =>
+                    const ManualMarkAttendanceAllClassesList());
           case '/student_details':
             return MaterialPageRoute(
                 builder: (context) => StudentDetailPage(

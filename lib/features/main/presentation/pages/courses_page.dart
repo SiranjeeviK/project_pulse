@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_pulse/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:project_pulse/features/main/presentation/bloc/course_bloc/course_bloc.dart';
 import 'package:project_pulse/features/main/presentation/widgets/course_detail.dart';
-
+// BUG: it stopped working after the changes
 class CoursesPage extends StatelessWidget {
   static route() =>
       MaterialPageRoute(builder: (context) => const CoursesPage());

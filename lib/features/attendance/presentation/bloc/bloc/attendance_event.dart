@@ -4,11 +4,11 @@ part of 'attendance_bloc.dart';
 sealed class AttendanceEvent {}
 
 class MarkTheAttendance extends AttendanceEvent {
-  final AttendanceParams attendanceParams;
-  MarkTheAttendance({required this.attendanceParams});
+  final MarkAttendanceParams markAttendanceParams;
+  MarkTheAttendance({required this.markAttendanceParams});
 
-  void fold(void Function(dynamic failure) param0,
-      void Function(dynamic attendanceList) param1) {}
+  // void fold(void Function(dynamic failure) param0,
+  //     void Function(dynamic attendanceList) param1) {}
 }
 
 class GetAttendance extends AttendanceEvent {

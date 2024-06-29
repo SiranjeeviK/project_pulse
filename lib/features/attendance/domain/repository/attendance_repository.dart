@@ -7,7 +7,7 @@ abstract interface class AttendanceRepository {
   // attendance crud operations
   // Future<Either<Failure, List<Attendance>>> getAttendanceList();
   Future<Either<Failure, List<Attendance>>> markAttendance(
-      AttendanceParams attendanceParams);
+      MarkAttendanceParams markAttendanceParams);
   // Future<Either<Failure, void>> deleteAttendance();
   // Future<Either<Failure, void>> updateAttendance();
 
