@@ -67,12 +67,25 @@ void _initAttendance() {
       ),
     )
 
+    // USECASES for REPORT
+
+    ..registerFactory<GetStudentAttendanceUsingDate>(
+      () => GetStudentAttendanceUsingDate(
+        serviceLocator(),
+      ),
+    )
+
     /// FIXME: i don't know which one of registerFactory or registerLazySingleton is correct
     // BLOC
     ..registerLazySingleton<AttendanceBloc>(
       () => AttendanceBloc(
         markAttendance: serviceLocator(),
         getAttendanceIfAlreadyMarked: serviceLocator(),
+      ),
+    )
+    ..registerFactory<AttendanceReportBloc>(
+      () => AttendanceReportBloc(
+        getStudentAttendanceUsingDate: serviceLocator(),
       ),
     );
 }

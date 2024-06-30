@@ -2,6 +2,7 @@ import 'package:project_pulse/core/error/exception.dart';
 import 'package:project_pulse/core/utils/generate_unique_attendance_id.dart';
 import 'package:project_pulse/features/attendance/data/models/attendance_model.dart';
 import 'package:project_pulse/features/attendance/domain/entities/student_attendance.dart';
+import 'package:project_pulse/features/attendance/domain/usecases/get_student_attendance_using_date.dart';
 import 'package:project_pulse/features/attendance/domain/usecases/mark_attendance.dart';
 import 'package:project_pulse/features/main/data/models/course_class_faculty_mapping_model.dart';
 import 'package:project_pulse/features/main/data/models/course_model.dart';
@@ -12,6 +13,9 @@ abstract interface class AttendanceRemoteDataSource {
       MarkAttendanceParams markAttendanceParams);
   Future<List<AttendanceModel>> getAttendanceByDatePeriodMappingId(
       DateTime date, int nthPeriod, int mappingId);
+
+  Future<List<AttendanceModel>> getStudentAttendanceUsingDate(
+      GetStudentAttendanceUsingDateParams params);
 }
 
 class AttendanceRemoteDataSourceImpl implements AttendanceRemoteDataSource {
@@ -148,6 +152,39 @@ class AttendanceRemoteDataSourceImpl implements AttendanceRemoteDataSource {
         return [];
       }
       return response.map((e) => AttendanceModel.fromMap(e)).toList();
+    } on PostgrestException catch (e) {
+      throw ServerException(e.message);
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<List<AttendanceModel>> getStudentAttendanceUsingDate(
+      GetStudentAttendanceUsingDateParams params) async {
+    try {
+      print(
+          '[from attendance_remote_datasource.dart] getStudentAttendanceUsingDate: ${params.rollNo}, ${params.date.toIso8601String().split('T')[0]}');
+      final response = await supabaseClient
+          .from('attendance')
+          .select(
+              '*,course_class_faculty_mapping:mapping_id(courses:course_code(*))')
+          .eq('date', params.date.toIso8601String().split('T')[0])
+          .eq('roll_number', params.rollNo)
+          .order('nth_period', ascending: true);
+      print(
+          '[from attendance_remote_datasource.dart] getStudentAttendanceUsingDate response: $response');
+      if (response.isEmpty) {
+        return [];
+      }
+      return response
+          .map((e) => AttendanceModel.fromMap(e).copyWith(
+                courseCode: e['course_class_faculty_mapping']['courses']
+                    ['course_code'],
+                remarks: e['course_class_faculty_mapping']['courses']
+                    ['course_name'],
+              ))
+          .toList();
     } on PostgrestException catch (e) {
       throw ServerException(e.message);
     } catch (e) {

@@ -9,15 +9,16 @@ import 'package:project_pulse/features/main/domain/entities/student.dart';
 ///
 /// This page is used to view attendance for a particular class.
 /// It displays the class details and the list of students in that class.
-class ViewAttendancePage extends StatefulWidget {
+class AttendanceClassReportStudentList extends StatefulWidget {
   final Class classData;
-  const ViewAttendancePage({super.key, required this.classData});
+  const AttendanceClassReportStudentList({super.key, required this.classData});
 
   @override
-  State<ViewAttendancePage> createState() => _ViewAttendancePageState();
+  State<AttendanceClassReportStudentList> createState() =>
+      _ViewAttendancePageState();
 }
 
-class _ViewAttendancePageState extends State<ViewAttendancePage> {
+class _ViewAttendancePageState extends State<AttendanceClassReportStudentList> {
   final TextEditingController _searchController = TextEditingController();
   List<Student> _students = [];
   List<Student> _filteredStudents = [];
@@ -182,7 +183,8 @@ class _ViewAttendancePageState extends State<ViewAttendancePage> {
                           final student = _filteredStudents[index];
                           return GestureDetector(
                             onTap: () {
-                              Navigator.pushNamed(context, '/student_details',
+                              Navigator.pushNamed(context,
+                                  '/attendance/class_report_class_list/student_list/student_detail_with_date',
                                   arguments: student);
                             },
                             // Student Item navigate to a page with student details

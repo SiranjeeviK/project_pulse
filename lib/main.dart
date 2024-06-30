@@ -3,11 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_pulse/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:project_pulse/core/common/widgets/page_not_found.dart';
 import 'package:project_pulse/core/theme/theme.dart';
-import 'package:project_pulse/features/attendance/presentation/bloc/bloc/attendance_bloc.dart';
-import 'package:project_pulse/features/attendance/presentation/pages/attendance_class_report.dart';
-import 'package:project_pulse/features/attendance/presentation/pages/attendance_report/student_subject_attendance_detail_page.dart';
+import 'package:project_pulse/features/attendance/presentation/bloc/attendance/attendance_bloc.dart';
+import 'package:project_pulse/features/attendance/presentation/bloc/attendance_report/attendance_report_bloc.dart';
+import 'package:project_pulse/features/attendance/presentation/pages/attendance_report/class_report/attendance_class_report.dart';
+import 'package:project_pulse/features/attendance/presentation/pages/attendance_report/class_report/student_detail_page_with_date.dart';
+import 'package:project_pulse/features/attendance/presentation/pages/attendance_report/subject_report/student_subject_attendance_detail_page.dart';
 import 'package:project_pulse/features/attendance/presentation/pages/mark_attendance/manual_mark_attendance_all_classes_list.dart';
-import 'package:project_pulse/features/attendance/presentation/pages/view_attendance_page.dart';
+import 'package:project_pulse/features/attendance/presentation/pages/attendance_report/class_report/attendance_class_report_student_list.dart';
 import 'package:project_pulse/features/main/domain/entities/class.dart';
 import 'package:project_pulse/features/main/domain/entities/student.dart';
 import 'package:project_pulse/features/main/presentation/bloc/batch_bloc/batch_bloc.dart';
@@ -69,6 +71,7 @@ void main() async {
         BlocProvider(create: (_) => serviceLocator<BatchBloc>()),
         BlocProvider(create: (_) => serviceLocator<CourseBloc>()),
         BlocProvider(create: (_) => serviceLocator<AttendanceBloc>()),
+        BlocProvider(create: (_) => serviceLocator<AttendanceReportBloc>()),
       ],
       child: const MyApp(),
     ),
@@ -178,15 +181,7 @@ class _MyAppState extends State<MyApp> {
           case '/attendance':
             return MaterialPageRoute(
                 builder: (context) => const AttendanceMain());
-          case '/attendance/class_report':
-            return MaterialPageRoute(
-                builder: (context) => const AttendanceClassReport());
-          case '/attendance/view_attendance':
-            return MaterialPageRoute(
-              builder: (context) => ViewAttendancePage(
-                classData: (settings.arguments as Class),
-              ),
-            );
+
           case '/attendance/mark_attendance':
             return MaterialPageRoute(
               builder: (context) => MarkAttendancePage(
@@ -197,16 +192,36 @@ class _MyAppState extends State<MyApp> {
             return MaterialPageRoute(
                 builder: (context) =>
                     const ManualMarkAttendanceAllClassesList());
-          case '/student_details':
-            return MaterialPageRoute(
-                builder: (context) => StudentDetailPage(
-                      student: (settings.arguments as Student),
-                    ));
           case '/attendence/student_subject_attendance_details':
             return MaterialPageRoute(
-                builder: (context) => StudentSubjectAttendanceDetailPage(
-                      student: (settings.arguments as Student),
-                    ));
+              builder: (context) => StudentSubjectAttendanceDetailPage(
+                params: (settings.arguments
+                    as StudentSubjectAttendanceDetailsParams),
+              ),
+            );
+          case '/student_details':
+            return MaterialPageRoute(
+              builder: (context) => StudentDetailPage(
+                student: (settings.arguments as Student),
+              ),
+            );
+
+          // Attendance Class Report
+          case '/attendance/class_report_class_list':
+            return MaterialPageRoute(
+                builder: (context) => const AttendanceClassReport());
+          case '/attendance/class_report_class_list/student_list':
+            return MaterialPageRoute(
+              builder: (context) => AttendanceClassReportStudentList(
+                classData: (settings.arguments as Class),
+              ),
+            );
+          case '/attendance/class_report_class_list/student_list/student_detail_with_date':
+            return MaterialPageRoute(
+              builder: (context) => StudentDetailPageWithDate(
+                student: (settings.arguments as Student),
+              ),
+            );
           case '/attendance/student_view':
             return MaterialPageRoute(
                 builder: (context) => const AttendanceStudentView());

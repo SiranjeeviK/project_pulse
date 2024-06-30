@@ -5,6 +5,7 @@ import 'package:project_pulse/features/attendance/data/datasources/attendance_re
 import 'package:project_pulse/features/attendance/data/models/attendance_model.dart';
 import 'package:project_pulse/features/attendance/domain/entities/attendance.dart';
 import 'package:project_pulse/features/attendance/domain/repository/attendance_repository.dart';
+import 'package:project_pulse/features/attendance/domain/usecases/get_student_attendance_using_date.dart';
 import 'package:project_pulse/features/attendance/domain/usecases/mark_attendance.dart';
 
 class AttendanceRepositoryImpl implements AttendanceRepository {
@@ -54,6 +55,20 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
       return Right(attendanceList as List<Attendance>);
     } catch (e) {
       return Left(Failure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Attendance>>> getStudentAttendanceUsingDate(GetStudentAttendanceUsingDateParams params) async {
+    if(await connectionChecker.isConnected) {
+      try {
+        final attendanceList = await attendanceRemoteDataSource.getStudentAttendanceUsingDate(params);
+        return Right(attendanceList as List<Attendance>);
+      } catch (e) {
+        return Left(Failure(e.toString()));
+      }
+    } else {
+      return Left(Failure('No internet connection'));
     }
   }
 }

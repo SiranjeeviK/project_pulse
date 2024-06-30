@@ -10,7 +10,7 @@ import 'package:project_pulse/core/utils/show_snackbar.dart';
 import 'package:project_pulse/features/attendance/domain/entities/student_attendance.dart';
 import 'package:project_pulse/features/attendance/domain/get_attendance_if_already_marked.dart';
 import 'package:project_pulse/features/attendance/domain/usecases/mark_attendance.dart';
-import 'package:project_pulse/features/attendance/presentation/bloc/bloc/attendance_bloc.dart';
+import 'package:project_pulse/features/attendance/presentation/bloc/attendance/attendance_bloc.dart';
 import 'package:project_pulse/features/attendance/presentation/widgets/attendance_current_class.dart';
 import 'package:project_pulse/features/attendance/presentation/widgets/mark_attendance/attendance_student_item.dart';
 import 'package:project_pulse/features/main/domain/entities/class.dart';
@@ -409,9 +409,14 @@ class _MarkAttendancePageState extends State<MarkAttendancePage> {
                           final student = _filteredStudents[index];
                           Widget studentItemWidget = GestureDetector(
                             onTap: () {
-                              Navigator.pushNamed(context,
-                                  '/attendence/student_subject_attendance_details',
-                                  arguments: student);
+                              Navigator.pushNamed(
+                                context,
+                                '/attendence/student_subject_attendance_details',
+                                arguments:
+                                    StudentSubjectAttendanceDetailsParams(
+                                        student: student,
+                                        classSchedule: currentClass),
+                              );
                             },
                             child: AttendanceStudentItem(
                               key: ValueKey(student.rollNo),
@@ -462,4 +467,11 @@ bool _checkIfClassChanged(BuildContext context, DateTime currentClassEndTime) {
     return true;
   }
   return false;
+}
+
+class StudentSubjectAttendanceDetailsParams {
+  final Student student;
+  final ClassSchedule classSchedule;
+  const StudentSubjectAttendanceDetailsParams(
+      {required this.student, required this.classSchedule});
 }

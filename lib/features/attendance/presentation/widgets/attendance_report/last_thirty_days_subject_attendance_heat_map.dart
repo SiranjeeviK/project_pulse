@@ -12,27 +12,22 @@ class LastThirtyDaysSubjectAttendanceHeatMap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(dataset);
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: HeatMap(
         colorsets: {
           -1: Colors.transparent,
           0: Colors.red,
-          1: Colors.green[100]!,
-          2: Colors.green[200]!,
-          3: Colors.green[300]!,
-          4: Colors.green[400]!,
-          5: Colors.green[500]!,
-          6: Colors.green[600]!,
-          7: Colors.green[700]!,
-          8: Colors.green[800]!,
-          9: Colors.green[900]!,
+          1: Colors.green[200]!,
+          2: Colors.green[500]!,
+          3: Colors.green[900]!,
         },
         startDate: DateTime.now().subtract(const Duration(days: 30)),
         endDate: DateTime.now().add(const Duration(days: 0)),
         showText: true,
         size: 40,
-        colorTipCount: 9,
+        colorTipCount: 5,
         defaultColor: Colors.grey[300]!,
         textColor: Colors.black,
         showColorTip: true,

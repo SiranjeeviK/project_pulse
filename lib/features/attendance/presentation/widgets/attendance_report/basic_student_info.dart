@@ -21,15 +21,20 @@ class BasicStudentInfo extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 18.0),
+            Center(
+              child: UserAvatar(
+                user: student,
+                radius: 35,
+              ),
+            ),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               Text(
                 student.name,
-                style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                      overflow: TextOverflow.ellipsis,
-                    ),
-              ),
-              UserAvatar(
-                user: student,
+                style: const TextStyle(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.bold,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
               const SizedBox(height: 48.0),
             ]),

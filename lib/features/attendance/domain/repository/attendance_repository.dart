@@ -1,6 +1,7 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:project_pulse/core/error/failure.dart';
 import 'package:project_pulse/features/attendance/domain/entities/attendance.dart';
+import 'package:project_pulse/features/attendance/domain/usecases/get_student_attendance_using_date.dart';
 import 'package:project_pulse/features/attendance/domain/usecases/mark_attendance.dart';
 
 abstract interface class AttendanceRepository {
@@ -11,6 +12,8 @@ abstract interface class AttendanceRepository {
 
   Future<Either<Failure, List<Attendance>>> getAttendanceByDatePeriodMappingId(
       DateTime date, int nthPeriod, int mappingId);
+
+  Future<Either<Failure, List<Attendance>>> getStudentAttendanceUsingDate(GetStudentAttendanceUsingDateParams params);
   // Future<Either<Failure, void>> deleteAttendance();
   // Future<Either<Failure, void>> updateAttendance();
 

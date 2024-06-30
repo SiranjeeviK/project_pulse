@@ -10,8 +10,10 @@ import 'package:project_pulse/features/attendance/data/datasources/attendance_re
 import 'package:project_pulse/features/attendance/data/repositories/attendance_repository_impl.dart';
 import 'package:project_pulse/features/attendance/domain/get_attendance_if_already_marked.dart';
 import 'package:project_pulse/features/attendance/domain/repository/attendance_repository.dart';
+import 'package:project_pulse/features/attendance/domain/usecases/get_student_attendance_using_date.dart';
 import 'package:project_pulse/features/attendance/domain/usecases/mark_attendance.dart';
-import 'package:project_pulse/features/attendance/presentation/bloc/bloc/attendance_bloc.dart';
+import 'package:project_pulse/features/attendance/presentation/bloc/attendance/attendance_bloc.dart';
+import 'package:project_pulse/features/attendance/presentation/bloc/attendance_report/attendance_report_bloc.dart';
 import 'package:project_pulse/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:project_pulse/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:project_pulse/features/auth/domain/repository/auth_repository.dart';

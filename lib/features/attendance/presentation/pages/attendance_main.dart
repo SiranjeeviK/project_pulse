@@ -135,13 +135,13 @@ class AttendanceMain extends StatelessWidget {
                     context: context,
                     icon: Icons.class_,
                     label: 'Class Report',
-                    pageRoute: '/attendance/class_report',
+                    pageRoute: '/attendance/class_report_class_list',
                   ),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                
+
                 SizedBox(
                   width: double.infinity,
                   height: 120,
