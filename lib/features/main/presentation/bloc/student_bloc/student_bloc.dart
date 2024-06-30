@@ -21,7 +21,10 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     on<StudentEvent>((_, emit) {
       emit(StudentLoading());
     });
-
+    on<ResetStudents>((_, emit) {
+      // StudentListLoaded(data: const []);
+      emit(StudentInitial());
+    });
     on<FetchAllStudents>(_onFetchAllStudents);
     on<FetchStudentsByClassCode>(_onFetchStudentsByClassCode);
   }

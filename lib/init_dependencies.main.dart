@@ -61,12 +61,18 @@ void _initAttendance() {
         serviceLocator(),
       ),
     )
+    ..registerFactory<GetAttendanceIfAlreadyMarked>(
+      () => GetAttendanceIfAlreadyMarked(
+        serviceLocator(),
+      ),
+    )
 
     /// FIXME: i don't know which one of registerFactory or registerLazySingleton is correct
     // BLOC
     ..registerLazySingleton<AttendanceBloc>(
       () => AttendanceBloc(
         markAttendance: serviceLocator(),
+        getAttendanceIfAlreadyMarked: serviceLocator(),
       ),
     );
 }
@@ -152,7 +158,9 @@ void _initCurrentAndUpcomingClasses() {
 
     // BLOC
     ..registerFactory<CurrentAndUpcomingClassesCubit>(
-      () => CurrentAndUpcomingClassesCubit(fetchCurrentClass: serviceLocator(), fetchAllCurrentClassSchedules: serviceLocator()),
+      () => CurrentAndUpcomingClassesCubit(
+          fetchCurrentClass: serviceLocator(),
+          fetchAllCurrentClassSchedules: serviceLocator()),
     );
 }
 

@@ -15,3 +15,11 @@ class GetAttendance extends AttendanceEvent {
   final String studentId;
   GetAttendance({required this.studentId});
 }
+
+class GetAttendanceByDatePeriodMappingId extends AttendanceEvent {
+  final CheckAttendanceAlreadyMarkedParams checkAttendanceAlreadyMarkedParams;
+  GetAttendanceByDatePeriodMappingId(
+      {required this.checkAttendanceAlreadyMarkedParams});
+}
+
+class ResetAttendance extends AttendanceEvent {}

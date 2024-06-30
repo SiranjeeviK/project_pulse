@@ -8,6 +8,9 @@ abstract interface class AttendanceRepository {
   // Future<Either<Failure, List<Attendance>>> getAttendanceList();
   Future<Either<Failure, List<Attendance>>> markAttendance(
       MarkAttendanceParams markAttendanceParams);
+
+  Future<Either<Failure, List<Attendance>>> getAttendanceByDatePeriodMappingId(
+      DateTime date, int nthPeriod, int mappingId);
   // Future<Either<Failure, void>> deleteAttendance();
   // Future<Either<Failure, void>> updateAttendance();
 

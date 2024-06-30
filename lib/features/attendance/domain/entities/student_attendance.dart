@@ -2,9 +2,7 @@
 class StudentAttendance {
   final String studentId;
   final String rollNo;
-  final String status;
-
-
+  late String status;
 
   // used for updating attendance
   final String? attendanceId;
@@ -12,7 +10,26 @@ class StudentAttendance {
   StudentAttendance({
     required this.studentId,
     required this.rollNo,
-    required this.status,
+    this.status = '',
     this.attendanceId,
   });
+
+  @override
+  String toString() {
+    return 'StudentAttendance(studentId: $studentId, rollNo: $rollNo, status: $status, attendanceId: $attendanceId)';
+  }
+
+  StudentAttendance copyWith({
+    String? studentId,
+    String? rollNo,
+    String? status,
+    String? attendanceId,
+  }) {
+    return StudentAttendance(
+      studentId: studentId ?? this.studentId,
+      rollNo: rollNo ?? this.rollNo,
+      status: status ?? this.status,
+      attendanceId: attendanceId ?? this.attendanceId,
+    );
+  }
 }

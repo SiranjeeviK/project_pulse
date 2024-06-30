@@ -81,7 +81,10 @@ class CurrentClassRemoteDataSourceImpl implements CurrentClassRemoteDataSource {
           }
           String? courseCode =
               Constants.itbSem4SubjectToCourseCode[classData[0]];
-
+          if (classData[0].contains("SUN")) {
+            //TODO: remove this
+            courseCode = "SUN";
+          }
           print("The course code in [CurrentClassRemoteDataSource]:  " +
               courseCode.toString());
           final mapping = await _getMappingId(courseCode, key);

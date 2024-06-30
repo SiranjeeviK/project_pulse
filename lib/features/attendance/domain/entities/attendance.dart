@@ -30,6 +30,7 @@ class Attendance {
   // available in attendance table
   final String attendanceId;
   final DateTime date;
+  final int nthPeriod;
   final String status;
   final String rollNo;
   final String? remarks;
@@ -43,11 +44,11 @@ class Attendance {
 
   // available in students table
   final String studentId;
-  
 
   Attendance({
     required this.attendanceId,
     required this.date,
+    required this.nthPeriod,
     required this.status,
     required this.rollNo,
     this.remarks,
@@ -62,6 +63,7 @@ class Attendance {
   Attendance copyWith({
     String? attendanceId,
     DateTime? date,
+    int? nthPeriod,
     String? status,
     String? rollNo,
     String? remarks,
@@ -75,6 +77,7 @@ class Attendance {
     return Attendance(
       attendanceId: attendanceId ?? this.attendanceId,
       date: date ?? this.date,
+      nthPeriod: nthPeriod ?? this.nthPeriod,
       status: status ?? this.status,
       rollNo: rollNo ?? this.rollNo,
       remarks: remarks ?? this.remarks,
@@ -84,6 +87,16 @@ class Attendance {
       classCode: classCode ?? this.classCode,
       facultyId: facultyId ?? this.facultyId,
       studentId: studentId ?? this.studentId,
-  );
+    );
+  }
+
+  @override
+  String toString() {
+    return minifiedString;
+    // return 'Attendance(attendanceId: $attendanceId, date: $date, nthPeriod: $nthPeriod, status: $status, rollNo: $rollNo, remarks: $remarks, substituteFacultyId: $substituteFacultyId, mapppingId: $mapppingId, courseCode: $courseCode, classCode: $classCode, facultyId: $facultyId, studentId: $studentId)';
+  }
+
+  String get minifiedString {
+    return 'Attendance(attendanceId: $attendanceId, status: $status \n)';
   }
 }

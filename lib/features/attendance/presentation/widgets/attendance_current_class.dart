@@ -14,7 +14,8 @@ import '../../../../core/utils/my_schedule.dart';
 /// This widget is used to display the current class details and the time table with a button to view the time table.
 class AttendanceCurrentClass extends StatefulWidget {
   final String classCode;
-  const AttendanceCurrentClass({super.key, required this.classCode});
+  const AttendanceCurrentClass(
+      {super.key, required this.classCode});
 
   @override
   State<AttendanceCurrentClass> createState() => _AttendanceCurrentClassState();

@@ -5,6 +5,8 @@ sealed class StudentEvent {}
 
 final class FetchAllStudents extends StudentEvent {}
 
+final class ResetStudents extends StudentEvent {}
+
 final class FetchStudentByRegisterNo extends StudentEvent {
   final String registerNo;
   FetchStudentByRegisterNo(this.registerNo);

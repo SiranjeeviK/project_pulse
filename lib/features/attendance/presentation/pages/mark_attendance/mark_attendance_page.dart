@@ -1,3 +1,5 @@
+// ignore_for_file: curly_braces_in_flow_control_structures
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -6,6 +8,7 @@ import 'package:project_pulse/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:project_pulse/core/utils/my_schedule.dart';
 import 'package:project_pulse/core/utils/show_snackbar.dart';
 import 'package:project_pulse/features/attendance/domain/entities/student_attendance.dart';
+import 'package:project_pulse/features/attendance/domain/get_attendance_if_already_marked.dart';
 import 'package:project_pulse/features/attendance/domain/usecases/mark_attendance.dart';
 import 'package:project_pulse/features/attendance/presentation/bloc/bloc/attendance_bloc.dart';
 import 'package:project_pulse/features/attendance/presentation/widgets/attendance_current_class.dart';
@@ -32,12 +35,15 @@ class _MarkAttendancePageState extends State<MarkAttendancePage> {
   final TextEditingController _searchController = TextEditingController();
   List<Student> _students = [];
   List<Student> _filteredStudents = [];
+  bool oldAttendanceLoaded = false;
 
-  // List<StudentAttendance> _studentAttendances = [];
+  late List<StudentAttendance> _studentAttendances = [];
+
   @override
   void initState() {
     super.initState();
     _searchController.addListener(_searchStudents);
+    _studentAttendances = [];
     _fetchInitialData();
   }
 
@@ -47,12 +53,50 @@ class _MarkAttendancePageState extends State<MarkAttendancePage> {
         .add(FetchStudentsByClassCode(widget.classData.classCode));
   }
 
+  void _fetchAttendanceData(ClassSchedule currentClass) {
+    context.read<AttendanceBloc>().add(ResetAttendance());
+    context.read<AttendanceBloc>().add( //it is used to get the attendance data for selected class if already marked
+          GetAttendanceByDatePeriodMappingId(
+            checkAttendanceAlreadyMarkedParams:
+                CheckAttendanceAlreadyMarkedParams(
+              date: DateTime.now(),
+              nthPeriod: currentClass
+                  .currentNo, 
+              mappingId: currentClass
+                  .currentClassMappingId, 
+            ),
+          ),
+        );
+
+    final state = context.read<AttendanceBloc>().state;
+    print('[from _fetchAttendanceData ]AttendanceState: ${state}');
+    if (state is AttendanceAlreadyMarked && !oldAttendanceLoaded) {
+      oldAttendanceLoaded = true;
+      _studentAttendances = state.attendanceList //loading the old attendance data
+          .map(
+            (attendance) => StudentAttendance(
+              rollNo: attendance.rollNo,
+              studentId: attendance.studentId,
+              status: attendance.status,
+            ),
+          )
+          .toList();
+      print(
+          '[from _fetchAttendanceData ]state.attendanceList: ${state.attendanceList}');
+      print(
+          '[from _fetchAttendanceData ]_studentAttendances: $_studentAttendances');
+      setState(() {});
+    }
+  }
+
+  // OK
   @override
   void dispose() {
     _searchController.dispose();
     super.dispose();
   }
 
+  // OK
   void _searchStudents() {
     final query = _searchController.text;
     if (query.isNotEmpty) {
@@ -75,6 +119,7 @@ class _MarkAttendancePageState extends State<MarkAttendancePage> {
     }
   }
 
+  //OK
   Future<void> _refreshStudents(BuildContext context) async {
     setState(() {
       context
@@ -86,12 +131,19 @@ class _MarkAttendancePageState extends State<MarkAttendancePage> {
 
   @override
   Widget build(BuildContext context) {
-    final userState = context.read<AppUserCubit>().state;
-    final attendanceState = context.read<AttendanceBloc>().state;
+    context.read<AttendanceBloc>().add(ResetAttendance());
+    final userState =
+        context.read<AppUserCubit>().state; //it is used to get the user id
+    final attendanceState = context
+        .read<AttendanceBloc>()
+        .state; //it is used to get the attendance state
+    print('[build started] AttendanceState: $attendanceState');
 
-    final classScheduleState =
-        context.read<CurrentAndUpcomingClassesCubit>().state;
+    final classScheduleState = context
+        .read<CurrentAndUpcomingClassesCubit>()
+        .state; //it is used to get the class schedule state
     if (classScheduleState is CurrentAndUpcomingClassesError) {
+      //if there is an error in class schedule state
       return Center(
         child: Text(classScheduleState.message),
       );
@@ -101,20 +153,60 @@ class _MarkAttendancePageState extends State<MarkAttendancePage> {
         child: CircularProgressIndicator(),
       );
     }
-    late final ClassSchedule currentClass;
+    late ClassSchedule currentClass;
+    late String attendanceStatus = '-';
     if (classScheduleState is CurrentAndUpcomingClassesLoaded) {
       currentClass = mySchedule(
-          classScheduleState.currentClass, widget.classData.classCode);
+          classScheduleState.currentClass,
+          widget.classData.classCode);
     }
-    _checkIfClassChanged(context, currentClass.currentClassEndTime);
+    _fetchAttendanceData(
+        currentClass); //it is used to get the attendance data for selected class
+    void onAttendanceMarked(String rollNo, String status) {
+      setState(() {
+        final index = _studentAttendances
+            .indexWhere((element) => element.rollNo == rollNo);
+        if (index != -1) {
+          _studentAttendances[index].status = status;
+        }
+      });
+    }
+
+    String checkAttendanceStatus() {
+      final attendance = context.read<AttendanceBloc>().state;
+      if (attendance is AttendanceMarked) {
+        attendanceStatus = 'Attendance Marked';
+      } else if (attendance is AttendanceAlreadyMarked) {
+        attendanceStatus = 'Attendance Already Marked';
+      } else {
+        if (attendance is AttendanceLoaded) {
+          print('the attendance list is \n');
+          print(attendance.attendanceList);
+          if (attendance.attendanceList.isEmpty) {
+            attendanceStatus = 'Attendance Not Marked';
+          } else {
+            attendanceStatus = 'Attendance Marked';
+          }
+          print('AttendanceStatus: $attendanceStatus');
+        }
+      }
+
+      setState(() {});
+
+      return attendanceStatus;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Mark Attendance of ${currentClass.classCode}'),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          print(currentClass);
-          print(_students);
+          print('[from floating action button]: $_studentAttendances');
+          if (_studentAttendances.isEmpty) {
+            showSnackbar(context, 'No students to mark attendance');
+            return;
+          }
           if (!_checkIfClassChanged(
               context, currentClass.currentClassEndTime)) {
             context.read<AttendanceBloc>().add(
@@ -123,13 +215,7 @@ class _MarkAttendancePageState extends State<MarkAttendancePage> {
                       date: DateTime.now(),
                       mapppingId: currentClass.currentClassMappingId,
                       nthPeriod: currentClass.currentNo,
-                      studentAttendances: _students
-                          .map((student) => StudentAttendance(
-                                rollNo: student.rollNo,
-                                status: 'present',
-                                studentId: student.id,
-                              ))
-                          .toList(),
+                      studentAttendances: _studentAttendances,
                       facultyId: userState is AppUserLoggedIn
                           ? userState.user.id ==
                                   currentClass.currentClassFacultyId
@@ -147,12 +233,19 @@ class _MarkAttendancePageState extends State<MarkAttendancePage> {
                   ),
                 );
             showSnackbar(context, 'Attendance marking...');
+            print('AttendanceState: $attendanceState');
 
             if (attendanceState is AttendanceLoaded) {
-              showSnackbar(context, 'Attendance Marked Successfully!');
+              if (attendanceState is AttendanceMarked) {
+                showSnackbar(context, 'Attendance Marked Successfully!');
+              } else if (attendanceState is AttendanceAlreadyMarked)
+                showSnackbar(context, 'Attendance Already Marked!');
             } else if (attendanceState is AttendanceError) {
               showSnackbar(context, attendanceState.message);
             }
+            setState(() {
+              checkAttendanceStatus();
+            });
             // Navigator.pushNamed(context, '/mark_attendance_manual',
             //     arguments: widget.classData);
           }
@@ -204,7 +297,7 @@ class _MarkAttendancePageState extends State<MarkAttendancePage> {
                             // TOTAL COUNT & CURRENT CLASS DETAILS
                             Flexible(
                               child: Text(
-                                "Total Students: ${widget.classData.totalStudents.toString()}\n${currentClass.currentNo}th Period\n${currentClass.currentClassStartTime.hour}:${currentClass.currentClassStartTime.minute} - ${currentClass.currentClassEndTime.hour}:${currentClass.currentClassStartTime.minute}",
+                                "Total Students: ${widget.classData.totalStudents.toString()}\n${currentClass.currentNo}th Period\n${currentClass.currentClassStartTime.hour}:${currentClass.currentClassStartTime.minute} - ${currentClass.currentClassEndTime.hour}:${currentClass.currentClassEndTime.minute}",
                                 style: Theme.of(context)
                                     .textTheme
                                     .labelSmall
@@ -215,6 +308,18 @@ class _MarkAttendancePageState extends State<MarkAttendancePage> {
                               ),
                             ),
                           ],
+                        ),
+                        SizedBox(
+                          child: Text(
+                            'Status: ${checkAttendanceStatus()}',
+                            style: TextStyle(
+                                color:
+                                    attendanceStatus == 'Attendance Marked' ||
+                                            attendanceStatus ==
+                                                'Attendance Already Marked'
+                                        ? Colors.green
+                                        : Colors.red),
+                          ),
                         ),
                         AttendanceCurrentClass(
                           classCode: widget.classData.classCode,
@@ -238,6 +343,7 @@ class _MarkAttendancePageState extends State<MarkAttendancePage> {
                       hintText: 'Enter student name, roll no, etc...,'),
                 ),
               ),
+
               // Students List
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -252,9 +358,19 @@ class _MarkAttendancePageState extends State<MarkAttendancePage> {
                       _filteredStudents = _searchController.text.isEmpty
                           ? _students
                           : _filteredStudents;
-                      // WidgetsBinding.instance.addPostFrameCallback((_) {
-                      //   setState(() {});
-                      // });
+                      print('[from BlocBuilder]: $_studentAttendances');
+                      if (_studentAttendances.isEmpty ||
+                          _studentAttendances.length != _students.length) {
+                        // Only initialize if empty
+                        _studentAttendances = _students
+                            .map(
+                              (student) => StudentAttendance(
+                                rollNo: student.rollNo,
+                                studentId: student.id,
+                              ),
+                            )
+                            .toList();
+                      }
                       if (_filteredStudents.isEmpty || _students.isEmpty) {
                         return Center(
                           child: GestureDetector(
@@ -274,6 +390,9 @@ class _MarkAttendancePageState extends State<MarkAttendancePage> {
                         itemCount: _filteredStudents.length,
                         itemBuilder: (context, index) {
                           final student = _filteredStudents[index];
+                          print(
+                              '[from list view builder]: $_studentAttendances');
+                          print('[from list view builder]: ${_students}');
                           return GestureDetector(
                             onTap: () {
                               Navigator.pushNamed(context, '/student_details',
@@ -281,6 +400,11 @@ class _MarkAttendancePageState extends State<MarkAttendancePage> {
                             },
                             child: AttendanceStudentItem(
                               student: student,
+                              initialStatus: _studentAttendances
+                                  .firstWhere((element) =>
+                                      element.rollNo == student.rollNo)
+                                  .status,
+                              onAttendanceMarked: onAttendanceMarked,
                             ),
                           );
                         },

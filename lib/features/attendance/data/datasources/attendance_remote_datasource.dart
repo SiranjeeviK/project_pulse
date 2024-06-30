@@ -10,6 +10,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 abstract interface class AttendanceRemoteDataSource {
   Future<List<AttendanceModel>> markAttendance(
       MarkAttendanceParams markAttendanceParams);
+  Future<List<AttendanceModel>> getAttendanceByDatePeriodMappingId(
+      DateTime date, int nthPeriod, int mappingId);
 }
 
 class AttendanceRemoteDataSourceImpl implements AttendanceRemoteDataSource {
@@ -110,6 +112,7 @@ class AttendanceRemoteDataSourceImpl implements AttendanceRemoteDataSource {
                 markAttendanceParams.mapppingId,
                 studentAttendance.rollNo),
             'date': markAttendanceParams.date.toIso8601String(),
+            'nth_period': markAttendanceParams.nthPeriod,
             'status': studentAttendance.status,
             'roll_number': studentAttendance.rollNo,
             'remarks': markAttendanceParams.remarks,
@@ -123,6 +126,28 @@ class AttendanceRemoteDataSourceImpl implements AttendanceRemoteDataSource {
       print(
           '[from attendance_remote_datasource.dart] attendences: $attendences');
       return attendences;
+    } on PostgrestException catch (e) {
+      throw ServerException(e.message);
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  /// This method is used to get attendance by date, period and mapping id. Helps us the attendance already marked for a particular class.
+  @override
+  Future<List<AttendanceModel>> getAttendanceByDatePeriodMappingId(
+      DateTime date, int nthPeriod, int mappingId) async {
+    try {
+      final response = await supabaseClient
+          .from('attendance')
+          .select()
+          .eq('date', date.toIso8601String())
+          .eq('nth_period', nthPeriod)
+          .eq('mapping_id', mappingId);
+      if (response.isEmpty) {
+        return [];
+      }
+      return response.map((e) => AttendanceModel.fromMap(e)).toList();
     } on PostgrestException catch (e) {
       throw ServerException(e.message);
     } catch (e) {

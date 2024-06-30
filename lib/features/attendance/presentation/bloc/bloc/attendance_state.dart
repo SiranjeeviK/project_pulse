@@ -12,6 +12,14 @@ final class AttendanceLoaded extends AttendanceState {
   AttendanceLoaded({required this.attendanceList});
 }
 
+final class AttendanceMarked extends AttendanceLoaded {
+  AttendanceMarked({required super.attendanceList});
+}
+
+final class AttendanceAlreadyMarked extends AttendanceLoaded {
+  AttendanceAlreadyMarked({required super.attendanceList});
+}
+
 final class AttendanceError extends AttendanceState {
   final String message;
   AttendanceError({required this.message});

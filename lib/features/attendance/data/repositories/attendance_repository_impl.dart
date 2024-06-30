@@ -3,6 +3,7 @@ import 'package:project_pulse/core/error/failure.dart';
 import 'package:project_pulse/core/network/connection_checker.dart';
 import 'package:project_pulse/features/attendance/data/datasources/attendance_remote_datasource.dart';
 import 'package:project_pulse/features/attendance/data/models/attendance_model.dart';
+import 'package:project_pulse/features/attendance/domain/entities/attendance.dart';
 import 'package:project_pulse/features/attendance/domain/repository/attendance_repository.dart';
 import 'package:project_pulse/features/attendance/domain/usecases/mark_attendance.dart';
 
@@ -43,6 +44,16 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
       }
     } else {
       return Left(Failure('No internet connection'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Attendance>>> getAttendanceByDatePeriodMappingId(DateTime date, int nthPeriod, int mappingId) async {
+    try {
+      final attendanceList = await attendanceRemoteDataSource.getAttendanceByDatePeriodMappingId(date, nthPeriod, mappingId);
+      return Right(attendanceList as List<Attendance>);
+    } catch (e) {
+      return Left(Failure(e.toString()));
     }
   }
 }

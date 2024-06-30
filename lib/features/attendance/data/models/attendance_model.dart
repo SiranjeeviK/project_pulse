@@ -34,6 +34,7 @@ class AttendanceModel extends Attendance {
   AttendanceModel({
     required super.attendanceId,
     required super.date,
+    required super.nthPeriod,
     required super.status,
     required super.rollNo,
     super.remarks,
@@ -48,6 +49,7 @@ class AttendanceModel extends Attendance {
   AttendanceModel copyWith({
     String? attendanceId,
     DateTime? date,
+    int? nthPeriod,
     String? status,
     String? rollNo,
     String? remarks,
@@ -61,6 +63,7 @@ class AttendanceModel extends Attendance {
     return AttendanceModel(
       attendanceId: attendanceId ?? super.attendanceId,
       date: date ?? super.date,
+      nthPeriod: nthPeriod ?? super.nthPeriod,
       status: status ?? super.status,
       rollNo: rollNo ?? super.rollNo,
       remarks: remarks ?? super.remarks,
@@ -78,6 +81,7 @@ class AttendanceModel extends Attendance {
     final map = <String, dynamic>{
       'attendance_id': attendanceId,
       'date': date.toIso8601String(),
+      'nth_period': nthPeriod,
       'status': status,
       'roll_number': rollNo,
       'remarks': remarks,
@@ -97,6 +101,7 @@ class AttendanceModel extends Attendance {
     return AttendanceModel(
       attendanceId: map['attendance_id'] as String? ?? '',
       date: DateTime.parse(map['date'] as String? ?? ''),
+      nthPeriod: map['nth_period'] as int? ?? 0,
       status: map['status'] as String? ?? '',
       rollNo: map['roll_number'] as String? ?? '',
       remarks: map['remarks'] as String? ?? '',
@@ -116,6 +121,16 @@ class AttendanceModel extends Attendance {
   factory AttendanceModel.fromJson(String source) => AttendanceModel.fromMap(
         json.decode(source) as Map<String, dynamic>,
       );
+
+  @override
+  String toString() {
+    // return 'AttendanceModel(attendanceId: $attendanceId, date: $date, status: $status, rollNo: $rollNo, remarks: $remarks, substituteFacultyId: $substituteFacultyId, mapppingId: $mapppingId, courseCode: $courseCode, classCode: $classCode, facultyId: $facultyId, studentId: $studentId)';
+    return minifiedString;
+  }
+
+  String get minifiedString {
+    return 'AttendanceModel(attendanceId: $attendanceId, status: $status, substituteFacultyId: $substituteFacultyId, facultyId: $facultyId\n)';
+  }
 }
 
 

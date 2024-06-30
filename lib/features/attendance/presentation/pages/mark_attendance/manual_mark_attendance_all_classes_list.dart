@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_pulse/features/attendance/presentation/widgets/mark_attendance/mark_attendance_class_item.dart';
 import 'package:project_pulse/features/main/presentation/bloc/class_bloc/class_bloc.dart';
+import 'package:project_pulse/features/main/presentation/bloc/student_bloc/student_bloc.dart';
 
 /// This page is used to show the list of classes that can be used to mark attendance.
 class ManualMarkAttendanceAllClassesList extends StatelessWidget {
@@ -11,6 +12,7 @@ class ManualMarkAttendanceAllClassesList extends StatelessWidget {
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<ClassBloc>().add(FetchAllClasses());
+      context.read<StudentBloc>().add(ResetStudents());
     });
     return Scaffold(
       appBar: AppBar(
