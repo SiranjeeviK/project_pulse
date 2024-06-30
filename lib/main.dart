@@ -5,6 +5,7 @@ import 'package:project_pulse/core/common/widgets/page_not_found.dart';
 import 'package:project_pulse/core/theme/theme.dart';
 import 'package:project_pulse/features/attendance/presentation/bloc/bloc/attendance_bloc.dart';
 import 'package:project_pulse/features/attendance/presentation/pages/attendance_class_report.dart';
+import 'package:project_pulse/features/attendance/presentation/pages/attendance_report/student_subject_attendance_detail_page.dart';
 import 'package:project_pulse/features/attendance/presentation/pages/mark_attendance/manual_mark_attendance_all_classes_list.dart';
 import 'package:project_pulse/features/attendance/presentation/pages/view_attendance_page.dart';
 import 'package:project_pulse/features/main/domain/entities/class.dart';
@@ -199,6 +200,11 @@ class _MyAppState extends State<MyApp> {
           case '/student_details':
             return MaterialPageRoute(
                 builder: (context) => StudentDetailPage(
+                      student: (settings.arguments as Student),
+                    ));
+          case '/attendence/student_subject_attendance_details':
+            return MaterialPageRoute(
+                builder: (context) => StudentSubjectAttendanceDetailPage(
                       student: (settings.arguments as Student),
                     ));
           case '/attendance/student_view':

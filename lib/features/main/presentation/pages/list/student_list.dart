@@ -138,6 +138,7 @@ class _StudentListState extends State<StudentList> {
                       final student = _filteredStudents[index];
                       return GestureDetector(
                         onTap: () {
+                          // pageroute: '../../../../main/presentation/pages/student_detail_page.dart'
                           Navigator.pushNamed(context, '/student_details',
                               arguments: student);
                         },

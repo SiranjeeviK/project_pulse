@@ -11,7 +11,7 @@ class ManualMarkAttendanceAllClassesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<ClassBloc>().add(FetchAllClasses());
+      context.read<ClassBloc>().add(FetchAllClasses()); // Fetch all classes
       context.read<StudentBloc>().add(ResetStudents());
     });
     return Scaffold(
@@ -37,10 +37,9 @@ class ManualMarkAttendanceAllClassesList extends StatelessWidget {
                         onTap: () {
                           Navigator.pushNamed(
                               context, '/attendance/mark_attendance',
-                              // FIXME: classData is not enough for attendance, we need map data
                               arguments: classData);
                         },
-                        child: MarkAttendanceClassItem(
+                        child: MarkAttendanceClassItem( //View class item
                           classData: classData,
                         ),
                       );

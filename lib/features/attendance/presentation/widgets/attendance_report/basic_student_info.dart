@@ -2,27 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:project_pulse/core/common/widgets/user_avatar.dart';
 import 'package:project_pulse/features/main/domain/entities/student.dart';
 
-/// Displays the details of the student
-class StudentDetailPage extends StatelessWidget {
-  final Student student;
-  const StudentDetailPage({super.key, required this.student});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Student Detail'),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(18.0),
-          child: BasicStudentInfo(student: student),
-        ),
-      ),
-    );
-  }
-}
-
 class BasicStudentInfo extends StatelessWidget {
   const BasicStudentInfo({
     super.key,
@@ -42,17 +21,18 @@ class BasicStudentInfo extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 18.0),
-            Center(
-              child: UserAvatar(
-                user: student,
-                radius: 50,
+            Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+              Text(
+                student.name,
+                style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                      overflow: TextOverflow.ellipsis,
+                    ),
               ),
-            ),
-            const SizedBox(height: 48.0),
-            Text(
-              student.name,
-              style: Theme.of(context).textTheme.displaySmall,
-            ),
+              UserAvatar(
+                user: student,
+              ),
+              const SizedBox(height: 48.0),
+            ]),
             const SizedBox(height: 18.0),
             const Divider(),
             Text(

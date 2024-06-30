@@ -54,6 +54,7 @@ dependencies:
   webview_flutter: ^4.8.0
   webview_flutter_android: ^3.16.4
   webview_flutter_wkwebview: ^3.13.1
+  flutter_heatmap_calendar: ^1.0.5
 
 dev_dependencies:
   flutter_test:

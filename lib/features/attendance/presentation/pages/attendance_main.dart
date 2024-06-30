@@ -138,11 +138,10 @@ class AttendanceMain extends StatelessWidget {
                     pageRoute: '/attendance/class_report',
                   ),
                 ),
-
                 const SizedBox(
                   height: 20,
                 ),
-
+                
                 SizedBox(
                   width: double.infinity,
                   height: 120,
@@ -150,6 +149,7 @@ class AttendanceMain extends StatelessWidget {
                     context: context,
                     icon: Icons.people,
                     label: 'Student Report',
+                    // pageRoute: '../../../main/presentation/pages/list/student_list.dart',
                     pageRoute: '/attendance/student_list',
                   ),
                 ),

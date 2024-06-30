@@ -36,6 +36,7 @@ class _MarkAttendancePageState extends State<MarkAttendancePage> {
   List<Student> _students = [];
   List<Student> _filteredStudents = [];
   bool oldAttendanceLoaded = false;
+  bool allPresent = false;
 
   late List<StudentAttendance> _studentAttendances = [];
 
@@ -55,36 +56,31 @@ class _MarkAttendancePageState extends State<MarkAttendancePage> {
 
   void _fetchAttendanceData(ClassSchedule currentClass) {
     context.read<AttendanceBloc>().add(ResetAttendance());
-    context.read<AttendanceBloc>().add( //it is used to get the attendance data for selected class if already marked
+    context.read<AttendanceBloc>().add(
+          //it is used to get the attendance data for selected class if already marked
           GetAttendanceByDatePeriodMappingId(
             checkAttendanceAlreadyMarkedParams:
                 CheckAttendanceAlreadyMarkedParams(
               date: DateTime.now(),
-              nthPeriod: currentClass
-                  .currentNo, 
-              mappingId: currentClass
-                  .currentClassMappingId, 
+              nthPeriod: currentClass.currentNo,
+              mappingId: currentClass.currentClassMappingId,
             ),
           ),
         );
 
     final state = context.read<AttendanceBloc>().state;
-    print('[from _fetchAttendanceData ]AttendanceState: ${state}');
     if (state is AttendanceAlreadyMarked && !oldAttendanceLoaded) {
       oldAttendanceLoaded = true;
-      _studentAttendances = state.attendanceList //loading the old attendance data
-          .map(
-            (attendance) => StudentAttendance(
-              rollNo: attendance.rollNo,
-              studentId: attendance.studentId,
-              status: attendance.status,
-            ),
-          )
-          .toList();
-      print(
-          '[from _fetchAttendanceData ]state.attendanceList: ${state.attendanceList}');
-      print(
-          '[from _fetchAttendanceData ]_studentAttendances: $_studentAttendances');
+      _studentAttendances =
+          state.attendanceList //loading the old attendance data
+              .map(
+                (attendance) => StudentAttendance(
+                  rollNo: attendance.rollNo,
+                  studentId: attendance.studentId,
+                  status: attendance.status,
+                ),
+              )
+              .toList();
       setState(() {});
     }
   }
@@ -137,7 +133,6 @@ class _MarkAttendancePageState extends State<MarkAttendancePage> {
     final attendanceState = context
         .read<AttendanceBloc>()
         .state; //it is used to get the attendance state
-    print('[build started] AttendanceState: $attendanceState');
 
     final classScheduleState = context
         .read<CurrentAndUpcomingClassesCubit>()
@@ -154,11 +149,9 @@ class _MarkAttendancePageState extends State<MarkAttendancePage> {
       );
     }
     late ClassSchedule currentClass;
-    late String attendanceStatus = '-';
     if (classScheduleState is CurrentAndUpcomingClassesLoaded) {
       currentClass = mySchedule(
-          classScheduleState.currentClass,
-          widget.classData.classCode);
+          classScheduleState.currentClass, widget.classData.classCode);
     }
     _fetchAttendanceData(
         currentClass); //it is used to get the attendance data for selected class
@@ -172,39 +165,19 @@ class _MarkAttendancePageState extends State<MarkAttendancePage> {
       });
     }
 
-    String checkAttendanceStatus() {
-      final attendance = context.read<AttendanceBloc>().state;
-      if (attendance is AttendanceMarked) {
-        attendanceStatus = 'Attendance Marked';
-      } else if (attendance is AttendanceAlreadyMarked) {
-        attendanceStatus = 'Attendance Already Marked';
-      } else {
-        if (attendance is AttendanceLoaded) {
-          print('the attendance list is \n');
-          print(attendance.attendanceList);
-          if (attendance.attendanceList.isEmpty) {
-            attendanceStatus = 'Attendance Not Marked';
-          } else {
-            attendanceStatus = 'Attendance Marked';
-          }
-          print('AttendanceStatus: $attendanceStatus');
-        }
-      }
-
-      setState(() {});
-
-      return attendanceStatus;
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Mark Attendance of ${currentClass.classCode}'),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          print('[from floating action button]: $_studentAttendances');
+          print('[from fab] $_studentAttendances');
           if (_studentAttendances.isEmpty) {
             showSnackbar(context, 'No students to mark attendance');
+            return;
+          }
+          if (_studentAttendances.any((element) => element.status.isEmpty)) {
+            showSnackbar(context, 'Please mark attendance for all students');
             return;
           }
           if (!_checkIfClassChanged(
@@ -233,19 +206,10 @@ class _MarkAttendancePageState extends State<MarkAttendancePage> {
                   ),
                 );
             showSnackbar(context, 'Attendance marking...');
-            print('AttendanceState: $attendanceState');
 
-            if (attendanceState is AttendanceLoaded) {
-              if (attendanceState is AttendanceMarked) {
-                showSnackbar(context, 'Attendance Marked Successfully!');
-              } else if (attendanceState is AttendanceAlreadyMarked)
-                showSnackbar(context, 'Attendance Already Marked!');
-            } else if (attendanceState is AttendanceError) {
+            if (attendanceState is AttendanceError) {
               showSnackbar(context, attendanceState.message);
             }
-            setState(() {
-              checkAttendanceStatus();
-            });
             // Navigator.pushNamed(context, '/mark_attendance_manual',
             //     arguments: widget.classData);
           }
@@ -310,15 +274,39 @@ class _MarkAttendancePageState extends State<MarkAttendancePage> {
                           ],
                         ),
                         SizedBox(
-                          child: Text(
-                            'Status: ${checkAttendanceStatus()}',
-                            style: TextStyle(
-                                color:
-                                    attendanceStatus == 'Attendance Marked' ||
-                                            attendanceStatus ==
-                                                'Attendance Already Marked'
-                                        ? Colors.green
-                                        : Colors.red),
+                          child: BlocBuilder<AttendanceBloc, AttendanceState>(
+                            builder: (context, state) {
+                              String attendanceStatus = '-';
+                              if (state is AttendanceError) {
+                                return Text(state.message);
+                              }
+                              if (state is AttendanceLoading) {
+                                attendanceStatus = 'Loading...';
+                              } else if (state is AttendanceMarked) {
+                                attendanceStatus = 'Attendance Marked';
+                              } else if (state is AttendanceAlreadyMarked) {
+                                attendanceStatus = 'Attendance Already Marked';
+                              } else if (state is AttendanceLoaded) {
+                                if (state.attendanceList.isEmpty) {
+                                  attendanceStatus = 'Attendance Not Marked';
+                                } else {
+                                  attendanceStatus = 'Attendance Marked';
+                                }
+                              }
+                              // Now, this Text widget will rebuild whenever the AttendanceBloc state changes
+                              return Text(
+                                'Status: $attendanceStatus',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelLarge
+                                    ?.copyWith(
+                                      color: state is AttendanceMarked ||
+                                              state is AttendanceAlreadyMarked
+                                          ? Colors.green
+                                          : Colors.red,
+                                    ),
+                              );
+                            },
                           ),
                         ),
                         AttendanceCurrentClass(
@@ -344,7 +332,37 @@ class _MarkAttendancePageState extends State<MarkAttendancePage> {
                 ),
               ),
 
+              //a toggle for all present, if true it set all status as 'present' else ''
+              Row(
+                children: [
+                  const SizedBox(
+                    width: 12,
+                  ),
+                  const Text('All Present'),
+                  Checkbox(
+                    value: allPresent,
+                    onChanged: (value) {
+                      setState(() {
+                        allPresent = value!;
+                        if (allPresent) {
+                          _studentAttendances.forEach((element) {
+                            element.status = 'present';
+                          });
+                        } else {
+                          _studentAttendances.forEach((element) {
+                            element.status = '';
+                          });
+                        }
+                        allPresent = value;
+                      });
+                      print('[from all present] $_studentAttendances');
+                    },
+                  ),
+                ],
+              ),
+
               // Students List
+
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: BlocBuilder<StudentBloc, StudentState>(
@@ -358,7 +376,6 @@ class _MarkAttendancePageState extends State<MarkAttendancePage> {
                       _filteredStudents = _searchController.text.isEmpty
                           ? _students
                           : _filteredStudents;
-                      print('[from BlocBuilder]: $_studentAttendances');
                       if (_studentAttendances.isEmpty ||
                           _studentAttendances.length != _students.length) {
                         // Only initialize if empty
@@ -390,15 +407,14 @@ class _MarkAttendancePageState extends State<MarkAttendancePage> {
                         itemCount: _filteredStudents.length,
                         itemBuilder: (context, index) {
                           final student = _filteredStudents[index];
-                          print(
-                              '[from list view builder]: $_studentAttendances');
-                          print('[from list view builder]: ${_students}');
-                          return GestureDetector(
+                          Widget studentItemWidget = GestureDetector(
                             onTap: () {
-                              Navigator.pushNamed(context, '/student_details',
+                              Navigator.pushNamed(context,
+                                  '/attendence/student_subject_attendance_details',
                                   arguments: student);
                             },
                             child: AttendanceStudentItem(
+                              key: ValueKey(student.rollNo),
                               student: student,
                               initialStatus: _studentAttendances
                                   .firstWhere((element) =>
@@ -407,6 +423,17 @@ class _MarkAttendancePageState extends State<MarkAttendancePage> {
                               onAttendanceMarked: onAttendanceMarked,
                             ),
                           );
+
+                          if (allPresent) {
+                            studentItemWidget = IgnorePointer(
+                              child: Opacity(
+                                opacity: 0.5,
+                                child: studentItemWidget,
+                              ),
+                            );
+                          }
+
+                          return studentItemWidget;
                         },
                       );
                     } else if (state is StudentFailure) {
