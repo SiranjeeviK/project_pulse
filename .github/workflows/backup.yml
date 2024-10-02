@@ -7,7 +7,7 @@ on:
     branches: [ attendance ]
   workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *' # Runs every day at midnight
+    - cron: '0 0 1 * *' # Runs at midnight on the first day of every month
 jobs:   
   run_db_backup:
     runs-on: ubuntu-latest
