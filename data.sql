@@ -378,6 +378,16 @@ COPY "auth"."audit_log_entries" ("instance_id", "id", "payload", "created_at", "
 00000000-0000-0000-0000-000000000000	426cc7ef-24f0-4859-8b48-43664cc5c2d7	{"action":"token_refreshed","actor_id":"9c762b71-72b5-4b35-aaae-89ed74d00e45","actor_username":"siranjeevi@siet.ac.in","actor_via_sso":false,"log_type":"token"}	2024-07-01 05:26:48.889243+00	
 00000000-0000-0000-0000-000000000000	7fb4e9cb-2f66-4ddc-836a-be3e426f20c3	{"action":"token_revoked","actor_id":"9c762b71-72b5-4b35-aaae-89ed74d00e45","actor_username":"siranjeevi@siet.ac.in","actor_via_sso":false,"log_type":"token"}	2024-07-01 05:26:48.89075+00	
 00000000-0000-0000-0000-000000000000	c6d28b92-4567-40ab-b327-785691042ff9	{"action":"login","actor_id":"9c762b71-72b5-4b35-aaae-89ed74d00e45","actor_username":"siranjeevi@siet.ac.in","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}	2024-08-06 07:26:12.861901+00	
+00000000-0000-0000-0000-000000000000	e050f147-663f-4d24-97ae-bfba8bce255d	{"action":"token_refreshed","actor_id":"9c762b71-72b5-4b35-aaae-89ed74d00e45","actor_username":"siranjeevi@siet.ac.in","actor_via_sso":false,"log_type":"token"}	2024-10-07 08:03:33.897193+00	
+00000000-0000-0000-0000-000000000000	5a01412e-38fe-4f36-9f0d-ef9ce69e81d0	{"action":"token_revoked","actor_id":"9c762b71-72b5-4b35-aaae-89ed74d00e45","actor_username":"siranjeevi@siet.ac.in","actor_via_sso":false,"log_type":"token"}	2024-10-07 08:03:33.90769+00	
+00000000-0000-0000-0000-000000000000	77c1687f-4bc3-4603-b587-773307c0388a	{"action":"token_refreshed","actor_id":"9c762b71-72b5-4b35-aaae-89ed74d00e45","actor_username":"siranjeevi@siet.ac.in","actor_via_sso":false,"log_type":"token"}	2024-10-07 11:36:15.642649+00	
+00000000-0000-0000-0000-000000000000	618669ac-af76-46c5-a69e-939e4d1e72cc	{"action":"token_revoked","actor_id":"9c762b71-72b5-4b35-aaae-89ed74d00e45","actor_username":"siranjeevi@siet.ac.in","actor_via_sso":false,"log_type":"token"}	2024-10-07 11:36:15.644434+00	
+00000000-0000-0000-0000-000000000000	26bcdf04-eee2-4e6c-91ba-ee78fd6525f3	{"action":"token_refreshed","actor_id":"9c762b71-72b5-4b35-aaae-89ed74d00e45","actor_username":"siranjeevi@siet.ac.in","actor_via_sso":false,"log_type":"token"}	2024-10-22 03:48:13.636135+00	
+00000000-0000-0000-0000-000000000000	03500236-6584-46e1-9fb9-3c02288e1c9f	{"action":"token_revoked","actor_id":"9c762b71-72b5-4b35-aaae-89ed74d00e45","actor_username":"siranjeevi@siet.ac.in","actor_via_sso":false,"log_type":"token"}	2024-10-22 03:48:13.64268+00	
+00000000-0000-0000-0000-000000000000	d59b7024-dcc5-4728-84b5-7dede5f8ee0b	{"action":"logout","actor_id":"9c762b71-72b5-4b35-aaae-89ed74d00e45","actor_username":"siranjeevi@siet.ac.in","actor_via_sso":false,"log_type":"account"}	2024-10-22 03:49:35.103823+00	
+00000000-0000-0000-0000-000000000000	bd25ed48-46d7-4a87-a3b7-2b12acd7bcec	{"action":"user_signedup","actor_id":"776b133c-bf31-4a42-a3c3-492e979c8e9d","actor_username":"aaa@siet.ac.in","actor_via_sso":false,"log_type":"team","traits":{"provider":"email"}}	2024-10-22 03:50:26.161095+00	
+00000000-0000-0000-0000-000000000000	505bd8c7-91a0-4aeb-b907-c11136141b39	{"action":"login","actor_id":"776b133c-bf31-4a42-a3c3-492e979c8e9d","actor_username":"aaa@siet.ac.in","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}	2024-10-22 03:50:26.166509+00	
+00000000-0000-0000-0000-000000000000	a5c05697-5d29-46bf-8c3a-342c84805bdc	{"action":"login","actor_id":"776b133c-bf31-4a42-a3c3-492e979c8e9d","actor_username":"aaa@siet.ac.in","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}	2024-10-22 03:50:42.027038+00	
 \.
 
 
@@ -416,7 +426,8 @@ COPY "auth"."users" ("instance_id", "id", "aud", "role", "email", "encrypted_pas
 00000000-0000-0000-0000-000000000000	ac109399-ad4b-44f3-82f9-b887130a50d7	authenticated	authenticated	magibalans22it@siet.ac.in	$2a$10$6aQsy17FJ2L4d6uuFH3YH.GcYmv6a6yV1G5LHCGIuKqeCvK8pANNm	2024-06-19 09:35:23.068307+00	\N		\N		\N			\N	\N	{"provider": "email", "providers": ["email"]}	{}	\N	2024-06-19 09:35:23.056496+00	2024-06-19 09:35:23.068529+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	16fb0bd9-ca59-47df-9d3e-e89b2abc3744	authenticated	authenticated	akash22it@srishakthi.ac.in	$2a$10$fliPqA011W8RQauIl5j.4ulrUBu6fDxQ66xZvvwIMAWYcusd8.Uj2	2024-06-30 03:42:46.922539+00	\N		\N		\N			\N	\N	{"provider": "email", "providers": ["email"]}	{}	\N	2024-06-30 03:42:46.889475+00	2024-06-30 03:42:46.923332+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	de94f1d9-6364-4191-8108-be58c5ff7ba1	authenticated	authenticated	siranjeevik22it@srishakthi.ac.in	$2a$10$pfX0yR/yyynHJ5mGLlqh3uGLfpkFUCXeB5JIRchNJcB53EpsAz5mC	2024-06-07 17:03:04.951523+00	\N		2024-06-07 17:02:26.176554+00		\N			\N	2024-07-01 00:57:04.898207+00	{"provider": "email", "providers": ["email"]}	{"sub": "de94f1d9-6364-4191-8108-be58c5ff7ba1", "name": "siranjeevik", "role": "Student", "email": "siranjeevik22it@srishakthi.ac.in", "email_verified": false, "phone_verified": false}	\N	2024-06-07 17:02:26.161084+00	2024-07-01 03:44:16.14279+00	\N	\N			\N		0	\N		\N	f	\N	f
-00000000-0000-0000-0000-000000000000	9c762b71-72b5-4b35-aaae-89ed74d00e45	authenticated	authenticated	siranjeevi@siet.ac.in	$2a$10$kLdIO0GvP..sQIweIYmf5eOmMWrwvyQ3cDIrmWk1f1Gc/8k9432D.	2024-06-15 09:15:15.693764+00	\N		\N		\N			\N	2024-08-06 07:26:12.882987+00	{"provider": "email", "providers": ["email"]}	{"sub": "9c762b71-72b5-4b35-aaae-89ed74d00e45", "name": "Prof. Siranjeevi", "role": "Faculty", "email": "siranjeevi@siet.ac.in", "email_verified": false, "phone_verified": false}	\N	2024-06-15 09:15:15.669362+00	2024-08-06 07:26:12.898577+00	\N	\N			\N		0	\N		\N	f	\N	f
+00000000-0000-0000-0000-000000000000	9c762b71-72b5-4b35-aaae-89ed74d00e45	authenticated	authenticated	siranjeevi@siet.ac.in	$2a$10$kLdIO0GvP..sQIweIYmf5eOmMWrwvyQ3cDIrmWk1f1Gc/8k9432D.	2024-06-15 09:15:15.693764+00	\N		\N		\N			\N	2024-08-06 07:26:12.882987+00	{"provider": "email", "providers": ["email"]}	{"sub": "9c762b71-72b5-4b35-aaae-89ed74d00e45", "name": "Prof. Siranjeevi", "role": "Faculty", "email": "siranjeevi@siet.ac.in", "email_verified": false, "phone_verified": false}	\N	2024-06-15 09:15:15.669362+00	2024-10-22 03:48:13.650867+00	\N	\N			\N		0	\N		\N	f	\N	f
+00000000-0000-0000-0000-000000000000	776b133c-bf31-4a42-a3c3-492e979c8e9d	authenticated	authenticated	aaa@siet.ac.in	$2a$10$Q4/lpd3/HeLxJO3rZOkVTO.kjgRnebfoJIQ3lgm5NuoDKPcWuS/By	2024-10-22 03:50:26.161613+00	\N		\N		\N			\N	2024-10-22 03:50:42.028969+00	{"provider": "email", "providers": ["email"]}	{"sub": "776b133c-bf31-4a42-a3c3-492e979c8e9d", "name": "aaa", "role": "Faculty", "email": "aaa@siet.ac.in", "email_verified": false, "phone_verified": false}	\N	2024-10-22 03:50:26.146222+00	2024-10-22 03:50:42.031292+00	\N	\N			\N		0	\N		\N	f	\N	f
 \.
 
 
@@ -440,6 +451,7 @@ de94f1d9-6364-4191-8108-be58c5ff7ba1	de94f1d9-6364-4191-8108-be58c5ff7ba1	{"sub"
 65f4f15f-02b3-45f7-acfb-37cf161870eb	65f4f15f-02b3-45f7-acfb-37cf161870eb	{"sub": "65f4f15f-02b3-45f7-acfb-37cf161870eb", "name": "Vk madura", "role": "Student", "email": "vasanthakrishnans22it@srishakthi.ac.in", "email_verified": false, "phone_verified": false}	email	2024-06-18 05:37:11.313003+00	2024-06-18 05:37:11.313068+00	2024-06-18 05:37:11.313068+00	2e9a4a28-0947-4fca-9794-1a7e14f19017
 ac109399-ad4b-44f3-82f9-b887130a50d7	ac109399-ad4b-44f3-82f9-b887130a50d7	{"sub": "ac109399-ad4b-44f3-82f9-b887130a50d7", "email": "magibalans22it@siet.ac.in", "email_verified": false, "phone_verified": false}	email	2024-06-19 09:35:23.060011+00	2024-06-19 09:35:23.060064+00	2024-06-19 09:35:23.060064+00	6a30fd7d-7d4e-4fb4-b88f-6edd3b940e61
 16fb0bd9-ca59-47df-9d3e-e89b2abc3744	16fb0bd9-ca59-47df-9d3e-e89b2abc3744	{"sub": "16fb0bd9-ca59-47df-9d3e-e89b2abc3744", "email": "akash22it@srishakthi.ac.in", "email_verified": false, "phone_verified": false}	email	2024-06-30 03:42:46.91052+00	2024-06-30 03:42:46.910585+00	2024-06-30 03:42:46.910585+00	d404f1cb-3233-40ce-bf2c-2e7c3f3a4fff
+776b133c-bf31-4a42-a3c3-492e979c8e9d	776b133c-bf31-4a42-a3c3-492e979c8e9d	{"sub": "776b133c-bf31-4a42-a3c3-492e979c8e9d", "name": "aaa", "role": "Faculty", "email": "aaa@siet.ac.in", "email_verified": false, "phone_verified": false}	email	2024-10-22 03:50:26.156159+00	2024-10-22 03:50:26.156221+00	2024-10-22 03:50:26.156221+00	588e31a7-ecd9-4d46-8932-b0645757c0f0
 \.
 
 
@@ -470,7 +482,8 @@ b5bf90e5-28f7-4880-9fe9-d95893ad65b5	9c762b71-72b5-4b35-aaae-89ed74d00e45	2024-0
 500aaf54-d796-4cee-b41c-74650b3d633b	9c762b71-72b5-4b35-aaae-89ed74d00e45	2024-06-16 14:45:25.314185+00	2024-06-16 14:45:25.314185+00	\N	aal1	\N	\N	Dart/3.4 (dart:io)	106.211.219.79	\N
 c6c226ba-e391-4a23-b735-6ced0dd66df3	9c762b71-72b5-4b35-aaae-89ed74d00e45	2024-06-18 02:28:22.272349+00	2024-06-20 08:24:38.360673+00	\N	aal1	\N	2024-06-20 08:24:38.3606	Dart/3.4 (dart:io)	110.172.151.105	\N
 816c602a-10e3-43ae-834a-e0f943e9b402	65f4f15f-02b3-45f7-acfb-37cf161870eb	2024-06-18 05:37:11.333131+00	2024-06-18 05:37:11.333131+00	\N	aal1	\N	\N	Dart/3.4 (dart:io)	110.172.151.105	\N
-19519bb6-4224-4d8f-a1cb-4b39728065df	9c762b71-72b5-4b35-aaae-89ed74d00e45	2024-08-06 07:26:12.88361+00	2024-08-06 07:26:12.88361+00	\N	aal1	\N	\N	Dart/3.4 (dart:io)	223.182.227.236	\N
+5586eb6e-3e5e-4543-9180-44d5688e95ec	776b133c-bf31-4a42-a3c3-492e979c8e9d	2024-10-22 03:50:26.167133+00	2024-10-22 03:50:26.167133+00	\N	aal1	\N	\N	Dart/3.4 (dart:io)	106.197.109.182	\N
+a9056564-11c1-4c50-802a-2200441153bb	776b133c-bf31-4a42-a3c3-492e979c8e9d	2024-10-22 03:50:42.029055+00	2024-10-22 03:50:42.029055+00	\N	aal1	\N	\N	Dart/3.4 (dart:io)	106.197.109.182	\N
 \.
 
 
@@ -493,7 +506,8 @@ c6c226ba-e391-4a23-b735-6ced0dd66df3	2024-06-18 02:28:22.3058+00	2024-06-18 02:2
 92cf26c6-17d8-46e8-9c1f-fd3b259593f1	2024-06-30 23:20:17.921247+00	2024-06-30 23:20:17.921247+00	password	39ed0dde-7214-4ed4-b37f-0b3e1d47377b
 a56c61c5-d57a-4117-ab12-5565a38c8526	2024-07-01 00:48:34.384303+00	2024-07-01 00:48:34.384303+00	password	19a3aa75-648b-4adf-be2c-79dfc125a2f1
 b5bf90e5-28f7-4880-9fe9-d95893ad65b5	2024-07-01 01:02:26.228734+00	2024-07-01 01:02:26.228734+00	password	83348161-c85f-4ec1-b22b-19220b0dfbae
-19519bb6-4224-4d8f-a1cb-4b39728065df	2024-08-06 07:26:12.903486+00	2024-08-06 07:26:12.903486+00	password	a134ad01-cc9e-4be0-9912-1daa6a1bb78e
+5586eb6e-3e5e-4543-9180-44d5688e95ec	2024-10-22 03:50:26.170241+00	2024-10-22 03:50:26.170241+00	password	ed189812-bcb2-4e67-a21d-54c7b3d4c792
+a9056564-11c1-4c50-802a-2200441153bb	2024-10-22 03:50:42.031626+00	2024-10-22 03:50:42.031626+00	password	27c29249-413a-4ba1-970f-051e71d39582
 \.
 
 
@@ -501,7 +515,7 @@ b5bf90e5-28f7-4880-9fe9-d95893ad65b5	2024-07-01 01:02:26.228734+00	2024-07-01 01
 -- Data for Name: mfa_factors; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
 --
 
-COPY "auth"."mfa_factors" ("id", "user_id", "friendly_name", "factor_type", "status", "created_at", "updated_at", "secret", "phone", "last_challenged_at") FROM stdin;
+COPY "auth"."mfa_factors" ("id", "user_id", "friendly_name", "factor_type", "status", "created_at", "updated_at", "secret", "phone", "last_challenged_at", "web_authn_credential", "web_authn_aaguid") FROM stdin;
 \.
 
 
@@ -509,7 +523,7 @@ COPY "auth"."mfa_factors" ("id", "user_id", "friendly_name", "factor_type", "sta
 -- Data for Name: mfa_challenges; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
 --
 
-COPY "auth"."mfa_challenges" ("id", "factor_id", "created_at", "verified_at", "ip_address", "otp_code") FROM stdin;
+COPY "auth"."mfa_challenges" ("id", "factor_id", "created_at", "verified_at", "ip_address", "otp_code", "web_authn_session_data") FROM stdin;
 \.
 
 
@@ -553,7 +567,8 @@ COPY "auth"."refresh_tokens" ("instance_id", "id", "token", "user_id", "revoked"
 00000000-0000-0000-0000-000000000000	156	jYSP4DhgCKCQ_gFxuFtAIw	de94f1d9-6364-4191-8108-be58c5ff7ba1	t	2024-07-01 01:23:14.362073+00	2024-07-01 03:44:16.137631+00	qYljO8X-b3fT0Md8b29b0w	92cf26c6-17d8-46e8-9c1f-fd3b259593f1
 00000000-0000-0000-0000-000000000000	158	0-xYo40um6SStaUfOWGM4A	9c762b71-72b5-4b35-aaae-89ed74d00e45	t	2024-07-01 03:46:12.968675+00	2024-07-01 05:26:48.891278+00	cEGtIM-IB7rfmoeRUSQ-zg	b5bf90e5-28f7-4880-9fe9-d95893ad65b5
 00000000-0000-0000-0000-000000000000	148	_x4UNAuBR54R2cQzsQpMSQ	de94f1d9-6364-4191-8108-be58c5ff7ba1	f	2024-06-30 22:34:35.48993+00	2024-06-30 22:34:35.48993+00	\N	2b106435-9f06-4244-b0a1-570a5c4fec61
-00000000-0000-0000-0000-000000000000	160	jS2iNhCKGh5pnc2GPqeu3A	9c762b71-72b5-4b35-aaae-89ed74d00e45	f	2024-08-06 07:26:12.890336+00	2024-08-06 07:26:12.890336+00	\N	19519bb6-4224-4d8f-a1cb-4b39728065df
+00000000-0000-0000-0000-000000000000	164	dBnszIIsvFCUOXt7qamcig	776b133c-bf31-4a42-a3c3-492e979c8e9d	f	2024-10-22 03:50:26.168656+00	2024-10-22 03:50:26.168656+00	\N	5586eb6e-3e5e-4543-9180-44d5688e95ec
+00000000-0000-0000-0000-000000000000	165	kwBQYu9a971lt3oYFrxg8g	776b133c-bf31-4a42-a3c3-492e979c8e9d	f	2024-10-22 03:50:42.029854+00	2024-10-22 03:50:42.029854+00	\N	a9056564-11c1-4c50-802a-2200441153bb
 \.
 
 
@@ -727,6 +742,7 @@ de94f1d9-6364-4191-8108-be58c5ff7ba1	siranjeevik	siranjeevik22it@srishakthi.ac.i
 9c762b71-72b5-4b35-aaae-89ed74d00e45	Dr.Prakash	siranjeevi@siet.ac.in	\N	Faculty	\N	\N	9500378844
 ac109399-ad4b-44f3-82f9-b887130a50d7	magibalans22it	magibalans22it@siet.ac.in	\N	Student	\N	\N	\N
 16fb0bd9-ca59-47df-9d3e-e89b2abc3744	akash22it	akash22it@srishakthi.ac.in	\N	Student	\N	\N	\N
+776b133c-bf31-4a42-a3c3-492e979c8e9d	aaa	aaa@siet.ac.in	\N	Faculty	\N	\N	\N
 \.
 
 
@@ -2996,7 +3012,7 @@ COPY "vault"."secrets" ("id", "name", "description", "secret", "key_id", "nonce"
 -- Name: refresh_tokens_id_seq; Type: SEQUENCE SET; Schema: auth; Owner: supabase_auth_admin
 --
 
-SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 160, true);
+SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 165, true);
 
 
 --
