@@ -41,9 +41,11 @@ import 'package:project_pulse/features/notifications/presentation/pages/notifica
 import 'package:project_pulse/features/settings/presentation/pages/app_settings.dart';
 import 'package:project_pulse/features/settings/presentation/pages/profile_page.dart';
 import 'package:project_pulse/init_dependencies.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   await initDependencies();
   runApp(
     MultiBlocProvider(
